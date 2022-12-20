@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+# This script was developped by Michel Fisun in the statistical genetics lab, Pasteur Paris, 
+# under the supervision of Hugues Aschard
+ 
 from sqlite3 import DatabaseError
 import pandas as pd
 import numpy as np
