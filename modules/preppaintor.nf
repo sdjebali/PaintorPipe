@@ -7,17 +7,17 @@ process PREPPAINTOR_splitlocus {
     publishDir '.', mode: 'copy'
 
     input:
-    path params.inputFile
+        path params.gwasFile
 
     output:
-    path params.outputDir
+        path params.outputDir
 
     script:
     """
     mkdir -p data
     mkdir -p ${params.outputDir}
     main.py \\
-    -d ${params.inputFile}  \\
+    -d ${params.gwasFile}  \\
     --od ${params.outputDir}
     """
 }

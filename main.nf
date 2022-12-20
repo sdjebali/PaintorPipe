@@ -16,7 +16,7 @@ nextflow.enable.dsl = 2 // to enable DSL2 syntax
 
 // PIPELINE PARAMETERS ---------------------------------------------------------
 
-params.inputFile = "data/CAD_META_small"
+params.gwasFile = "data/CAD_META_small"
 params.outputDir = "data/output"
 
 // INCLUDE WORKFLOWS -----------------------------------------------------------
@@ -29,14 +29,23 @@ include {
   PREPPAINTOR_splitlocus
 } from './modules/preppaintor.nf'
 
+/*
+include {
+  LDCALCULATION_sortlocus
+  //LDCALCULATION_calculation
+} from './modules/ldcalculation.nf'
+*/
 // WORKFLOW --------------------------------------------------------------------
 
 workflow {
+  gwas_input_channel = Channel.fromPath(params.gwasFile) 
+  gwas_input_channel.view{ it }
 
-  //  Input data is received through channels
-  input_ch = Channel.fromPath(params.inputFile)
-  PREPPAINTOR_splitlocus(input_ch)
+  locus = PREPPAINTOR_splitlocus(gwas_input_channel)
+  locus.view{ it }
 
+  //sorted_locus_channel = LDCALCULATION_sortlocus(locus.flatten())
+// LDCALCULATION_calculation()
 }
 
 
