@@ -3,21 +3,19 @@ process LDCALCULATION_sortlocus {
     cpus 1
     memory 60.GB
 
-    publishDir '.', mode: 'copy'
+    publishDir params.outputDir, pattern: '*.sorted', mode: 'copy'
 
     input:
-    path params.outputDir
+    path locus
 
     output:
-    path '${params.outputDir}/*.sorted'
+    path '*.sorted'
 
     script:
     """
-    awk 'NR>=2' ${params.outputDir}/* | sort -k2,2n > tmp 
-    head -1 ${params.outputDir}/* > header
-    cat header tmp > ${params.outputDir}/.sorted
-    c ${params.outputDir}/.sorted
-    rm header tmp
+    awk 'NR>=2' $locus | sort -k2,2n > tmp 
+    head -1 $locus > header
+    cat header tmp > ${locus}.sorted
     """
 }
 
