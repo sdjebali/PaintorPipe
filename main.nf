@@ -62,21 +62,15 @@ workflow {
   map_input_channel.view{ it }
   ld_input_channel.view{ it }
   
-  PREPPAINTOR_splitlocus(gwas_input_channel)
-  PREPPAINTOR_splitlocus.out.view{ it }
-
-  //locus_channel = Channel.fromPath(params.outputDir_locus + '/*') 
-  //locus_channel.view{ it } 
-  //PREPPAINTOR_splitlocus.out.flatten().view()
-
-  LDCALCULATION_sortlocus(PREPPAINTOR_splitlocus.out.flatten())
-  //LDCALCULATION_sortlocus.out.view{ it }
-
+  split_channel = PREPPAINTOR_splitlocus(gwas_input_channel)
+  
+  ld_channel = LDCALCULATION_sortlocus(split_channel.flatten())
+  
   //ko sorted_locus_channel = Channel.fromPath(params.outputDir_sorted_locus  + '/*') 
   //ko sorted_locus_channel.view{ it } 
 
-  //LDCALCULATION_calculation(LDCALCULATION_sortlocus.out.flatten(), map_input_channel, ld_input_channel, pop_input_channel)
-  //LDCALCULATION_calculation.out.view{ it }
+  LDCALCULATION_calculation(ld_channel, map_input_channel, ld_input_channel, pop_input_channel)
+  LDCALCULATION_calculation.out.view{ it }
 
 }
 

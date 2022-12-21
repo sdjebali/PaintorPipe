@@ -33,7 +33,7 @@ process LDCALCULATION_calculation {
         val population
 
     output:
-        path '*.ld.out*'
+        path '*.ld_out*'
 
 
     shell:
