@@ -10,7 +10,7 @@ process PREPPAINTOR_splitlocus {
         path gwasFile
 
     output:
-        path params.outputDir_locus
+        path "$params.outputDir_locus/*"
 
     script:
     """

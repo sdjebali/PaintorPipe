@@ -6,10 +6,10 @@ process LDCALCULATION_sortlocus {
     publishDir params.outputDir_sorted_locus, mode: 'copy'
 
     input:
-    path locus
+        path locus
 
     output:
-    path '*.sorted'
+        path '*.sorted'
 
     script:
     """
@@ -27,25 +27,24 @@ process LDCALCULATION_calculation {
     publishDir params.outputDir_ld, mode: 'copy'
 
     input:
-    path sortedlocus
-    path mapFile
-    path ldFile
-    val population
+        path sortedlocus
+        path mapFile
+        path ldFile
+        val population
 
     output:
-    path '*.ld_out*'
+        path '*.ld.out*'
+
 
     shell:
     '''
     chr=`awk 'NR==2{print $1}' !{sortedlocus}`
-
     ldfile=`awk -v chr=$chr '$1==chr{print $2}' !{ldFile}`
-
     echo $ldfile 
-    
+
     CalcLD_1KG_VCF.py \\
     --locus !{sortedlocus} \\
-    --reference $ldfile \\ 
+    --reference $ldfile \\
     --map_file !{mapFile} \\
     --effect_allele Allele1 \\
     --alt_allele Allele2 \\
@@ -55,6 +54,3 @@ process LDCALCULATION_calculation {
     --position BP > CalcLD_1KG_VCF.!{sortedlocus}.out 2> CalcLD_1KG_VCF.!{sortedlocus}.err
     '''
 }
-
-
-/*pour la --reference, comment lire un fichier txt avec pour chaque xr le bon chemin vers la bonne référence??*/
