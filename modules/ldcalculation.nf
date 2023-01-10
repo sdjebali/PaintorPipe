@@ -28,12 +28,12 @@ process LDCALCULATION_calculation {
 
     input:
         path sortedlocus
-        path mapFile
-        path ldFile
+        val mapFile
+        val ldFile
         val population
 
     output:
-        path '*.ld_out*'
+        path "${sortedlocus}.ld_out*"
 
 
     shell:

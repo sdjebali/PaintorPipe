@@ -1,4 +1,3 @@
-// PROCESS
 
 process PREPPAINTOR_splitlocus {
     cpus 22
