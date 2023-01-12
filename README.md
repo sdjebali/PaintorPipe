@@ -20,8 +20,27 @@ bash anaconda.sh
 source ~/.bashrc
 ```
 ## Create and activate conda environment
+
+Write your `environment.yaml` file :
+```bash
+name: paintor
+channels:
+  - defaults
+  - bioconda
+dependencies:
+  - python=3.7.4
+  - multiprocess
+  - pandas
+  - bedtools
+```
+
+Once the file is created, the environment is created using the command shown below:
 ```bash
 time conda env create --force --name paintor -f environment.yml
+```
+
+To enable the environment, use the activate command :
+```bash
 conda activate paintor
 ```
 
@@ -49,12 +68,9 @@ MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Dir
 2:231310929_G_T	t	g	0.827	7e-04	0.826	0.8276	6e-04	0.0075	0.9354	+-	12.6	1.145	1	0.2847	rs11694428	2	231310929
 1:209658862_G_T	t	g	0.119	0.0049	0.115	0.1249	0.0051	0.0086	0.554	+-	53.5	2.152	1	0.1423	rs12074827	1	209658862
 2:59865604_A_C	a	c	0.5555	0.0094	0.5427	0.5625	0.0089	0.0057	0.119	++	0	0.394	1	0.5302	rs11887710	2	59865604
-2:113689747_A_G	a	g	0.434	0.0032	0.4298	0.4364	0.0128	0.0057	0.02484	++	0	0.797	1	0.372	rs2723197	2	113689747
-2:102320640_C_T	t	c	0.7142	0.002	0.7115	0.7157	-9e-04	0.0063	0.8905	--	0	0	1	0.9953	rs17809691	2	102320640
-2:238440449_G_T	t	g	0.7414	0.0021	0.7399	0.7443	0.0076	0.0065	0.238	++	0	0.161	1	0.688	rs11891348	2	238440449
-1:78451893_A_G	a	g	0.0246	0.0025	0.0225	0.0275	0.009	0.018	0.6181	++	0	0.04	1	0.8418	rs76085691	1	78451893
-2:58170161_A_C	a	c	0.6027	0.0075	0.5928	0.6084	-0.001	0.0058	0.8574	--	0	0.057	1	0.8117	rs1568254	2	58170161
+2:113689747_A_G	a	g	0.434	0.0032	0.4298	0.4364	0.0128	0.0057	0.02484	++	0	0.797	
 ```
+
 Required **folders** and **files** in working directory :
 + bin
     + CalcLD_1KG_VCF.py  
@@ -65,6 +81,9 @@ Required **folders** and **files** in working directory :
         + dataset
         + panel
         + ld.txt
+        + annotations
+            + annot.id.file.txt
+            + all annot bed files
 + environment.yml
 + main.nf
 + (optional : launch_pp.sh)
