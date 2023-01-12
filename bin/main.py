@@ -51,7 +51,6 @@ def ChromosomeSplitter_no_files(bank : str, separator : str, cname : str) -> "li
     #TODO check if files were actually generated
     print("\n\n")
 
-
     return chr_list
 
 
@@ -116,11 +115,11 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
 
     liste = []
 
-    for snp_index in range(len(sorted)+1):
+    for snp_index in range(len(sorted)):
         test = True
         #print(f"snp index: {snp_index} \n")
 
-        if sorted.loc[snp_index].Pvalue > pseuil:
+        if sorted.iloc[snp_index].Pvalue > pseuil:
             print("\n No more significant pvalues \n")
             break
 
@@ -166,19 +165,36 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
     return liste
 
 
+def drop_columns(df, cols_to_keep):
+    cols_to_drop = list(set(df.columns) - set(cols_to_keep))
+    df.drop(columns=cols_to_drop, inplace=True)
+    return df
+
 
 def Zscore_adder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.DataFrame:
     chr_nb,zLocus = locus
     zLocus[Zhead] = zLocus[Effect]/zLocus[StdErr]
 
+    
+    #Drop all columns that ARE NOT : CHR BP ALLELE1 ALLELE2 EFFECT STDERR PAVLUE ZSCORE
 
-    #TODO : drop all columns that ARE NOT CHR BP oldID ALLELE1 ALLELE2 ZSCORE
-    zLocus.drop(inplace=True, columns=['MarkerName', 'Freq1', 'FreqSE', 'MinFreq', 'MaxFreq', 'Effect', 'StdErr', 'Pvalue', 'Direction', 'HetISq', 'HetChiSq', 'HetDf', 'HetPVal'])
-    
-    zLocus = zLocus[['CHR','BP','oldID', 'Allele1', 'Allele2','Zscore']]
-    
+    #### modifs by Zoe Gerber ###
+    columns_to_keep = ['CHR','BP', 'Allele1', 'Allele2','Effect', 'StdErr', 'Pvalue','Zscore']
+        # Determine columns to drop
+    columns_to_drop = zLocus.columns.difference(columns_to_keep)
+        # Drop columns
+    zLocus.drop(inplace=True, columns=columns_to_drop)
+        # Keep specified columns
+    zLocus = zLocus[columns_to_keep]
     return (chr_nb,zLocus)
+    ######
 
+    ### Michel Fisun version, works ###
+    #zLocus.drop(inplace=True, columns=['MarkerName', 'Freq1', 'FreqSE', 'MinFreq', 'MaxFreq', 'Effect', 'StdErr',  'Pvalue', 'Direction', 'HetISq', 'HetChiSq', 'HetDf', 'HetPVal'])
+    #zLocus = zLocus[['CHR','BP','oldID', 'Allele1', 'Allele2','Zscore']]
+    #return (chr_nb,zLocus)
+    ######
+    
 
 def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, outdir : str) -> None:
     """

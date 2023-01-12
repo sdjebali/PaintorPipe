@@ -13,10 +13,10 @@ process LDCALCULATION_sortlocus {
 
     script:
     """
-    awk 'NR>=2' $locus | sort -k2,2n > tmp 
-    head -1 $locus > header
-    cat header tmp > ${locus}.sorted
-    rm header tmp
+        awk 'NR>=2' $locus | sort -k2,2n > tmp 
+        head -1 $locus > header
+        cat header tmp > ${locus}.sorted
+        rm header tmp
     """
 }
 
@@ -38,19 +38,19 @@ process LDCALCULATION_calculation {
 
     shell:
     '''
-    chr=`awk 'NR==2{print $1}' !{sortedlocus}`
-    ldfile=`awk -v chr=$chr '$1==chr{print $2}' !{ldFile}`
-    echo $ldfile 
+        chr=`awk 'NR==2{print $1}' !{sortedlocus}`
+        ldfile=`awk -v chr=$chr '$1==chr{print $2}' !{ldFile}`
+        echo $ldfile 
 
-    CalcLD_1KG_VCF.py \\
-    --locus !{sortedlocus} \\
-    --reference $ldfile \\
-    --map_file !{mapFile} \\
-    --effect_allele Allele1 \\
-    --alt_allele Allele2 \\
-    --population !{population} \\
-    --Zhead Zscore \\
-    --out_name !{sortedlocus}.ld_out \\
-    --position BP > CalcLD_1KG_VCF.!{sortedlocus}.out 2> CalcLD_1KG_VCF.!{sortedlocus}.err
+        CalcLD_1KG_VCF.py \\
+        --locus !{sortedlocus} \\
+        --reference $ldfile \\
+        --map_file !{mapFile} \\
+        --effect_allele Allele1 \\
+        --alt_allele Allele2 \\
+        --population !{population} \\
+        --Zhead Zscore \\
+        --out_name !{sortedlocus}.ld_out \\
+        --position BP > CalcLD_1KG_VCF.!{sortedlocus}.out 2> CalcLD_1KG_VCF.!{sortedlocus}.err
     '''
 }

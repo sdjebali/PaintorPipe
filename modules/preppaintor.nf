@@ -13,9 +13,11 @@ process PREPPAINTOR_splitlocus {
 
     script:
     """
-    mkdir -p ${params.outputDir_locus}
-    main.py \\
-    -d $gwasFile  \\
-    --od ${params.outputDir_locus}
+        mkdir -p ${params.outputDir_locus}
+        main.py \\
+        -d $gwasFile  \\
+        --separator '\t' \\
+        --chromosome 'CHR' \\
+        --od ${params.outputDir_locus}
     """
 }

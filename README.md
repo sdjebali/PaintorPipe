@@ -8,6 +8,7 @@ Pipeline to run the Paintor program and its associated visualization tools on GW
 - [NEXFLOW](#nextflow)
     - [Install Nextflow](#install-nextflow)
     - [Run the pipeline using Nextflow](#run-the-pipeline-using-nextflow)
+    - [Exemple on a small dataset](#exemple-on-a-small-dataset)
 
 # CONDA
 ## Install conda
@@ -29,10 +30,18 @@ conda activate paintor
 Follow the steps in [Nextflow documentation](#https://www.nextflow.io/index.html#GetStarted).
 
 ## Run the pipeline using Nextflow
+After activating the conda environment, you can run the pipeline locally or on the cluster.
+
+Local :
 ```bash
 ./nextflow main.nf -dsl2 -with-conda ~/bin/anaconda3/envs/paintor/
 ```
 
+Genotoul :
+```bash
+sbatch --mem=8G --cpus-per-task=22 -J PaintorPipe --mail-user=zoe.gerber@inserm.fr --mail-type=END,FAIL -D $PWD --export=ALL -p workq launch_pp.sh
+
+```
 ## Exemple on a small dataset
 ```
 MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	CHR	BP
