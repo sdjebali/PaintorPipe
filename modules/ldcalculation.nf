@@ -22,7 +22,7 @@ process LDCALCULATION_sortlocus {
 
 process LDCALCULATION_calculation {
     cpus 1
-    memory 8.GB
+    memory 16.GB
 
     publishDir params.outputDir_ld, mode: 'copy'
 

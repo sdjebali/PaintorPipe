@@ -31,6 +31,7 @@ params.outputDir_sorted_locus = "data/output_sorted_locus"
 params.outputDir_ld = "data/output_ld"
 params.outputDir_bed = "data/output_bed"
 params.outputDir_overlapping = "data/output_overlapping"
+params.outputDir_merge = "data/output_merge"
 
 
 // INCLUDE MODULES -------------------------------------------------------------
@@ -66,12 +67,15 @@ workflow {
   ldcalc_channel = LDCALCULATION_calculation(ldsort_channel, params.mapFile, params.ldFile, params.population)
   overlapbed_channel = OVERLAPPINGANNOTATIONS_bedfiles(ldcalc_channel.flatten())
   overlap_channel = OVERLAPPINGANNOTATIONS_overlapping(overlapbed_channel.flatten(), params.annotations)
+  //overlapmerge_channel = OVERLAPPINGANNOTATIONS_merge(overlap_channel.flatten(), params.annotations)
+
 
   // views
    gwas_input_channel.view{ it }
    ldcalc_channel.view{ it }
    overlapbed_channel.view{ it }
    overlap_channel.view{ it }
+   //overlapmerge_channel.view{ it }
 }
 
 
