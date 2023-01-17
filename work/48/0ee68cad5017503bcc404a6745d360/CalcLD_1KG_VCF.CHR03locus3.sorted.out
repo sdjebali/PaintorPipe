@@ -1,6 +1,0 @@
-Warning! Ambiguous SNP (AT or GC) in input locus. Dropping row 1 from data:
-['3', '122659978', 'C', 'G', '-0.051', '0.21', '0.81', '-0.24285714285714285']
-Warning! Ambiguous SNP (AT or GC) in input locus. Dropping row 2 from data:
-['3', '122724894', 'C', 'G', '-0.11', '0.27', '0.67', '-0.4074074074074074']
-Warning! Ambiguous SNP (AT or GC) in input locus. Dropping row 19 from data:
-['3', '123506282', 'C', 'G', '0.063', '0.24', '0.79', '0.2625']
