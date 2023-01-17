@@ -1,8 +1,5 @@
 
 process PREPPAINTOR_splitlocus {
-    cpus 22
-    memory 60.GB
-
     publishDir '.', mode: 'copy'
 
     input:

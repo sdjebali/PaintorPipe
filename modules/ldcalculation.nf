@@ -1,8 +1,5 @@
 
 process LDCALCULATION_sortlocus {
-    cpus 1
-    memory 8.GB
-
     publishDir params.outputDir_sorted_locus, mode: 'copy'
 
     input:
