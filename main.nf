@@ -30,6 +30,13 @@ params.outputDir_ld = "data/output_ld"
 params.outputDir_bed = "data/output_bed"
 params.outputDir_overlapping = "data/output_overlapping"
 params.outputDir_paintor = "data/output_paintor"
+params.outputDir_results = "data/output_results"
+params.outputDir_plot = "data/output_plot"
+params.outputDir_visualisation = "data/output_visualisation"
+
+//R
+params.df_path = "data/output_results/snp.ppr.txt"
+
 
 log.info """\
 
@@ -41,7 +48,13 @@ log.info """\
          and its associated visualization 
          tools on GWAS summary statistics data
 
-         GWAS file    : ${params.gwasFile}
+         GWAS file          : ${params.gwasFile}
+         Map file           : ${params.mapFile}
+         LD file            : ${params.ldFile}
+         Annotations file   : ${params.annotations}
+         Population         : ${params.population}
+
+
          """
          .stripIndent()
 
@@ -69,6 +82,16 @@ include {
   PAINTOR_run
 } from './modules/paintor.nf'
 
+include {
+  RESULTS_statistics
+  RESULTS_plot
+} from './modules/results.nf'
+
+/*
+include {
+  VISUALISATION_canvis
+} from './modules/visualisation.nf'
+*/
 
 // WORKFLOW --------------------------------------------------------------------
 
@@ -83,14 +106,21 @@ workflow {
   ldcalc_channel = LDCALCULATION_calculation(ldsort_channel, params.mapFile, params.ldFile, params.population)
   overlapbed_channel = OVERLAPPINGANNOTATIONS_bedfiles(ldcalc_channel.flatten())
   overlap_channel = OVERLAPPINGANNOTATIONS_overlapping(overlapbed_channel.flatten(), params.annotations)
-  paintor_channel = PAINTOR_run(ldcalc_channel.collect(),overlap_channel.collect())
+  paintor_channel = PAINTOR_run(ldcalc_channel.collect(),overlap_channel.collect(),params.annotations)
+
+  RESULTS_statistics(paintor_channel,params.annotations)
+  //RESULTS_plot()
+
+  //VISUALISATION_canvis(paintor_channel)
+
+
 
   // views
    gwas_input_channel.view{ it }
-   ldcalc_channel.view{ it }
-   overlapbed_channel.view{ it }
-   overlap_channel.view{ it }
-   paintor_channel.view{ it }
+   //ldcalc_channel.view{ it }
+   //overlapbed_channel.view{ it }
+   //overlap_channel.view{ it }
+   //paintor_channel.view{ it }
 }
 
 

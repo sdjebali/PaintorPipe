@@ -5,6 +5,10 @@ Pipeline to run the Paintor program and its associated visualization tools on GW
 - [CONDA](#conda)
     - [Install conda](#install-conda)
     - [Create and activate conda environment](#create-and-activate-conda-environment)
+- [SINGULARITY](#singlularity)
+    - [Install Singularity](#install-singularity)
+    - [Write recipe file](#write-recipe-file)
+    - [Build Singularity image](#build-singularity-image)
 - [NEXFLOW](#nextflow)
     - [Install Nextflow](#install-nextflow)
     - [Run the pipeline using Nextflow](#run-the-pipeline-using-nextflow)
@@ -22,27 +26,82 @@ source ~/.bashrc
 ## Create and activate conda environment
 
 Write your `environment.yaml` file :
-```bash
+```yml
 name: paintor
 channels:
   - defaults
   - bioconda
+  - conda-forge
 dependencies:
   - python=3.7.4
-  - multiprocess
-  - pandas
-  - bedtools
+  - multiprocess=0.70.14
+  - pandas=1.3.5
+  - bedtools=2.30.0
+  - gcc=12.2.0
 ```
 
 Once the file is created, the environment is created using the command shown below:
 ```bash
+module load system/Miniconda3-4.7.10
+conda update -n base -c defaults conda
 time conda env create --force --name paintor -f environment.yml
 ```
 
 To enable the environment, use the activate command :
 ```bash
+module load system/Miniconda3-4.7.10
 conda activate paintor
 ```
+
+# SINGULARITY
+## Install Singularity
+
+Install [go](#https://go.dev/doc/install) and [SingularityCE](#https://github.com/sylabs/singularity/releases)
+
+## Write recipe file 
+Write the `Singularity` recipe file :
+
+```bash
+Bootstrap: library
+From: ubuntu:20.04
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export PATH=$PATH:/usr/local/src/PAINTOR
+    export PATH=$PATH:/usr/local/bin/PAINTOR
+
+%post
+    ln -fns /usr/share/zoneinfo/Europe/Paris /etc/localtime
+    echo Europe/Paris > /etc/timezone
+    apt-get update
+    apt-get install -y python3 python3-pip curl default-jre tzdata git bedtools gcc \
+    vcftools tabix bcftools
+    pip3 install --upgrade pip
+    pip3 install multiprocess==0.70.14 pandas==1.3.5 
+    curl -s https://get.nextflow.io | bash
+    mv nextflow /usr/local/bin/
+    dpkg-reconfigure --frontend noninteractive tzdata
+
+    git clone --branch v0.8 --depth 1 https://github.com/sdjebali/Scripts.git /usr/local/src/Scripts
+    ln -s /usr/local/src/Scripts/* /usr/local/bin
+
+    git clone --depth 1 https://github.com/gkichaev/PAINTOR_V3.0.git /usr/local/src/PAINTOR
+    cd /usr/local/src/PAINTOR
+    bash install.sh
+    ln -s /usr/local/src/PAINTOR/PAINTOR /usr/local/bin/PAINTOR
+
+%runscript
+    exec "$@"
+```
+
+## Build Singularity image
+Then build (you must be root) :
+
+```bash
+sudo singularity build container.sif Singularity
+```
+
 
 # NEXTFLOW
 ## Install Nextflow
@@ -58,9 +117,25 @@ Local :
 
 Genotoul :
 ```bash
-sbatch --mem=8G --cpus-per-task=22 -J PaintorPipe --mail-user=zoe.gerber@inserm.fr --mail-type=END,FAIL -D $PWD --export=ALL -p workq launch_pp.sh
-
+sbatch --mem=8G --cpus-per-task=2 -J PaintorPipe --mail-user=zoe.gerber@inserm.fr --mail-type=END,FAIL -D $PWD --export=ALL -p workq launch_pp.sh
 ```
+With the `launch_pp.sh` looking like :
+
+```bash
+#!/bin/sh
+
+module load bioinfo/Nextflow-v21.10.6
+module load system/singularity-3.7.3
+
+nextflow run main.nf \
+    -c nextflow.config,genologin.config \
+    --gwasFile 'data/input/CAD_META_small_12' \
+    --outputDir_locus 'data/output_locus' \
+    -dsl2 \
+    -profile slurm,singularity \
+    -resume 
+```
+
 ## Exemple on a small dataset
 ```
 MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	CHR	BP

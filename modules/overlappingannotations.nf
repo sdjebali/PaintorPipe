@@ -6,7 +6,7 @@ process OVERLAPPINGANNOTATIONS_bedfiles {
         path ldprocessed
 
     when:
-    ldprocessed.matches("*.ld_out.processed")
+        ldprocessed.matches("*.ld_out.processed")
 
     output:
         path '*.bed'
@@ -41,9 +41,9 @@ process OVERLAPPINGANNOTATIONS_overlapping {
         do
         intersectBed \\
             -a !{bedfiles} -b $annfile -wao | awk \\
-                 'BEGIN{OFS="\\t"} {seen[$1,$2]++; \\
-                 if(seen[$1,$2]==1){i++; pos[i]=$1":"$2} if($NF==1){ok[i]=1}} \\
-                 END{for(k=1; k<=i; k++){split(pos[k],a,":");\\
+                'BEGIN{OFS="\\t"} {seen[$1,$2]++; \\
+                if(seen[$1,$2]==1){i++; pos[i]=$1":"$2} if($NF==1){ok[i]=1}} \\
+                END{for(k=1; k<=i; k++){split(pos[k],a,":");\\
                 print a[1], a[2], (ok[k]==1 ? 1 : 0)}}' \\
                 > $base.coord.over.$annid.tsv
         done

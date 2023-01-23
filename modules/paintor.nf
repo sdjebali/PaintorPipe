@@ -4,21 +4,23 @@ process PAINTOR_run {
     input:
         path ldfiles
         path allannots
-
-    when:
-    allannots.any{ it.endsWith('.ucsc.coord.over.allannots.txt')}
-    
+        path annotationsfile
 
     output:
-        path '*.results'
+        path '*.{results,Values,BayesFactor}'
 
     shell:
     '''
         ls !{allannots} | while read annfile; do echo ${annfile%.sorted.ld_out.processed*.bed.coord.over.allannots.txt} ; done | sort | uniq > filename.files 
+        
+        ls !{allannots} | grep ucsc | while read annfile; do str=`echo $annfile | awk '{split($1,a,"."); print a[1]".annotations"}'` ; mv $annfile $str ; done
+        ls !{ldfiles} | grep -E '(ld_out.ld|ld_out.processed)' | while read ld ; do \\
 
-        ls !{allannots} | while read annfile; do f=`echo sed 's/.ld_out.processed.ucsc.coord.over.allannots.txt/.annotations/'` ; mv "$annfile" "$f" ; done
-        ls !{ldfiles} | while read ldfile; do f=`echo $ldfile | sed 's/.sorted.ld_out.ld/.ld/'` ; mv "$ldfile" "$f" ; done 
-        ls !{ldfiles} | while read ldprocessedfile; do f=`echo sed 's/.sorted.ld_out.processed//'` ; mv "$ldfile" "$f" ; done 
+            str=`echo $ld | awk '{split($1,a,"."); if($1~/ld_out.ld/) {print a[1]".ld"} else {print a[1]}}'` ;\\
+            mv $ld $str ; done
+        
+
+        allannotations=$(awk '{print $1}' !{annotationsfile} | tr '\\n' ' ' )   
 
         PAINTOR \\
             -input filename.files \\
@@ -27,9 +29,10 @@ process PAINTOR_run {
             -Zhead Zscore  \\
             -LDname ld  \\
             -mcmc  \\
-            -annotations genc.exon,genc.intron,genc.tss500up,genc.tts500dw,elscardiot1  \\
+            -annotations $allannotations \\
             > PAINTOR.out \\
-            2> PAINTOR.err
-    
+            2> PAINTOR.err \\
     '''
 }
+
+
