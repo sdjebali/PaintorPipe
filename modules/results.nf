@@ -39,13 +39,16 @@ process RESULTS_statistics {
 process RESULTS_plot {
     publishDir params.outputDir_plot, mode: 'copy'
 
+    input :
+        path res
+
     output:
         path '*.png'
 
-    script:
+    shell:
     '''
-        plot.r
-
+        input_file=`ls !{res} | grep snp.ppr.txt`
+        plot.r -i $input_file -o !{params.outputDir_plot}
     '''
 
 }

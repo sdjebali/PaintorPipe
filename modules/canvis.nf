@@ -1,11 +1,13 @@
-process VISUALISATION_canvis {
-    publishDir params.outputDir_visualisation, mode: 'copy'
+process CANVIS_run {
+    publishDir params.outputDir_canvis, mode: 'copy'
 
     input:
         path res
+        path ld
+        path allannots
 
     output:
-        path '*.canvis*'
+        path '*.{canvis*,fig}'
 
 
     shell:
@@ -17,11 +19,13 @@ process VISUALISATION_canvis {
         Canvis.py \\
             --locus $base.results.for.canvis \\
             -z Zscore \\
-            -r ../2_LD_calculation/$base.ld_out.ld \\
-            -a ../3_overlapping_annotations/$base.ld_out.processed.ucsc.coord.over.allannots.txt \\
+            -r $base.!{ld} \\
+            -a $base.!{allannots} \\
             -t 90 \\
-            -o fig_final \\
-            --large_ld y > $base.canvis.out 2> $base.canvis.er
+            -o $base_fig \\
+            --large_ld y \\
+            > $base.canvis.out \\
+            2> $base.canvis.er
 
     '''
 }

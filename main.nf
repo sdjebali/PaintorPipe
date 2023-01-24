@@ -32,7 +32,7 @@ params.outputDir_overlapping = "data/output_overlapping"
 params.outputDir_paintor = "data/output_paintor"
 params.outputDir_results = "data/output_results"
 params.outputDir_plot = "data/output_plot"
-params.outputDir_visualisation = "data/output_visualisation"
+params.outputDir_canvis = "data/output_canvis"
 
 //R
 params.df_path = "data/output_results/snp.ppr.txt"
@@ -48,12 +48,14 @@ log.info """\
          and its associated visualization 
          tools on GWAS summary statistics data
 
+         ~~~~~~~~~~~                
+         PARAMETERS:
          GWAS file          : ${params.gwasFile}
          Map file           : ${params.mapFile}
          LD file            : ${params.ldFile}
          Annotations file   : ${params.annotations}
          Population         : ${params.population}
-
+         ~~~~~~~~~~~ 
 
          """
          .stripIndent()
@@ -89,8 +91,8 @@ include {
 
 /*
 include {
-  VISUALISATION_canvis
-} from './modules/visualisation.nf'
+  CANVIS_run
+} from './modules/canvis.nf'
 */
 
 // WORKFLOW --------------------------------------------------------------------
@@ -107,11 +109,11 @@ workflow {
   overlapbed_channel = OVERLAPPINGANNOTATIONS_bedfiles(ldcalc_channel.flatten())
   overlap_channel = OVERLAPPINGANNOTATIONS_overlapping(overlapbed_channel.flatten(), params.annotations)
   paintor_channel = PAINTOR_run(ldcalc_channel.collect(),overlap_channel.collect(),params.annotations)
+  res_channel = RESULTS_statistics(paintor_channel,params.annotations)
 
-  RESULTS_statistics(paintor_channel,params.annotations)
-  //RESULTS_plot()
+  plot = RESULTS_plot(res_channel.collect())
 
-  //VISUALISATION_canvis(paintor_channel)
+  //CANVIS_run(paintor_channel, ldcalc_channel)
 
 
 
