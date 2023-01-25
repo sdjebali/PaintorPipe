@@ -7,25 +7,26 @@ process CANVIS_run {
         path allannots
 
     output:
-        path '*.{canvis*,fig}'
+        path '*fig.svg'
 
 
     shell:
     '''
-        ls !{res} | grep .results | grep -v LogFile.results | while read f ; do base=`${f%.result}` \\
-        awk 'NR==1{$2="pos"; print} NR>=2{print}' \\
-            > $base.results.for.canvis
-
-        Canvis.py \\
-            --locus $base.results.for.canvis \\
-            -z Zscore \\
-            -r $base.!{ld} \\
-            -a $base.!{allannots} \\
-            -t 90 \\
-            -o $base_fig \\
-            --large_ld y \\
-            > $base.canvis.out \\
-            2> $base.canvis.er
-
+        for i in $(ls !{res} | grep .results.for.canvis);\\
+            do j=$(ls !{ld} | grep $(basename $i .results.for.canvis).sorted.ld_out.ld)\\
+                k=$(ls !{allannots} | grep $(basename $i .results.for.canvis).sorted.ld_out.processed.ucsc.bed.coord.over.allannots.txt) \\
+        
+            CANVIS.py \\
+                --locus $i \\
+                -z Zscore \\
+                -r $j \\
+                -a $k \\
+                -t 90 \\
+                -o ${i}_fig \\
+                --large_ld y \\
+                > ${i}.out \\
+                2> ${i}.err
+            done
+  
     '''
 }

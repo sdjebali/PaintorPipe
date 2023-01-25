@@ -6,7 +6,7 @@ process RESULTS_statistics {
         path annotations
 
     output:
-        path '*.txt'
+        path '*.{txt,canvis}'
 
     shell:
     '''
@@ -32,6 +32,11 @@ process RESULTS_statistics {
                     done | awk 'BEGIN{OFS="\\t"; print "snp", "ppr"} {print}' \\
                         > snp.ppr.txt
 
+        ls !{res} | grep .results | grep -v LogFile.results | \\
+            while read f ; do base=${f%.result} ; \\
+                awk 'NR==1{$2="pos"; print} NR>=2{print}' $f \\
+                    > $base.for.canvis ; done
+
     '''
 }
 
@@ -48,7 +53,6 @@ process RESULTS_plot {
     shell:
     '''
         input_file=`ls !{res} | grep snp.ppr.txt`
-        plot.r -i $input_file -o !{params.outputDir_plot}
+        plot.r -i $input_file 
     '''
-
 }

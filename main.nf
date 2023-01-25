@@ -89,11 +89,11 @@ include {
   RESULTS_plot
 } from './modules/results.nf'
 
-/*
+
 include {
   CANVIS_run
 } from './modules/canvis.nf'
-*/
+
 
 // WORKFLOW --------------------------------------------------------------------
 
@@ -110,10 +110,9 @@ workflow {
   overlap_channel = OVERLAPPINGANNOTATIONS_overlapping(overlapbed_channel.flatten(), params.annotations)
   paintor_channel = PAINTOR_run(ldcalc_channel.collect(),overlap_channel.collect(),params.annotations)
   res_channel = RESULTS_statistics(paintor_channel,params.annotations)
-
   plot = RESULTS_plot(res_channel.collect())
-
-  //CANVIS_run(paintor_channel, ldcalc_channel)
+  
+  CANVIS_run(res_channel.collect(),ldcalc_channel.collect(),overlap_channel.collect())
 
 
 
