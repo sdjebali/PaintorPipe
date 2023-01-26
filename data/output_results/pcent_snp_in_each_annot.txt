@@ -1,0 +1,7 @@
+genc.exon			-nan
+genc.intron			-nan
+genc.tss500up			-nan
+genc.tts500dw			-nan
+elscardiot1			-nan
+			-nan
+			-nan
