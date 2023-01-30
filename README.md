@@ -180,3 +180,4 @@ Required folders and `files` in working directory :
     + `environment.yml` or `container.sif`
     + `main.nf`
     + (optional : `launch_pp.sh`)
+
