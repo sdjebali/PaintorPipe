@@ -162,3 +162,5 @@ Required **folders** and **files** in working directory :
 + environment.yml
 + main.nf
 + (optional : launch_pp.sh)
+
+
