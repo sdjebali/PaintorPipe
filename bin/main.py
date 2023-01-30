@@ -2,7 +2,8 @@
 
 # This script was developped by Michel Fisun in the statistical genetics lab, Pasteur Paris, 
 # under the supervision of Hugues Aschard
- 
+
+# IMPORTS --------------------------------------------------------------------
 from sqlite3 import DatabaseError
 import pandas as pd
 import numpy as np
@@ -11,12 +12,12 @@ from pathlib import Path as path
 from optparse import OptionParser
 import sys
 from multiprocess import Pool
-
+# ----------------------------------------------------------------------------
 
 #TODO: Full pipeline & locus fusions if intersected
 #TODO: threading
 
-
+# FUNCTIONS  -----------------------------------------------------------------
 def ChromosomeSplitter_no_files(bank : str, separator : str, cname : str) -> "list[pd.DataFrame]":    
     """
     data bank file name -> list[CHR1,CHR2,...,CHR22]
@@ -34,17 +35,13 @@ def ChromosomeSplitter_no_files(bank : str, separator : str, cname : str) -> "li
     #temporary pandas DataFrame to store snp data corresponding to current chromosome
     chr = pd.DataFrame(None)
 
-
     #building chromosome files
     for i in range(1,22+1):
         print("Building chromosome %s file..." % i)
         chr_list.append((i,data_bank[data_bank[cname] == i]))
 
-
     print("Done splitting chromosmes !")
-
     print("--- done splitting chromosomes in %s seconds ---\n" % (time.time() - start_time))
-
     print("Chromosomes generated :")
     print([n for (n,chr) in chr_list])
 
@@ -59,14 +56,12 @@ def SortPerPValue(chr : tuple, Phead : str) -> pd.DataFrame : #TODO : enlever to
     Quicksorts (and writes) the SNP's of the i-th chromosome file, in ascending order according to the P-Value
     """
     start_time = time.time()
-
     i,chromosome = chr
     quicksorted = chromosome.sort_values(by=Phead, ascending=True, kind = 'quicksort', ignore_index=True)
 
     print(f"--- chromosome {i} sorted in %s secondes ---\n" % (time.time() - start_time))
     print("\n")
 
-    
     return quicksorted
 
 
@@ -84,11 +79,8 @@ def isIntersected(l1 : pd.DataFrame, l2 : pd.DataFrame) -> bool :
     return len(pd.merge(l1,l2,how="inner")) != 0
 
 
-
-
 # this function is the most important of all (contains the intelligence of the whole process)
 def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
-
     """
     returns a list of all locus in given chromosome
 
@@ -100,19 +92,14 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
     print("starting chromosome splitter...")
     start_time = time.time()
 
-
-
     #TODO: Union of loci of 2 are close by 
     #TODO: 
     pseuil = 5e-08
     locus = pd.DataFrame(None)
-
     i,chromosome = chr
-
     sorted = SortPerPValue(chr,Phead)
     locus_nb = 0
     test = True
-
     liste = []
 
     for snp_index in range(len(sorted)):
@@ -123,7 +110,6 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
             print("\n No more significant pvalues \n")
             break
 
-        
         line = sorted[snp_index:snp_index+1]
         #print(line)
         pos_line = int(line[pos])
@@ -148,7 +134,6 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
                     #print("Intersected")
                     test = False
                     break
-            
 
         if test:
             liste.append(new_locus)  # REPETITION due to TEST which is true so 2 APPEND per new locus
@@ -156,11 +141,9 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
             #print("No intersection, appended new locus")
             #print(f"CHR{i}locus{locus_nb}")
 
-
         #print(locus.loc[snp_index].oldID)
     #print(len(liste))
     print("Nya\n")
-
     print("len final : " + str(len(liste)))
     return liste
 
@@ -175,7 +158,6 @@ def Zscore_adder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.D
     chr_nb,zLocus = locus
     zLocus[Zhead] = zLocus[Effect]/zLocus[StdErr]
 
-    
     #Drop all columns that ARE NOT : CHR BP ALLELE1 ALLELE2 EFFECT STDERR PAVLUE ZSCORE
 
     #### modifs by Zoe Gerber ###
@@ -200,7 +182,6 @@ def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, o
     """
     writes locus files
     """
-
     for i in range(len(liste)) :
         chr,_ = liste[i]
 
@@ -211,11 +192,9 @@ def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, o
             locusZ.to_csv(f"{outdir}/CHR0{chr}locus{i+1}", index=False, sep=' ')
         elif len(str(chr)) == 2:
             locusZ.to_csv(f"{outdir}/CHR{chr}locus{i+1}", index=False, sep=' ')
-
         print("locus printed")
 
     return None
-
 
 
 def main() -> int:
@@ -269,8 +248,6 @@ def main() -> int:
         sys.exit(usage)
 
     debut = time.time()
-
-
     chromosomes_list = ChromosomeSplitter_no_files(data_bank, sep, chr)
 
     """
@@ -285,9 +262,7 @@ def main() -> int:
     print("\n\n\n")
     print("~~~~~ main finished in %s seconds ~~~~~\n" % (time.time() - debut))
 
-
     return 0
-
 
 if __name__ == "__main__": main()
 

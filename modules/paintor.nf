@@ -13,25 +13,24 @@ process PAINTOR_run {
     '''
         ls !{allannots} | while read annfile; do echo ${annfile%.sorted.ld_out.processed*.bed.coord.over.allannots.txt} ; done | sort | uniq > filename.files 
         
-        ls !{allannots} | grep ucsc | while read annfile; do str=`echo $annfile | awk '{split($1,a,"."); print a[1]".annotations"}'` ; mv $annfile $str ; done
+        ls !{allannots} | while read annfile; do str=`echo $annfile | awk '{split($1,a,"."); print a[1]".annotations"}'` ; mv $annfile $str ; done
         ls !{ldfiles} | grep -E '(ld_out.ld|ld_out.processed)' | while read ld ; do \\
-
             str=`echo $ld | awk '{split($1,a,"."); if($1~/ld_out.ld/) {print a[1]".ld"} else {print a[1]}}'` ;\\
-            mv $ld $str ; done
+                mv $ld $str ; 
+        done
         
-
         allannotations=$(awk '{print $1}' !{annotationsfile} | tr '\\n' ' ' )   
 
         PAINTOR \\
             -input filename.files \\
             -in . \\
             -out . \\
-            -Zhead Zscore  \\
-            -LDname ld  \\
+            -Zhead Zscore \\
+            -LDname ld \\
             -mcmc  \\
             -annotations $allannotations \\
             > PAINTOR.out \\
-            2> PAINTOR.err \\
+            2> PAINTOR.err
     '''
 }
 

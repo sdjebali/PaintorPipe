@@ -15,9 +15,7 @@ process OVERLAPPINGANNOTATIONS_bedfiles {
     '''
     awk \\
         'BEGIN{OFS="\\t"} NR>=2{print $1, $2, $2+1}' !{ldprocessed} \\
-        > !{ldprocessed}.bed
-    awk \\
-        -f $(which ens2ucsc.awk) !{ldprocessed}.bed \\
+        | awk -f $(which ens2ucsc.awk) \\
         > !{ldprocessed}.ucsc.bed
     '''
 
