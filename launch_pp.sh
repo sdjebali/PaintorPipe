@@ -10,9 +10,12 @@ module load system/singularity-3.7.3
 
 nextflow run main.nf \
     -c nextflow.config,genologin.config \
-    --gwasFile 'data/input/CAD_META' \
+    --gwasFile 'data/input/CAD_META_small_12' \
     --outputDir_locus 'data/output_locus' \
     -dsl2 \
     -profile slurm,singularity \
+    -with-trace 'reports/trace.txt' \
+    -with-timeline 'reports/timeline.html' \
+    -with-report 'reports/report.html' \
     -resume 
     

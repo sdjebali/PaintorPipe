@@ -3,7 +3,7 @@ process LDCALCULATION_sortlocus {
     publishDir params.outputDir_sorted_locus, mode: 'copy'
 
     input:
-        path locus
+        tuple val(id), path(locus)
 
     output:
         path '*.sorted'
