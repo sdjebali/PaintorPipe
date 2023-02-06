@@ -1,3 +1,4 @@
+
 process CANVIS_run {
     publishDir params.outputDir_canvis, mode: 'copy'
 

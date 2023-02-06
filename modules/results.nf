@@ -1,3 +1,4 @@
+
 process RESULTS_statistics {
     publishDir params.outputDir_results, mode: 'copy'
 
@@ -41,6 +42,32 @@ process RESULTS_statistics {
 }
 
 
+process RESULTS_posteriorprob {
+    publishDir params.outputDir_posteriorprob, mode: 'copy'
+
+    input :
+        path res
+        val nbsnp
+
+    output:
+        path '*.txt'
+
+    shell:
+    '''
+        head -n1 !{res} | awk 'BEGIN{OFS="\\t"} $1=="CHR" {print}' | head -n1 > header
+
+        ls !{res} | grep .results | grep -v LogFile | while read f; \\
+            do awk 'BEGIN{OFS="\\t"} $1!="CHR" {print}' $f; done \\
+                > posteriorprob_merged
+        cat header posteriorprob_merged >posteriorprob_merged.txt
+
+        sort -k9,9gr posteriorprob_merged.txt | head -n !{nbsnp} \\
+            > posteriorprob_merged_filtered
+        cat header posteriorprob_merged_filtered > posteriorprob_merged_filtered.txt
+    '''
+}
+
+
 process RESULTS_plot {
     publishDir params.outputDir_plot, mode: 'copy'
 
@@ -52,7 +79,6 @@ process RESULTS_plot {
 
     shell:
     '''
-        input_file=`ls !{res} | grep snp.ppr.txt`
-        plot.r -i $input_file 
+        plot.r -i !{res}
     '''
 }

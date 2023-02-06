@@ -18,7 +18,6 @@ process OVERLAPPINGANNOTATIONS_bedfiles {
         | awk -f $(which ens2ucsc.awk) \\
         > !{ldprocessed}.ucsc.bed
     '''
-
 }
 
 

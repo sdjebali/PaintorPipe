@@ -2,7 +2,7 @@ Bootstrap: library
 From: ubuntu:20.04
 
 %environment
-    export LC_ALL=C.UTF-8
+    export LC_ALL=C
     export LANG=C.UTF-8
 
 %post

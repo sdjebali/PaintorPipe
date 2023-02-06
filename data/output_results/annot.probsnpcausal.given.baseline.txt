@@ -1,2 +1,2 @@
-Baseline	0.294422
-genc.exon	8.60073e-10
+Baseline	0.295551
+genc.exon	8.64755e-10

@@ -51,7 +51,8 @@ def ChromosomeSplitter_no_files(bank : str, separator : str, cname : str) -> "li
     return chr_list
 
 
-def SortPerPValue(chr : tuple, Phead : str) -> pd.DataFrame : #TODO : enlever toutes les colonnes sauf la P-value et la position (voire laisser que la position) ((ID aussi ?))
+def SortPerPValue(chr : tuple, Phead : str) -> pd.DataFrame : 
+    #TODO : enlever toutes les colonnes sauf la P-value et la position (voire laisser que la position) ((ID aussi ?))
     """
     Quicksorts (and writes) the SNP's of the i-th chromosome file, in ascending order according to the P-Value
     """
@@ -87,13 +88,12 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
     Splits SNP's in the data bank (in one chromosome):
     After SNP's were sorted by SortPerPValue(), takes the first most significative SNP in the list, takes a region of +- 500kb 
     around the SNP in the non-pv-sorted file (but sorted according to position) and writes them into a file.
-    Then, repeats the same process for the nex most significative SNP if it is not already in the previous locus
+    Then, repeats the same process for the next most significative SNP if it is not already in the previous locus
     """
     print("starting chromosome splitter...")
     start_time = time.time()
 
     #TODO: Union of loci of 2 are close by 
-    #TODO: 
     pseuil = 5e-08
     locus = pd.DataFrame(None)
     i,chromosome = chr
@@ -143,7 +143,6 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
 
         #print(locus.loc[snp_index].oldID)
     #print(len(liste))
-    print("Nya\n")
     print("len final : " + str(len(liste)))
     return liste
 

@@ -1,3 +1,4 @@
+
 process PAINTOR_run {
     publishDir params.outputDir_paintor, mode: 'copy'
 
@@ -11,10 +12,10 @@ process PAINTOR_run {
 
     shell:
     '''
-        ls !{allannots} | while read annfile; do echo ${annfile%.sorted.ld_out.processed*.bed.coord.over.allannots.txt} ; done | sort | uniq > filename.files 
+        ls !{allannots} | while read annfile; do echo ${annfile%.sorted.*} ; done | sort | uniq > filename.files 
         
         ls !{allannots} | while read annfile; do str=`echo $annfile | awk '{split($1,a,"."); print a[1]".annotations"}'` ; mv $annfile $str ; done
-        ls !{ldfiles} | grep -E '(ld_out.ld|ld_out.processed)' | while read ld ; do \\
+        ls !{ldfiles} | while read ld ; do \\
             str=`echo $ld | awk '{split($1,a,"."); if($1~/ld_out.ld/) {print a[1]".ld"} else {print a[1]}}'` ;\\
                 mv $ld $str ; 
         done

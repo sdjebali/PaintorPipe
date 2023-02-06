@@ -1,3 +1,0 @@
-/work/project/regenet/workspace/zgerber/Nextflow/bin/CANVIS.py:255: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  mask = np.zeros_like(correlation, dtype=np.bool)

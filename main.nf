@@ -25,8 +25,9 @@ nextflow.enable.dsl = 2 // to enable DSL2 syntax
 params.gwasFile = "$projectDir/data/input/CAD_META"
 params.mapFile = "$projectDir/data/input/integrated_call_samples_v3.20130502.ALL.panel"
 params.ldFile = "$projectDir/data/input/ld.txt"
-params.annotations = "$projectDir/data/input/annotations/annot.id.file.txt"
+params.annotations = "$projectDir/data/input/annot.id.file.txt"
 params.population = "EUR"
+params.snp = "20"
 
 // outputs
 params.outputDir_locus = "data/output_locus"
@@ -36,6 +37,7 @@ params.outputDir_bed = "data/output_bed"
 params.outputDir_overlapping = "data/output_overlapping"
 params.outputDir_paintor = "data/output_paintor"
 params.outputDir_results = "data/output_results"
+params.outputDir_posteriorprob = "data/output_posteriorprob"
 params.outputDir_plot = "data/output_plot"
 params.outputDir_canvis = "data/output_canvis"
 
@@ -58,6 +60,7 @@ log.info """\
          LD file            : ${params.ldFile}
          Annotations file   : ${params.annotations}
          Population         : ${params.population}
+         Number of SNPs     : ${params.snp}
          ~~~~~~~~~~~ 
 
          """
@@ -85,6 +88,7 @@ include {
 
 include {
   RESULTS_statistics
+  RESULTS_posteriorprob
   RESULTS_plot
 } from './modules/results.nf'
 
@@ -134,6 +138,7 @@ workflow {
 
   paintor_channel = PAINTOR_run(ldcalc_channel.collect(), overlap_channel.collect(), params.annotations)
   res_channel = RESULTS_statistics(paintor_channel, params.annotations)
+  snps = RESULTS_posteriorprob(paintor_channel, params.snp)
 
   ch_res = res_channel.flatten()
   ch_res

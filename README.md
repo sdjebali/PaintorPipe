@@ -2,9 +2,7 @@
 Pipeline to run the Paintor program and its associated visualization tools on GWAS summary statistics data
 
 # Table of Contents
-- [CONDA](#conda)
-    - [Install conda](#install-conda)
-    - [Create and activate conda environment](#create-and-activate-conda-environment)
+- [RELEASES](#releases)
 - [SINGULARITY](#singlularity)
     - [Install Singularity](#install-singularity)
     - [Write recipe file](#write-recipe-file)
@@ -15,44 +13,21 @@ Pipeline to run the Paintor program and its associated visualization tools on GW
     - [Run the pipeline using Nextflow](#run-the-pipeline-using-nextflow)
     - [Exemple on a small dataset](#exemple-on-a-small-dataset)
 
-# CONDA
-## Install conda
-```bash
-cd /tmp/
-wget  https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
-sha256sum anaconda.sh #should display : e7ecbccbc197ebd7e1f211c59df2e37bc6959d081f2235d387e08c9026666acd  anaconda.sh
-bash anaconda.sh
-source ~/.bashrc
-```
 
-## Create and activate conda environment
-Write your `environment.yaml` file :
-```yml
-name: paintor
-channels:
-  - defaults
-  - bioconda
-  - conda-forge
-dependencies:
-  - python=3.7.4
-  - multiprocess=0.70.14
-  - pandas=1.3.5
-  - bedtools=2.30.0
-  - gcc=12.2.0
-```
+# Releases
 
-Once the file is created, the environment is created using the command shown below:
-```bash
-module load system/Miniconda3-4.7.10
-conda update -n base -c defaults conda
-time conda env create --force --name paintor -f environment.yml
-```
+## PaintorPipe_V0.1
+All the steps until Canvis.
+But Canvis is not parallelised and locus IDs are not taken into account in the channels.
 
-To enable the environment, use the activate command :
-```bash
-module load system/Miniconda3-4.7.10
-conda activate paintor
-```
+## PaintorPipe_V0.2
+Canvis parallelised with combined channels.
+Locus IDs are taken into account in the channels.
+
+## PaintorPipe_V0.3
+The number of SNP with the best posterior probability can be choosen 
+
+
 
 # SINGULARITY
 ## Install Singularity
@@ -142,14 +117,15 @@ module load system/singularity-3.7.3
 
 nextflow run main.nf \
     -c nextflow.config,genologin.config \
-    --gwasFile 'data/input/CAD_META' \
+    --gwasFile 'data/input/CAD_META_small_12' \
     --outputDir_locus 'data/output_locus' \
+    --snp '30' \
     -dsl2 \
     -profile slurm,singularity \
     -with-trace 'reports/trace.txt' \
     -with-timeline 'reports/timeline.html' \
     -with-report 'reports/report.html' \
-    -resume
+    -resume 
 ```
 
 ## Exemple on a small dataset
@@ -171,11 +147,9 @@ Required folders and `files` in working directory :
         + input
             + `Gwas_file`
             + `Map_file.panel`
-            + `ld.txt`
-            + annotations
-                + `annot.id.file.txt`
-                + all annot bed files
-    + `environment.yml` or `container.sif`
+            + `ld.txt` pointing to all VCF files on your computer
+            + `annot.id.file.txt` pointing to all annot bed files on your computer
+    + `container.sif`
     + `main.nf`
     + (optional : `launch_pp.sh`)
 

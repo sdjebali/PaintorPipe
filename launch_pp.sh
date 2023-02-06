@@ -9,8 +9,9 @@ module load system/singularity-3.7.3
 
 nextflow run main.nf \
     -c nextflow.config,genologin.config \
-    --gwasFile 'data/input/CAD_META_chr1_duplicates' \
+    --gwasFile 'data/input/CAD_META_small_12' \
     --outputDir_locus 'data/output_locus' \
+    --snp '100' \
     -dsl2 \
     -profile slurm,singularity \
     -with-trace 'reports/trace.txt' \
