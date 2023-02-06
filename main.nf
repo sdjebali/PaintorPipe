@@ -110,15 +110,11 @@ workflow {
            return [a[l-1], it] }
     .set { ch }
 
-
   ldsort_channel = LDCALCULATION_sortlocus(ch)
   ldcalc_channel = LDCALCULATION_calculation(ldsort_channel, params.mapFile, params.ldFile, params.population)
   overlapbed_channel = OVERLAPPINGANNOTATIONS_bedfiles(ldcalc_channel.flatten())
   overlap_channel = OVERLAPPINGANNOTATIONS_overlapping(overlapbed_channel.flatten(), params.annotations)
-  paintor_channel = PAINTOR_run(ldcalc_channel.collect(),overlap_channel.collect(),params.annotations)
-  res_channel = RESULTS_statistics(paintor_channel,params.annotations)
-  plot = RESULTS_plot(res_channel.collect())
-
+  
   ch_ldcalc = ldcalc_channel.flatten()
   ch_ldcalc
     .filter { it -> it.toString().endsWith('.ld_out.ld') }
@@ -128,13 +124,16 @@ workflow {
            return [a[l-1].split('.sorted.ld_out')[0], it] }
     .set { ch_ldcalc }
   
-  ch_overlap = overlap_channel .flatten()
+  ch_overlap = overlap_channel.flatten()
   ch_overlap
     .map { it ->
            a = it.toString().split('/')
            l = a.length
            return [a[l-1].split('.sorted.ld_out')[0], it] }
     .set { ch_overlap }
+
+  paintor_channel = PAINTOR_run(ldcalc_channel.collect(), overlap_channel.collect(), params.annotations)
+  res_channel = RESULTS_statistics(paintor_channel, params.annotations)
 
   ch_res = res_channel.flatten()
   ch_res
@@ -145,6 +144,13 @@ workflow {
            return [a[l-1].split('.results')[0], it] }
     .set { ch_res }
 
+  ch_res_plot = res_channel.flatten()
+  ch_res_plot
+    .filter { it -> it.toString().endsWith('snp.ppr.txt') }
+    .set { ch_res_plot }
+  
+  plot = RESULTS_plot(ch_res_plot)
+
   ch_res
     .combine(ch_ldcalc, by:0)
     .combine(ch_overlap, by:0)
@@ -152,24 +158,20 @@ workflow {
     .set{ ch_res }
 
   CANVIS_run(ch_res)
-  //CANVIS_run(res_channel.collect(),ldcalc_channel.collect(),overlap_channel.collect())
 
 
 
   // views
    gwas_input_channel.view{ it }
    //ch.view{ it }
-
    //split_channel.view{ it }
-
    //ldsort_channel.view{ it }
    //ldcalc_channel.view{ it }
    //overlapbed_channel.view{ it }
    //overlap_channel.view{ it }
-
    //ch_ldcalc.view{ it }
    //ch_overlap.view{ it }
-   ch_res.view{ it }
+   //ch_res.view{ it }
    //paintor_channel.view{ it }
 }
 

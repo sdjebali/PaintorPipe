@@ -24,8 +24,8 @@ sha256sum anaconda.sh #should display : e7ecbccbc197ebd7e1f211c59df2e37bc6959d08
 bash anaconda.sh
 source ~/.bashrc
 ```
-## Create and activate conda environment
 
+## Create and activate conda environment
 Write your `environment.yaml` file :
 ```yml
 name: paintor
@@ -56,12 +56,10 @@ conda activate paintor
 
 # SINGULARITY
 ## Install Singularity
-
 Install [go](#https://go.dev/doc/install) and [SingularityCE](#https://github.com/sylabs/singularity/releases)
 
 ## Write recipe file 
 Write the `Singularity` recipe file :
-
 ```bash
 Bootstrap: library
 From: ubuntu:20.04
@@ -96,7 +94,7 @@ From: ubuntu:20.04
     bash install.sh
     ln -s /usr/local/src/PAINTOR/PAINTOR /usr/local/bin/PAINTOR
     printf "#!/usr/bin/env python3\n\n" > header
-    cat header /usr/local/src/PAINTOR/CANVIS/CANVIS.py | sed 's/.as_matrix()/.values/g' > /usr/local/bin/CANVIS.py
+    cat header /usr/local/src/PAINTOR/CANVIS/CANVIS.py | sed 's/.as_matrix()/.values/g' | sed 's/np.bool/bool/g' | sed 's/scale=/scale_x=/g' > /usr/local/bin/CANVIS.py
     chmod 775 /usr/local/bin/CANVIS.py
     cat header /usr/local/src/PAINTOR/PAINTOR_Utilities/CalcLD_1KG_VCF.py > /usr/local/bin/CalcLD_1KG_VCF.py
     chmod 775 /usr/local/bin/CalcLD_1KG_VCF.py
@@ -132,10 +130,10 @@ Local :
 
 Genotoul :
 ```bash
-sbatch --mem=8G --cpus-per-task=2 -J PaintorPipe --mail-user=zoe.gerber@inserm.fr --mail-type=END,FAIL -D $PWD --export=ALL -p workq launch_pp.sh
+sbatch --mem=8G --cpus-per-task=1 -J PaintorPipe --mail-user=zoe.gerber@inserm.fr --mail-type=END,FAIL -D $PWD --export=ALL -p workq launch_pp.sh
 ```
-With the `launch_pp.sh` looking like :
 
+With the `launch_pp.sh` looking like :
 ```bash
 #!/bin/sh
 
@@ -144,14 +142,14 @@ module load system/singularity-3.7.3
 
 nextflow run main.nf \
     -c nextflow.config,genologin.config \
-    --gwasFile 'data/input/CAD_META_small_12' \
+    --gwasFile 'data/input/CAD_META' \
     --outputDir_locus 'data/output_locus' \
     -dsl2 \
     -profile slurm,singularity \
-    -with-trace -with-timeline timeline.html \
-    -with-report report.html \
-    -resume 
-    
+    -with-trace 'reports/trace.txt' \
+    -with-timeline 'reports/timeline.html' \
+    -with-report 'reports/report.html' \
+    -resume
 ```
 
 ## Exemple on a small dataset
