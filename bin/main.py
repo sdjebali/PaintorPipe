@@ -147,13 +147,7 @@ def LocusList(chr : tuple, Phead : str, pos) -> "list(tuple)":
     return liste
 
 
-def drop_columns(df, cols_to_keep):
-    cols_to_drop = list(set(df.columns) - set(cols_to_keep))
-    df.drop(columns=cols_to_drop, inplace=True)
-    return df
-
-
-def Zscore_adder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.DataFrame:
+def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.DataFrame:
     chr_nb,zLocus = locus
     zLocus[Zhead] = zLocus[Effect]/zLocus[StdErr]
 
@@ -185,7 +179,7 @@ def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, o
         chr,_ = liste[i]
 
         #TODO : custom output path
-        _,locusZ = Zscore_adder(liste[i], Zhead, Effect, StdErr)
+        _,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr)
 
         if len(str(chr)) == 1:
             locusZ.to_csv(f"{outdir}/CHR0{chr}locus{i+1}", index=False, sep=' ')
