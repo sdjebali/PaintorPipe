@@ -95,6 +95,51 @@ def isIntersected(l1 : pd.DataFrame, l2 : pd.DataFrame) -> bool :
     return len(pd.merge(l1, l2, how="inner")) != 0
 
 
+def checkListLocus(liste : "list[tuple]", pos) -> "list(tuple)":
+    """
+    checking in the list of locus if there is no overlaping loci 
+    if there is, merge the loci and delete the second locus
+    """
+    list_locus_to_remove = []
+    new_liste = []
+ 
+    for locus_index in range(len(liste)): 
+        ii,current_locus = liste[locus_index]
+            
+        #if current_locus.equals(list_locus_to_remove[x][1].reindex(columns=current_locus.columns)) for x in range(len(list_locus_to_remove)):
+        if any(current_locus.equals(locus[1]) for locus in list_locus_to_remove):
+            # skip the current locus if it's marked for removal
+            continue  
+            
+        for locus_index2 in range(locus_index+1, len(liste)):
+            _,test_locus = liste[locus_index2]
+
+            print(f"\nii,current_locus : {ii}, {current_locus}")
+            print(f"\n_,test_locus : {_}, {test_locus}") 
+
+            if current_locus.equals(test_locus) == False and isIntersected(current_locus, test_locus):
+                print("Overlapping2\n")
+                liste[locus_index] = (ii, SortPerPosition(LocusUnion(current_locus, test_locus, pos),pos))
+                    
+                locus_to_remove : tuple = (ii, test_locus)
+                list_locus_to_remove.append(locus_to_remove)
+                    
+                print(f"list_locus_to_remove : {list_locus_to_remove}")
+                
+                #print(f"\nNew locus {locus_index} created after merging 2: {liste[locus_index]}\n")
+                print(f"liste of locus at this point2 : {liste}")
+
+            else:
+                print("No overlapping\n")
+
+
+    # remove elements of the list liste which do not match with the elements of the list list_locus_to_remove
+    # store the new tuples in a new list
+    new_liste = [x for x in liste if not any(y[1].equals(x[1]) for y in list_locus_to_remove)]
+   
+    return new_liste
+
+
 # this function is the most important of all (contains the intelligence of the whole process)
 # it is done for a given chromosome
 # chr is a tuple (chrid, dataframe with snps of the chr)
@@ -198,58 +243,21 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
             print(f"\nCHR{i}locus{locus_nb} is created !\n")
             print(f"\n\n\n\nWe have {locus_nb} loci in our list : {liste}\n\n\n\n\n\n")
 
-    #checking if no overlaping loci
-    new_liste = checkListLocus(liste, pos)
+    # checking if no overlaping loci
+    # merging loci while overlapping remaining
+    for i in range(len(liste)):
+        new_liste = checkListLocus(liste, pos)
 
     print("len final : " + str(len(new_liste))+"\n\n")
     print(f"nb locus final : {locus_nb}\n\n")
 
     print(f"\nliste after LocusList():{new_liste} \n")
     print(f"\nDone splitting chromosome {i} into loci ! ")
+    # new_liste contains no more overlapping loci
     return new_liste
-
-
-def checkListLocus(liste : "list[tuple]", pos) -> "list(tuple)":
-    """
-    checking in the list of locus if there is no overlaping loci 
-    if there is, merge the loci and delete the second locus
-    """
-    list_locus_to_remove = []
-    new_liste = []
-    for locus_index in range(len(liste)): 
-        ii,current_locus = liste[locus_index]
-        
-        for locus_index2 in range(locus_index+1, len(liste)):
-            _,test_locus = liste[locus_index2]
-
-            print(f"\nii,current_locus : {ii}, {current_locus}")
-            print(f"\n_,test_locus : {_}, {test_locus}") 
-
-            if current_locus.equals(test_locus) == False and isIntersected(current_locus, test_locus):
-                print("Overlapping2\n")
-                liste[locus_index] = (ii, SortPerPosition(LocusUnion(current_locus, test_locus, pos),pos))
-                
-                locus_to_remove : tuple = (ii, test_locus)
-                list_locus_to_remove.append(locus_to_remove)
-                
-                print(f"list_locus_to_remove : {list_locus_to_remove}")
-               
-                #print(f"\nNew locus {locus_index} created after merging 2: {liste[locus_index]}\n")
-                print(f"liste of locus at this point2 : {liste}")
-
-            else:
-                print("No overlapping\n")
-
-    # remove elements of the list liste which do not match with the elements of the list list_locus_to_remove
-    # store the new tuples in a new list
-    new_liste = [x for x in liste if not any(y[1].equals(x[1]) for y in list_locus_to_remove)]
-   
-    return new_liste
-
 
 
 def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.DataFrame:
-    #beg,chr_nb,zLocus = locus
     chr_nb,zLocus = locus
 
     zLocus[Zhead] = (zLocus[Effect]/zLocus[StdErr])
@@ -263,7 +271,7 @@ def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.Da
         # Keep specified columns
     zLocus = zLocus[columns_to_keep]
     
-    #return (beg,chr_nb,zLocus)
+    #return (chr_nb,zLocus)
     return (chr_nb,zLocus)
 
 
@@ -273,7 +281,6 @@ def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, o
     writes locus files
     """
     for i in range(len(liste)) :
-        #beg,chr,_ = liste[i]
         chr,_ = liste[i]
 
         # liste[i] is the tuple (chrid,locus)

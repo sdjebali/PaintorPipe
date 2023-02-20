@@ -18,7 +18,7 @@ process CANVIS_run {
             -a ${allannots} \\
             -t 90 \\
             -o ${res}_fig \\
-            --large_ld y \\
+            --large_ld n \\
             > ${res}.out \\
             2> ${res}.err
     """

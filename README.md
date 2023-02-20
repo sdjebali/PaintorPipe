@@ -25,7 +25,8 @@ Canvis parallelised with combined channels.
 Locus IDs are taken into account in the channels.
 
 ## PaintorPipe_V0.3
-The number of SNP with the best posterior probability can be choosen 
+The number of SNP with the best posterior probability can be choosen.
+The `main.py` script was modified to correct the overlapping loci issue.
 
 
 
@@ -40,7 +41,7 @@ Bootstrap: library
 From: ubuntu:20.04
 
 %environment
-    export LC_ALL=C.UTF-8
+    export LC_ALL=C
     export LANG=C.UTF-8
 
 %post
@@ -143,6 +144,7 @@ Required folders and `files` in working directory :
 + WorkDir :
     + bin
         + `main.py`
+        + `plot.R`
     + data
         + input
             + `Gwas_file`
