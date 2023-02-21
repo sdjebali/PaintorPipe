@@ -25,8 +25,18 @@ nextflow.enable.dsl = 2 // to enable DSL2 syntax
 params.gwasFile = "$projectDir/data/input/CAD_META"
 params.mapFile = "$projectDir/data/input/integrated_call_samples_v3.20130502.ALL.panel"
 params.ldFile = "$projectDir/data/input/ld.txt"
-params.annotations = "$projectDir/data/input/annot.id.file.txt"
+params.annotations = "$projectDir/data/input/annotations.txt"
 params.population = "EUR"
+params.pvalue_header = "Pvalue"
+params.stderr_header = "StdErr"
+params.effect_header = "Effect"
+params.chromosome_header = "CHR"
+params.effectallele_header = "Allele1"
+params.altallele_header = "Allele2"
+params.position_header = "BP"
+params.zheader_header = "Zscore"
+params.kb = "500"
+params.pvalue_treshold = "5e-08"
 params.snp = "20"
 
 // outputs
@@ -59,6 +69,8 @@ log.info """\
          Map file           : ${params.mapFile}
          LD file            : ${params.ldFile}
          Annotations file   : ${params.annotations}
+         Number of kb       : ${params.kb}
+         Pvalue treshold    : ${params.pvalue_treshold}
          Population         : ${params.population}
          Number of SNPs     : ${params.snp}
          ~~~~~~~~~~~ 
@@ -104,8 +116,10 @@ workflow {
   gwas_input_channel = Channel.fromPath(params.gwasFile) 
 
   // main
-  split_channel = PREPPAINTOR_splitlocus(gwas_input_channel)
+  split_channel = PREPPAINTOR_splitlocus(gwas_input_channel, params.pvalue_treshold,  params.kb, params.pvalue_header,   params.stderr_header, params.effect_header,   params.chromosome_header, params.effectallele_header, params.altallele_header , params.position_header, params.zheader_header)
 
+
+  """
   ch = split_channel.flatten()
   ch
     .map { it ->
@@ -163,7 +177,7 @@ workflow {
     .set{ ch_res }
 
   CANVIS_run(ch_res)
-
+  """
 
 
   // views
