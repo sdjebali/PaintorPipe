@@ -11,7 +11,8 @@ Pipeline to run the Paintor program and its associated visualization tools on GW
 - [NEXFLOW](#nextflow)
     - [Install Nextflow](#install-nextflow)
     - [Run the pipeline using Nextflow](#run-the-pipeline-using-nextflow)
-    - [Exemple on a small dataset](#exemple-on-a-small-dataset)
+- [Example on a small dataset](#example-on-a-small-dataset)
+    - [Inputs and required files](#inputs-and-required-files)
 
 
 # Releases
@@ -27,7 +28,7 @@ Locus IDs are taken into account in the channels.
 ## PaintorPipe_V0.3
 The number of SNP with the best posterior probability can be choosen.
 The `main.py` script was modified to correct the overlapping loci issue.
-
+Added parameters to the `main.nf` script.
 
 
 # SINGULARITY
@@ -97,11 +98,11 @@ singularity pull -U library://zgerber/paintorpipe/mainimage:0.1
 Follow the steps in [Nextflow documentation](#https://www.nextflow.io/index.html#GetStarted).
 
 ## Run the pipeline using Nextflow
-After activating the conda environment, you can run the pipeline locally or on the cluster.
+After building the singularity image, you can run the pipeline locally or on the cluster.
 
 Local :
 ```bash
-./nextflow main.nf -dsl2 -with-conda ~/bin/anaconda3/envs/paintor/
+./nextflow main.nf -dsl2 
 ```
 
 Genotoul :
@@ -129,7 +130,15 @@ nextflow run main.nf \
     -resume 
 ```
 
-## Exemple on a small dataset
+# Example on a small dataset
+## Inputs and required files
+The GWAS file must contains required columns : 
+- Allele1
+- Allele2
+- Effect 
+- StdErr
+- CHR
+- BP 
 ```
 MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	CHR	BP
 2:177844332_C_T	t	c	0.4732	0.0067	0.4639	0.478	9e-04	0.0058	0.8833	+-	60.4	2.528	1	0.1118	rs1527267	2	177844332
@@ -138,20 +147,56 @@ MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Dir
 2:59865604_A_C	a	c	0.5555	0.0094	0.5427	0.5625	0.0089	0.0057	0.119	++	0	0.394	1	0.5302	rs11887710	2	59865604
 2:113689747_A_G	a	g	0.434	0.0032	0.4298	0.4364	0.0128	0.0057	0.02484	++	0	0.797	
 ```
+This important that the column names are correctly written. If you don't want to change the column names, you have to indicate the alternative names with the arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
 
-Required folders and `files` in working directory :
+To compute reference LD, you have to download the latest release of the [1000 Genomes Project (Phase 3)](#http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/) in VCF format and the map file that contains sample and population ID's. This can takes a long time.
+```
+wget -r --no-parent -R '.vcf.gz.tbi' ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/
+```
 
-+ WorkDir :
-    + bin
-        + `main.py`
-        + `plot.R`
-    + data
-        + input
-            + `Gwas_file`
-            + `Map_file.panel`
-            + `ld.txt` pointing to all VCF files on your computer
-            + `annot.id.file.txt` pointing to all annot bed files on your computer
-    + `container.sif`
-    + `main.nf`
-    + (optional : `launch_pp.sh`)
+Then write the `ld.txt` file pointing to all VCF files on your computer:
+```bash
+for i in $(seq 1 22); do printf $i"\t"path/to/VCF/ALL.chr$i.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"\n"; done > ld.txt
+``` 
+``` 
+1   path/to/vcf/ALL.chr1.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
+...
+22	path/to/vcf/ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
+```
 
+Concerning the annotation library, you can use the annotations given in the [Paintor github wiki](#https://github.com/gkichaev/PAINTOR_V3.0/wiki/2b.-Overlapping-annotations) or directely following this [link](#https://ucla.box.com/s/x47apvgv51au1rlmuat8m4zdjhcniv2d) (Warning: This is a large 6.7 GB file).
+
+Once the annotation files are downloaded, you can write the `annotations.txt` file pointing to all annotation bed files (use tabulation) looking like:
+```
+genc.exon   path/to/exons.proj.bed
+genc.intron path/to/introns.proj.bed
+```
+
+Required folders and files in working directory :
+
+```bash
+.
+|-- bin
+|   |-- main_V2.py
+|   `-- plot.r
+|-- data
+|   |-- input
+|   |   |-- Gwas_file
+|   |   |-- annot.id.file.txt
+|   |   |-- Map_file.panel
+|   |   `-- ld.txt
+|-- modules
+|   |-- canvis.nf
+|   |-- ldcalculation.nf
+|   |-- overlappingannotations.nf
+|   |-- paintor.nf
+|   |-- preppaintor.nf
+|   `-- results.nf
+|-- launch_pp.sh (optional)
+|-- main.nf
+|-- nextflow.config
+|-- genologin.config
+|-- README.md
+|-- container.sif
+`-- reports
+```
