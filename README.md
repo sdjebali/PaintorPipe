@@ -11,6 +11,7 @@ Pipeline to run the Paintor program and its associated visualization tools on GW
 - [NEXFLOW](#nextflow)
     - [Install Nextflow](#install-nextflow)
     - [Run the pipeline using Nextflow](#run-the-pipeline-using-nextflow)
+    - [Pipeline parameters](#pipeline-parameters)
 - [Example on a small dataset](#example-on-a-small-dataset)
     - [Inputs and required files](#inputs-and-required-files)
 
@@ -130,6 +131,36 @@ nextflow run main.nf \
     -resume 
 ```
 
+## Pipeline parameters
+```
+--gwasFile CAD_META
+--mapFile integrated_call_samples_v3.20130502.ALL.panel
+--ldFile = ld.txt
+--annotations annotations.txt
+--population EUR
+--pvalue_header Pvalue
+--stderr_header StdErr
+--effect_header Effect
+--chromosome_headerCHR
+--effectallele_header Allele1
+--altallele_header Allele2
+--position_header BP
+--zheader_header Zscore
+--kb 500
+--pvalue_treshold 5e-08
+--.snp 20
+--outputDir_locus output_locus
+--outputDir_sorted_locus output_sorted_locus
+--outputDir_ld output_ld
+--outputDir_bed output_bed
+--outputDir_overlapping output_overlapping
+--outputDir_paintor output_paintor
+--outputDir_results output_results
+--outputDir_posteriorprob output_posteriorprob
+--outputDir_plot output_plot
+--outputDir_canvis output_canvis
+```
+
 # Example on a small dataset
 ## Inputs and required files
 The GWAS file must contains required columns : 
@@ -147,10 +178,12 @@ MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Dir
 2:59865604_A_C	a	c	0.5555	0.0094	0.5427	0.5625	0.0089	0.0057	0.119	++	0	0.394	1	0.5302	rs11887710	2	59865604
 2:113689747_A_G	a	g	0.434	0.0032	0.4298	0.4364	0.0128	0.0057	0.02484	++	0	0.797	
 ```
-This important that the column names are correctly written. If you don't want to change the column names, you have to indicate the alternative names with the arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
+This is important that the column names are correctly written, the same way that above. If you have supplementary columns like in the exampe above, you can keep them, the pipeline is going to ignore them.
+
+If you don't want to change the required column names, you have to indicate the alternative names with the header arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
 
 To compute reference LD, you have to download the latest release of the [1000 Genomes Project (Phase 3)](#http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/) in VCF format and the map file that contains sample and population ID's. This can takes a long time.
-```
+```bash
 wget -r --no-parent -R '.vcf.gz.tbi' ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/
 ```
 
