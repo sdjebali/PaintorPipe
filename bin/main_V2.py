@@ -172,7 +172,7 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
     locus_nb = 0
     test = True
     liste = []
-    
+    new_liste = []
     # len(sorted) is the number of snp in the list, for one chr
     for snp_index in range(len(sorted)):
         test = True
@@ -248,22 +248,25 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
     for i in range(len(liste)):
         new_liste = checkListLocus(liste, pos)
 
-    print("len final : " + str(len(new_liste))+"\n\n")
-    print(f"nb locus final : {locus_nb}\n\n")
+    #print("len final : " + str(len(new_liste))+"\n\n")
+    #print(f"nb locus final : {locus_nb}\n\n")
 
-    print(f"\nliste after LocusList():{new_liste} \n")
+    #print(f"\nliste after LocusList():{new_liste} \n")
     print(f"\nDone splitting chromosome {i} into loci ! ")
     # new_liste contains no more overlapping loci
     return new_liste
 
 
-def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.DataFrame:
+
+
+def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str, pos : str, allele1 : str , allele2: str , chr : str, pvalue_header : str ) -> pd.DataFrame:
     chr_nb,zLocus = locus
 
     zLocus[Zhead] = (zLocus[Effect]/zLocus[StdErr])
 
     #Drop all columns that ARE NOT : CHR BP ALLELE1 ALLELE2 EFFECT STDERR PAVLUE ZSCORE
-    columns_to_keep = ['CHR','BP', 'Allele1', 'Allele2','Effect', 'StdErr', 'Pvalue','Zscore']
+    columns_to_keep = [chr, pos, allele1, allele2, Effect, StdErr, pvalue_header, Zhead]
+    #print(f"columns_to_keep : {columns_to_keep}")
         # Determine columns to drop
     columns_to_drop = zLocus.columns.difference(columns_to_keep)
         # Drop columns
@@ -271,27 +274,26 @@ def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str) -> pd.Da
         # Keep specified columns
     zLocus = zLocus[columns_to_keep]
     
-    #return (chr_nb,zLocus)
     return (chr_nb,zLocus)
 
 
 
-def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, outdir : str) -> None:
+def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, outdir : str, pos : str, allele1 : str, allele2 : str, chr : str, pvalue_header : str) -> None:
     """
     writes locus files
     """
     for i in range(len(liste)) :
-        chr,_ = liste[i]
+        chr_nb,_ = liste[i]
 
         # liste[i] is the tuple (chrid,locus)
         #_,_,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr)
-        _,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr)
+        _,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr, pos, allele1, allele2, chr, pvalue_header)
 
-        if len(str(chr)) == 1:
-            locusZ.to_csv(f"{outdir}/CHR0{chr}locus{i+1}", index=False, sep=' ')
-        elif len(str(chr)) == 2:
-            locusZ.to_csv(f"{outdir}/CHR{chr}locus{i+1}", index=False, sep=' ')
-        print(f"CHR{chr}Locus{i+1} printed !\n")
+        if len(str(chr_nb)) == 1:
+            locusZ.to_csv(f"{outdir}/CHR0{chr_nb}locus{i+1}", index=False, sep=' ')
+        elif len(str(chr_nb)) == 2:
+            locusZ.to_csv(f"{outdir}/CHR{chr_nb}locus{i+1}", index=False, sep=' ')
+        print(f"CHR{chr_nb}Locus{i+1} printed !\n")
 
     return None
 
@@ -362,7 +364,7 @@ def main() -> int:
     chromosomes_list = ChromosomeSplitter_no_files(data_bank, sep, chr)
 
     p=Pool(22)
-    p.map(lambda c : printLocus(LocusList(c, pvalue_header, pos, kb, pvalue_threshold), zhead, effect, std, outdir),chromosomes_list)
+    p.map(lambda c : printLocus(LocusList(c, pvalue_header, pos, kb, pvalue_threshold), zhead, effect, std, outdir, pos, allele1, allele2, chr, pvalue_header),chromosomes_list)
 
     print("\n\n\n")
     print("~~~~~ main finished in %s seconds ~~~~~\n" % (time.time() - debut))

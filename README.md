@@ -27,9 +27,9 @@ Canvis parallelised with combined channels.
 Locus IDs are taken into account in the channels.
 
 ## PaintorPipe_V0.3
-The number of SNP with the best posterior probability can be choosen.
+The number of SNP with the best posterior probability and the posterior probability threshold can be choosen.
 The `main.py` script was modified to correct the overlapping loci issue.
-Added parameters to the `main.nf` script.
+Added headers parameters to the `main.nf` script.
 
 
 # SINGULARITY
@@ -141,14 +141,14 @@ nextflow run main.nf \
 --pvalue_header Pvalue
 --stderr_header StdErr
 --effect_header Effect
---chromosome_headerCHR
+--chromosome_header CHR
 --effectallele_header Allele1
 --altallele_header Allele2
 --position_header BP
 --zheader_header Zscore
 --kb 500
 --pvalue_treshold 5e-08
---.snp 20
+--snp 20
 --outputDir_locus output_locus
 --outputDir_sorted_locus output_sorted_locus
 --outputDir_ld output_ld

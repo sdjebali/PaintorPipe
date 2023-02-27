@@ -10,8 +10,12 @@ module load system/singularity-3.7.3
 nextflow run main.nf \
     -c nextflow.config,genologin.config \
     --gwasFile 'data/input/CAD_META' \
+    --chromosome_header 'Chr' \
+    --pvalue_treshold '5e-08' \
+    --kb '500' \
     --outputDir_locus 'data/output_locus' \
     --snp '100' \
+    --pp_threshold '0.001' \
     -dsl2 \
     -profile slurm,singularity \
     -with-trace 'reports/trace.txt' \

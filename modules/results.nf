@@ -48,6 +48,7 @@ process RESULTS_posteriorprob {
     input :
         path res
         val nbsnp
+        val pp_threshold
 
     output:
         path '*.txt'
@@ -59,10 +60,12 @@ process RESULTS_posteriorprob {
         ls !{res} | grep .results | grep -v LogFile | while read f; \\
             do awk 'BEGIN{OFS="\\t"} $1!="CHR" {print}' $f; done \\
                 > posteriorprob_merged
-        cat header posteriorprob_merged >posteriorprob_merged.txt
+        cat header posteriorprob_merged > posteriorprob_merged.txt
 
-        sort -k9,9gr posteriorprob_merged.txt | head -n !{nbsnp} \\
-            > posteriorprob_merged_filtered
+        awk -v threshold=!{pp_threshold} 'BEGIN{OFS="\t"} NR==1 {print} NR>1 && $9>threshold {print}' posteriorprob_merged.txt | \\
+            sort -k9,9gr | head -n !{nbsnp} \\
+                > posteriorprob_merged_filtered
+
         cat header posteriorprob_merged_filtered > posteriorprob_merged_filtered.txt
     '''
 }

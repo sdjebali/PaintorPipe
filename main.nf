@@ -36,8 +36,9 @@ params.altallele_header = "Allele2"
 params.position_header = "BP"
 params.zheader_header = "Zscore"
 params.kb = "500"
-params.pvalue_treshold = "5e-08"
-params.snp = "20"
+params.pvalue_threshold = "5e-08"
+params.pp_threshold = "0"
+params.snp = "10000000"
 
 // outputs
 params.outputDir_locus = "data/output_locus"
@@ -63,17 +64,18 @@ log.info """\
          and its associated visualization 
          tools on GWAS summary statistics data
 
-         ~~~~~~~~~~~                
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
          PARAMETERS:
-         GWAS file          : ${params.gwasFile}
-         Map file           : ${params.mapFile}
-         LD file            : ${params.ldFile}
-         Annotations file   : ${params.annotations}
-         Number of kb       : ${params.kb}
-         Pvalue treshold    : ${params.pvalue_treshold}
-         Population         : ${params.population}
-         Number of SNPs     : ${params.snp}
-         ~~~~~~~~~~~ 
+         GWAS file                       : ${params.gwasFile}
+         Map file                        : ${params.mapFile}
+         LD file                         : ${params.ldFile}
+         Annotations file                : ${params.annotations}
+         Number of kb (up/down)          : ${params.kb}
+         Pvalue threshold                : ${params.pvalue_threshold}
+         Population                      : ${params.population}
+         Number of SNPs to keep          : ${params.snp}
+         Posterior probability threshold : ${params.pp_threshold}
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
          """
          .stripIndent()
@@ -116,10 +118,9 @@ workflow {
   gwas_input_channel = Channel.fromPath(params.gwasFile) 
 
   // main
-  split_channel = PREPPAINTOR_splitlocus(gwas_input_channel, params.pvalue_treshold,  params.kb, params.pvalue_header,   params.stderr_header, params.effect_header,   params.chromosome_header, params.effectallele_header, params.altallele_header , params.position_header, params.zheader_header)
+  split_channel = PREPPAINTOR_splitlocus(gwas_input_channel, params.pvalue_threshold,  params.kb, params.pvalue_header,   params.stderr_header, params.effect_header,   params.chromosome_header, params.effectallele_header, params.altallele_header , params.position_header, params.zheader_header)
 
 
-  """
   ch = split_channel.flatten()
   ch
     .map { it ->
@@ -152,7 +153,7 @@ workflow {
 
   paintor_channel = PAINTOR_run(ldcalc_channel.collect(), overlap_channel.collect(), params.annotations)
   res_channel = RESULTS_statistics(paintor_channel, params.annotations)
-  snps = RESULTS_posteriorprob(paintor_channel, params.snp)
+  snps = RESULTS_posteriorprob(paintor_channel, params.snp, params.pp_threshold)
 
   ch_res = res_channel.flatten()
   ch_res
@@ -177,7 +178,7 @@ workflow {
     .set{ ch_res }
 
   CANVIS_run(ch_res)
-  """
+  
 
 
   // views
