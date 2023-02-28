@@ -179,8 +179,6 @@ workflow {
 
   CANVIS_run(ch_res)
   
-
-
   // views
    gwas_input_channel.view{ it }
    //ch.view{ it }
