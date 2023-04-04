@@ -2,7 +2,7 @@
 `PaintorPipe` is a pipeline that perform fine-mapping analysis, using GWAS summary statistics data and diverse functionnal annotations, implemented in [Nextflow](#https://www.nextflow.io/).
 This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.0) and its associated visualization tools and can be run locally or on a slurm cluster and handles containerisation using [Singularity](#https://github.com/sylabs/singularity).
 
-![flowchart](#http://genoweb.toulouse.inra.fr/~zgerber/images/flowchart_gwas_annotations.drawio.png)
+![](files/flowchart_gwas_annotations.drawio.png)
 
 # Table of Contents
 - [Dependencies](#dependencies)
@@ -35,8 +35,8 @@ nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile '
 <table>
   <thead>
       <tr>
-      <th width=250px>Option</th>
-      <th width=270px>By default, example</th>
+      <th width=200px>Option</th>
+      <th width=200px>By default, example</th>
       <th width=350px>Description</th>
       <th width=90px>Required</th>
     </tr>
@@ -152,8 +152,8 @@ nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile '
 <table>
   <thead>
     <tr>
-      <th width=250px>Option</th>
-      <th width=270px>By default, example</th>
+      <th width=200px>Option</th>
+      <th width=200px>By default, example</th>
       <th width=350px>Description</th>
       <th width=90px>Required</th>
     </tr>
@@ -240,8 +240,8 @@ The pipeline is written in Nextflow, which provides the following default option
 <table>
   <thead>
     <tr>
-      <th width=250px>Option</th>
-      <th width=270px>By default, example</th>
+      <th width=200px>Option</th>
+      <th width=200px>By default, example</th>
       <th width=350px>Description</th>
       <th width=90px>Required</th>
     </tr>
