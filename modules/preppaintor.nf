@@ -4,7 +4,8 @@ process PREPPAINTOR_splitlocus {
 
     input:
         path gwasFile
-        val pvalue_treshold
+        val pvalue_lead
+        val pvalue_nonlead
         val kb
         val pvalue_header
         val stderr_header
@@ -34,7 +35,8 @@ process PREPPAINTOR_splitlocus {
         --position $position_header \\
         --Zheader $zheader_header \\
         --kb $kb \\
-        --pv-threshold $pvalue_treshold \\
+        --pv-lead $pvalue_lead \\
+        --pv-nonlead $pvalue_nonlead \\
         --od ${params.outputDir_locus}
     """
 }

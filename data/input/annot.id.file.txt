@@ -1,5 +1,0 @@
-genc.exon	/work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations/exons.proj.bed
-genc.intron	/work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations/introns.proj.bed
-genc.tss500up	/work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations/TSSext500bp.merged.bed
-genc.tts500dw	/work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations/TTSext500bp.merged.bed
-elscardiot1	/work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations/GRCh38.ELS.DNase-RDN.above1.hg19.bed

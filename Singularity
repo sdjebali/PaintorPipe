@@ -10,7 +10,7 @@ From: ubuntu:20.04
     echo Europe/Paris > /etc/timezone
     apt-get update
     apt-get install -y python3 python3-pip curl default-jre tzdata git bedtools gcc \
-    vcftools tabix bcftools r-base
+    vcftools tabix bcftools r-base wget
     pip3 install --upgrade pip
     pip3 install multiprocess==0.70.14 pandas matplotlib seaborn scipy \
     svgutils numpy==1.23

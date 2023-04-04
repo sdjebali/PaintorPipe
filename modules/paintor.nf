@@ -6,9 +6,10 @@ process PAINTOR_run {
         path ldfiles
         path allannots
         path annotationsfile
+        val zheader_header
 
     output:
-        path '*.{results,Values,BayesFactor}'
+        path '*.{results,Values,BayesFactor,out}'
 
     shell:
     '''
@@ -20,19 +21,34 @@ process PAINTOR_run {
                 mv $ld $str ; 
         done
         
-        allannotations=$(awk '{print $1}' !{annotationsfile} | tr '\\n' ' ' )   
+        annotationsid=$(awk '{print $1}' !{annotationsfile} | paste -sd ',' )
 
         PAINTOR \\
             -input filename.files \\
             -in . \\
             -out . \\
-            -Zhead Zscore \\
+            -Zhead !{zheader_header} \\
             -LDname ld \\
             -mcmc  \\
-            -annotations $allannotations \\
+            -annotations $annotationsid \\
             > PAINTOR.out \\
             2> PAINTOR.err
     '''
 }
 
 
+process PAINTOR_annotatedlocus {
+    publishDir params.outputDir_annotated_locus, mode: 'copy'
+
+    input:
+        tuple path(locusres), path(allannots)
+
+
+    output:
+        path '*.{annotated,txt}'
+
+    shell:
+    '''
+        paste !{locusres} !{allannots} > !{locusres}.annotated
+    '''
+}

@@ -1,235 +1,347 @@
 # PaintorPipe
-Pipeline to run the Paintor program and its associated visualization tools on GWAS summary statistics data
+`PaintorPipe` is a pipeline that perform fine-mapping analysis, using GWAS summary statistics data and diverse functionnal annotations, implemented in [Nextflow](#https://www.nextflow.io/).
+This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.0) and its associated visualization tools and can be run locally or on a slurm cluster and handles containerisation using [Singularity](#https://github.com/sylabs/singularity).
+
+![flowchart](#http://genoweb.toulouse.inra.fr/~zgerber/images/flowchart_gwas_annotations.drawio.png)
 
 # Table of Contents
-- [RELEASES](#releases)
-- [SINGULARITY](#singlularity)
-    - [Install Singularity](#install-singularity)
-    - [Write recipe file](#write-recipe-file)
-    - [Build Singularity image](#build-singularity-image)
-    - [Pull the pre-built container](#pull-the-pre-built-container)
-- [NEXFLOW](#nextflow)
-    - [Install Nextflow](#install-nextflow)
-    - [Run the pipeline using Nextflow](#run-the-pipeline-using-nextflow)
-    - [Pipeline parameters](#pipeline-parameters)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Pipeline parameters](#pipeline-parameters)
+  - [Input options](#input-options)
+  - [Output options](#output-options)
+  - [Nextflow options](#nextflow-options)
+- [Pull the pre-built container](#pull-the-pre-built-container)
 - [Example on a small dataset](#example-on-a-small-dataset)
-    - [Inputs and required files](#inputs-and-required-files)
+  - [GWAS summary statistics](#gwas-summary-statistics)
+  - [Functionnal Annotations](#functionnal-annotations)
 
 
-# Releases
-
-## PaintorPipe_V0.1
-All the steps until Canvis.
-But Canvis is not parallelised and locus IDs are not taken into account in the channels.
-
-## PaintorPipe_V0.2
-Canvis parallelised with combined channels.
-Locus IDs are taken into account in the channels.
-
-## PaintorPipe_V0.3
-The number of SNP with the best posterior probability and the posterior probability threshold can be choosen.
-The `main.py` script was modified to correct the overlapping loci issue.
-Added headers parameters to the `main.nf` script.
+# Dependencies
+To use this pipeline you will need:
+- `Nextflow` >= 21.10.6
+- `Singularity` >= 3.7.3
 
 
-# SINGULARITY
-## Install Singularity
-Install [go](#https://go.dev/doc/install) and [SingularityCE](#https://github.com/sylabs/singularity/releases)
-
-## Write recipe file 
-Write the `Singularity` recipe file :
+# Usage
+A small dataset `CAD_META_extract` is provided to test this pipeline. To try it out, use this command:
 ```bash
-Bootstrap: library
-From: ubuntu:20.04
-
-%environment
-    export LC_ALL=C
-    export LANG=C.UTF-8
-
-%post
-    ln -fns /usr/share/zoneinfo/Europe/Paris /etc/localtime
-    echo Europe/Paris > /etc/timezone
-    apt-get update
-    apt-get install -y python3 python3-pip curl default-jre tzdata git bedtools gcc \
-    vcftools tabix bcftools r-base
-    pip3 install --upgrade pip
-    pip3 install multiprocess==0.70.14 pandas matplotlib seaborn scipy \
-    svgutils numpy==1.23
-    curl -s https://get.nextflow.io | bash
-    mv nextflow /usr/local/bin/
-    dpkg-reconfigure --frontend noninteractive tzdata
-    
-    # Install R packages
-    R -e "install.packages(c('optparse', 'ggplot2'), repos='https://cran.rstudio.com/')"
-
-    # Sarah's scripts
-    git clone --branch v0.8 --depth 1 https://github.com/sdjebali/Scripts.git /usr/local/src/Scripts
-    ln -s /usr/local/src/Scripts/* /usr/local/bin
-
-    # Install PAINTOR 
-    git clone --depth 1 https://github.com/gkichaev/PAINTOR_V3.0.git /usr/local/src/PAINTOR
-    cd /usr/local/src/PAINTOR
-    bash install.sh
-    ln -s /usr/local/src/PAINTOR/PAINTOR /usr/local/bin/PAINTOR
-    printf "#!/usr/bin/env python3\n\n" > header
-    cat header /usr/local/src/PAINTOR/CANVIS/CANVIS.py | sed 's/.as_matrix()/.values/g' | sed 's/np.bool/bool/g' | sed 's/scale=/scale_x=/g' > /usr/local/bin/CANVIS.py
-    chmod 775 /usr/local/bin/CANVIS.py
-    cat header /usr/local/src/PAINTOR/PAINTOR_Utilities/CalcLD_1KG_VCF.py > /usr/local/bin/CalcLD_1KG_VCF.py
-    chmod 775 /usr/local/bin/CalcLD_1KG_VCF.py
-
-%runscript
-    exec "$@"
+nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile 'data/input/CAD_META_extract' --annotationsFile 'data/input/annotations_encode.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '0.01' --snp '100000' --pp_threshold '0.001' -profile slurm,singularity -with-trace 'reports/trace.txt' -with-timeline 'reports/timeline.html' -with-report 'reports/report.html' -resume 
 ```
 
-## Build Singularity image
-Then build (you must be root) :
+# Pipeline parameters
+## Input options
 
-```bash
-sudo singularity build container.sif Singularity
-```
+<table>
+  <thead>
+      <tr>
+      <th width=250px>Option</th>
+      <th width=270px>By default, example</th>
+      <th width=350px>Description</th>
+      <th width=90px>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap><strong><code>--gwasFile</code></strong></td>
+      <td nowrap><code>path/to/GWAS_FILE</code></td>
+      <td>The GWAS file must contains 7 required columns : Allele1, Allele2, Effect (Beta), StdErr (SE), Pvalue, CHR, BP. The order is not important, but the name of the column is (see header parameters).</td>
+      <td align=center>Required</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--annotations</code></strong></td>
+      <td nowrap><code>path/to/ANNOTATIONS_FILE</code></td>
+      <td>The file should contains 2 columns separeted by tabulation. The first one is the name of the annotation (of the annotation file, or the annotation type for example) and the second is the associated path to the file.</td>
+      <td align=center>Required</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--ref_genome</code></strong></td>
+      <td nowrap><code>hg19</code></td>
+      <td>Only two values are allowed : 'hg19' or 'hg38'. Make sure you are using the correct reference genome for your summary statistics GWAS file, because the results of the pipeline coulb be incorrect.</td>
+      <td align=center>Optional</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--population</code></strong></td>
+      <td nowrap><code>EUR</code></td>
+      <td>Specifies the name of the mainland population : AFR, AMR, EAS, EUR, SAS.</td>
+      <td align=center>Optional</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--pvalue_header</code></strong></td>
+      <td nowrap><code>Pvalue</code></td>
+      <td>Pvalue header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--stderr_header</code></strong></td>
+      <td nowrap><code>StdErr</code></td>
+      <td>Standard Error (SE) header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--effect_header</code></strong></td>
+      <td nowrap><code>Effect</code></td>
+      <td>Effect (BETA) header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--chromosome_header</code></strong></td>
+      <td nowrap><code>CHR</code></td>
+      <td>Chromosome header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+   <tr>
+      <td nowrap><strong><code>--effectallele_header</code></strong></td>
+      <td nowrap><code>Allele1</code></td>
+      <td>Allele with effect header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--altallele_header</code></strong></td>
+      <td nowrap><code>Allele2</code></td>
+      <td>Allele without effect header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--position_header</code></strong></td>
+      <td nowrap><code>BP</code></td>
+      <td>Variant position in base pair in the chromosome header column name</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--zheader_header</code></strong></td>
+      <td nowrap><code>Zscore</code></td>
+      <td>The computed zscore is added in a new column, corresponding to the Effect/StdErr for each SNP, for each locus.</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--kb</code></strong></td>
+      <td nowrap><code>500</code></td>
+      <td>SNPs selection distance in kilo bases upstream and downstream of the lead SNP during the split of the GWAS file.</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--pp_treshold</code></strong></td>
+      <td nowrap><code>0</code></td>
+      <td>Significant posterior probability threshold.</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--snp</code></strong></td>
+      <td nowrap><code>10000000</code></td>
+      <td>Number of significant SNPs to keep.</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--pvalue_lead</code></strong></td>
+      <td nowrap><code>5e-08</code></td>
+      <td>Significant Pvalue threshold for lead SNP.</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
+      <td nowrap><strong><code>--pvalue_nonlead</code></strong></td>
+      <td nowrap><code>1</code></td>
+      <td>Significant Pvalue threshold for other SNPs around the lead SNP.</td>
+      <td align=center>Optional</td>
+    </tr>
+  </tbody>
+</table>
 
-## Pull the pre-built container
-In case you are not root, you can also pull the image we built for the PaintorPipe from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command bellow :
+## Output options
+
+<table>
+  <thead>
+    <tr>
+      <th width=250px>Option</th>
+      <th width=270px>By default, example</th>
+      <th width=350px>Description</th>
+      <th width=90px>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap><strong><code>--outputDir_locus</code></strong></td>
+      <td nowrap><code>data/output_locus</code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_sorted_locus</code></strong></td>
+      <td nowrap><code>data/output_sorted_locus</code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_VCFandMAPfrom1000G</code></strong></td>
+      <td nowrap><code>data/output_VCF_map_files</code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_ld</code></strong></td>
+      <td nowrap><code>data/output_ld</code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_bed</code></strong></td>
+      <td nowrap><code>data/output_bed</code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_annotations</code></strong></td>
+      <td nowrap><code>data/output_annotations<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_annotated_locus</code></strong></td>
+      <td nowrap><code>data/output_annotated_locus<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_paintor</code></strong></td>
+      <td nowrap><code>data/output_paintor<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_results</code></strong></td>
+      <td nowrap><code>data/output_results<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_posteriorprob</code></strong></td>
+      <td nowrap><code>data/output_posteriorprob<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_plot</code></strong></td>
+      <td nowrap><code>data/output_plot<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_canvis</code></strong></td>
+      <td nowrap><code>data/output_canvis<annotations/code></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+  </tbody>
+</table>
+
+## Nextflow options
+The pipeline is written in Nextflow, which provides the following default options:
+
+<table>
+  <thead>
+    <tr>
+      <th width=250px>Option</th>
+      <th width=270px>By default, example</th>
+      <th width=350px>Description</th>
+      <th width=90px>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap><strong><code>-profile</code></strong></td>
+      <td nowrap><code>singularity</code></td>
+      <td>Profile(s) to use when running the pipeline. Specify the profiles that fit your infrastructure among <code>singularity</code>, <code>slurm</code>.</td>
+      <td align=center>Required</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-config</code></strong></td>
+      <td nowrap><code>nextflow.confog</code></td>
+      <td>
+        Configuration file tailored to your infrastructure and dataset.
+      </td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-revision</code></strong></td>
+      <td nowrap><code>version</code></td>
+      <td>Version of the pipeline to launch.</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-work-dir</code></strong></td>
+      <td nowrap><code>directory</code></td>
+      <td>Work directory where all temporary files are written.</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-resume</code></strong></td>
+      <td nowrap></td>
+      <td>Resume the pipeline from the last completed process.</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-with-report</code></strong></td>
+      <td nowrap></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-with-timeline</code></strong></td>
+      <td nowrap></td>
+      <td></td>
+      <td align=center>Optional</td>
+    </tr>
+  </tbody>
+</table>
+
+For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.io/docs/latest/cli.html#run).
+
+
+# Pull the pre-built container
+You can pull the image we built for the `PaintorPipe` from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command bellow :
 ```bash
 singularity pull -U library://zgerber/paintorpipe/mainimage:0.1
 ```
 
-# NEXTFLOW
-## Install Nextflow
-Follow the steps in [Nextflow documentation](#https://www.nextflow.io/index.html#GetStarted).
-
-## Run the pipeline using Nextflow
-After building the singularity image, you can run the pipeline locally or on the cluster.
-
-Local :
-```bash
-./nextflow main.nf -dsl2 
-```
-
-Genotoul :
-```bash
-sbatch --mem=8G --cpus-per-task=1 -J PaintorPipe --mail-user=zoe.gerber@inserm.fr --mail-type=END,FAIL -D $PWD --export=ALL -p workq launch_pp.sh
-```
-
-With the `launch_pp.sh` looking like :
-```bash
-#!/bin/sh
-
-module load bioinfo/Nextflow-v21.10.6
-module load system/singularity-3.7.3
-
-nextflow run main.nf \
-    -c nextflow.config,genologin.config \
-    --gwasFile 'data/input/CAD_META_small_12' \
-    --outputDir_locus 'data/output_locus' \
-    --snp '30' \
-    -dsl2 \
-    -profile slurm,singularity \
-    -with-trace 'reports/trace.txt' \
-    -with-timeline 'reports/timeline.html' \
-    -with-report 'reports/report.html' \
-    -resume 
-```
-
-## Pipeline parameters
-```
---gwasFile CAD_META
---mapFile integrated_call_samples_v3.20130502.ALL.panel
---ldFile = ld.txt
---annotations annotations.txt
---population EUR
---pvalue_header Pvalue
---stderr_header StdErr
---effect_header Effect
---chromosome_header CHR
---effectallele_header Allele1
---altallele_header Allele2
---position_header BP
---zheader_header Zscore
---kb 500
---pvalue_treshold 5e-08
---snp 20
---outputDir_locus output_locus
---outputDir_sorted_locus output_sorted_locus
---outputDir_ld output_ld
---outputDir_bed output_bed
---outputDir_overlapping output_overlapping
---outputDir_paintor output_paintor
---outputDir_results output_results
---outputDir_posteriorprob output_posteriorprob
---outputDir_plot output_plot
---outputDir_canvis output_canvis
-```
-
 # Example on a small dataset
-## Inputs and required files
-The GWAS file must contains required columns : 
+## GWAS summary statistics
+`CAD_META_extract` GWAS file is an extract of the GWAS results from the latest `Coronary Artery Disease` (CAD) meta-analysis involving 122,733 cases and 424,528 controls ([van der Harst P et al, 2018](#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805277/)).
+
+```bash
+unzip CAD_META_extract.zip
+head CAD_META_extract
+```
+```
+MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	Chr	BP
+9:34486713_A_G	a	g	0.9363	0.0023	0.9346	0.9394	0.0058	0.0115	0.6106	+-	0	0.663	1	0.4156	rs72735241	9	34486713
+4:187387354_G_T	t	g	0.0359	0.0045	0.032	0.041	0.009	0.0155	0.5604	-+	0	0.847	1	0.3574	rs73020749	4	187387354
+4:76326344_C_G	c	g	0.1743	0.0062	0.1694	0.1823	-3e-04	0.0075	0.9641	-+	69.2	3.252	1	0.07136	rs11727982	4	76326344
+1:88710048_C_T	t	c	0.4234	0.008	0.4172	0.4337	-0.0064	0.0057	0.2601	--	0	0.371	1	0.5427	rs6428642	1	88710048
+1:189237277_C_T	t	c	0.5217	0.0011	0.5209	0.5232	0.005	0.0056	0.3742	++	0	0.129	1	0.719	rs1578705	1	189237277
+```
+
+The `CAD_META_extract` GWAS test file provided contains the 7 required columns : 
 - Allele1
 - Allele2
 - Effect 
 - StdErr
 - CHR
 - BP 
-```
-MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	CHR	BP
-2:177844332_C_T	t	c	0.4732	0.0067	0.4639	0.478	9e-04	0.0058	0.8833	+-	60.4	2.528	1	0.1118	rs1527267	2	177844332
-2:231310929_G_T	t	g	0.827	7e-04	0.826	0.8276	6e-04	0.0075	0.9354	+-	12.6	1.145	1	0.2847	rs11694428	2	231310929
-1:209658862_G_T	t	g	0.119	0.0049	0.115	0.1249	0.0051	0.0086	0.554	+-	53.5	2.152	1	0.1423	rs12074827	1	209658862
-2:59865604_A_C	a	c	0.5555	0.0094	0.5427	0.5625	0.0089	0.0057	0.119	++	0	0.394	1	0.5302	rs11887710	2	59865604
-2:113689747_A_G	a	g	0.434	0.0032	0.4298	0.4364	0.0128	0.0057	0.02484	++	0	0.797	
-```
-This is important that the column names are correctly written, the same way that above. If you have supplementary columns like in the exampe above, you can keep them, the pipeline is going to ignore them.
+- Pvalue
 
-If you don't want to change the required column names, you have to indicate the alternative names with the header arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
+The chromosome column is the only column with an incorrect header entry. We need to provide the correct version of the header: `Chr` instead of `CHR` with the `--chromosome_header` parameter (see [usage](#usage) part).
 
-To compute reference LD, you have to download the latest release of the [1000 Genomes Project (Phase 3)](#http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/) in VCF format and the map file that contains sample and population ID's. This can takes a long time.
-```bash
-wget -r --no-parent -R '.vcf.gz.tbi' ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/
-```
+This is important that the column names are correctly written. If you have supplementary columns like in the exampe above, you can keep them, the pipeline is going to ignore them. If you don't want to change the required column names in the file, like the `Chr`column, you have to indicate the alternative names with the header arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
 
-Then write the `ld.txt` file pointing to all VCF files on your computer:
-```bash
-for i in $(seq 1 22); do printf $i"\t"path/to/VCF/ALL.chr$i.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"\n"; done > ld.txt
-``` 
-``` 
-1   path/to/vcf/ALL.chr1.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
-...
-22	path/to/vcf/ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
-```
+Be careful when running the pipe, about the reference genome version (`--ref_genome` parameter). By default, the pipeline uses hg19 version (more used). Depending on the GWAS dataset you want to fine map, you can change by hg38 version (more recent).
 
+## Functionnal annotations
 Concerning the annotation library, you can use the annotations given in the [Paintor github wiki](#https://github.com/gkichaev/PAINTOR_V3.0/wiki/2b.-Overlapping-annotations) or directely following this [link](#https://ucla.box.com/s/x47apvgv51au1rlmuat8m4zdjhcniv2d) (Warning: This is a large 6.7 GB file).
 
-Once the annotation files are downloaded, you can write the `annotations.txt` file pointing to all annotation bed files (use tabulation) looking like:
+Once the annotation bed files are downloaded, you can write the `annotations.txt` file, to give to the pipeline, pointing to all annotation bed files (use tabulation) looking like:
 ```
-genc.exon   path/to/exons.proj.bed
-genc.intron path/to/introns.proj.bed
+genc.exon       path/to/exons.proj.bed
+genc.intron     path/to/introns.proj.bed
 ```
+The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommande to use no more than 4 or 5 annotations per run.
 
-Required folders and files in working directory :
-
-```bash
-.
-|-- bin
-|   |-- main_V2.py
-|   `-- plot.r
-|-- data
-|   |-- input
-|   |   |-- Gwas_file
-|   |   |-- annot.id.file.txt
-|   |   |-- Map_file.panel
-|   |   `-- ld.txt
-|-- modules
-|   |-- canvis.nf
-|   |-- ldcalculation.nf
-|   |-- overlappingannotations.nf
-|   |-- paintor.nf
-|   |-- preppaintor.nf
-|   `-- results.nf
-|-- launch_pp.sh (optional)
-|-- main.nf
-|-- nextflow.config
-|-- genologin.config
-|-- README.md
-|-- container.sif
-`-- reports
-```

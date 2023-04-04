@@ -1,0 +1,2 @@
+genc.exon	/work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/annotations/exons.proj.bed
+genc.intron	/work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/annotations/introns.proj.bed

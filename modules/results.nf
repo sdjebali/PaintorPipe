@@ -4,7 +4,8 @@ process RESULTS_statistics {
 
     input:
         path res
-        path annotations
+        path allannots
+        val annotations
 
     output:
         path '*.{txt,canvis}'
@@ -15,10 +16,11 @@ process RESULTS_statistics {
             print lid[1], 1/(1+exp($1)); for(i=2; i<=NF; i++){print lid[i], 1/(1+exp($1+$i))}}' Enrichment.Values \\
                 > annot.probsnpcausal.given.baseline.txt
         
-        ls !{res} | grep .annotations | awk -v fileRef=!{annotations} 'BEGIN{while (getline < fileRef > 0) {nl++ ; cat[nl]=$1} }\\
-            NR>=2 {n++; for(i=1; i<=NF; i++){n1[i]+=$i}} \\
-                END{OFS="\\t"; for(i=1; i<=7; i++){print cat[i], n, n1[i], n1[i]/n*100}}' \\
-                    > pcent_snp_in_each_annot.txt
+        awk '{print $1}' !{annotations} > annotnames
+        ls !{allannots} | while read f; do awk 'NR>=2' $f ; done | \\
+            awk '{for(i=1; i<=NF; i++) s[i]+=$i} END {for(i=1; i<=NF; i++) printf("%.2f%%\\n",s[i]/NR*100)}'\\
+                > tmp
+        paste annotnames tmp > pcent_snp_in_each_annot.txt
 
         ls !{res} | grep .results | grep -v LogFile.results | while read f ; do base=${f%.results} ; \\
             awk 'NR>=2' $f | sort -k7,7gr | awk 'BEGIN{OFS="\\t"} {n++; s+=$7; si[n]=s} \\
@@ -27,7 +29,14 @@ process RESULTS_statistics {
                         print "ok80", i-1, (i-1)/n*100; i=1; while(ok95!=1&&i<=n){if(si[i]>=(95*s/100)){ok95=1} i++} \\
                             print "ok95", i-1, (i-1)/n*100}' \\
                                 > $base.variant.achieving.50.80.95pcent.sumppri.nb.pcent.txt ; done
+
+        ls !{res} | grep .results | grep -v LogFile.results | while read f; do base=${f%.results}; \\
+            awk -v base=$base '$1=="ok95"{print base"\t"$2"\t"$3}' $base.variant.achieving.50.80.95pcent.sumppri.nb.pcent.txt; done > locus.variant.achieving.95pcent.sumppri.nb.pcent.txt
         
+        stats.sh \\
+            locus.variant.achieving.95pcent.sumppri.nb.pcent.txt 3 \\
+                > locus.variant.achieving.95pcent.sumppri.nb.pcent.stats.txt
+
         ls !{res} | grep .results | grep -v LogFile.results | while read f ;\\
                 do awk 'BEGIN{OFS="\\t"} NR>=2{print $1":"$2, $7}' $f ; \\
                     done | awk 'BEGIN{OFS="\\t"; print "snp", "ppr"} {print}' \\
@@ -46,7 +55,7 @@ process RESULTS_posteriorprob {
     publishDir params.outputDir_posteriorprob, mode: 'copy'
 
     input :
-        path res
+        path annoted_res
         val nbsnp
         val pp_threshold
 
@@ -55,14 +64,16 @@ process RESULTS_posteriorprob {
 
     shell:
     '''
-        head -n1 !{res} | awk 'BEGIN{OFS="\\t"} $1=="CHR" {print}' | head -n1 > header
+        ls !{annoted_res} | while read f; do awk 'NR>=2' $f; done | sort -k9,9gr > all.annotated.SNP.sorted.by.pp.txt
 
-        ls !{res} | grep .results | grep -v LogFile | while read f; \\
-            do awk 'BEGIN{OFS="\\t"} $1!="CHR" {print}' $f; done \\
+        cat !{annoted_res} | head -n1 |  awk 'BEGIN{OFS="\\t"} NR==1 {print}' > header
+
+        ls !{annoted_res} | while read f; \\
+            do awk 'BEGIN{OFS="\\t"}  NR>1{print}' $f; done \\
                 > posteriorprob_merged
         cat header posteriorprob_merged > posteriorprob_merged.txt
 
-        awk -v threshold=!{pp_threshold} 'BEGIN{OFS="\t"} NR==1 {print} NR>1 && $9>threshold {print}' posteriorprob_merged.txt | \\
+        awk -v threshold=!{pp_threshold} 'BEGIN{OFS="\\t"} NR>1 && $9>threshold {print}' posteriorprob_merged.txt | \\
             sort -k9,9gr | head -n !{nbsnp} \\
                 > posteriorprob_merged_filtered
 
@@ -75,7 +86,7 @@ process RESULTS_plot {
     publishDir params.outputDir_plot, mode: 'copy'
 
     input :
-        path res
+        val res
 
     output:
         path '*.png'

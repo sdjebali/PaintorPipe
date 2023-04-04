@@ -4,6 +4,7 @@ process CANVIS_run {
 
     input:
         tuple path(res), path(ld), path(allannots)
+        val zheader_header
 
     output:
         path '*fig.svg'
@@ -13,7 +14,7 @@ process CANVIS_run {
     """
         CANVIS.py \\
             --locus ${res} \\
-            -z Zscore \\
+            -z ${zheader_header} \\
             -r ${ld} \\
             -a ${allannots} \\
             -t 90 \\
