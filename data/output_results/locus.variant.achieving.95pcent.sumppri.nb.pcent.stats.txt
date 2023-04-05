@@ -1,0 +1,4 @@
+# Read 119 items
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   5.455  31.386  41.104  41.253  51.640  71.250 
+# argmax 108

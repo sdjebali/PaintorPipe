@@ -26,7 +26,7 @@ To use this pipeline you will need:
 # Usage
 A small dataset `CAD_META_extract` is provided to test this pipeline. To try it out, use this command:
 ```bash
-nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile 'data/input/CAD_META_extract' --annotationsFile 'data/input/annotations_encode.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '0.01' --snp '100000' --pp_threshold '0.001' -profile slurm,singularity -with-trace 'reports/trace.txt' -with-timeline 'reports/timeline.html' -with-report 'reports/report.html' -resume 
+nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile 'data/input/CAD_META_extract' --annotationsFile 'data/input/annotations_encode.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '0.01' --snp '100000' --pp_threshold '0.001' -profile singularity -with-trace 'reports/trace.txt' -with-timeline 'reports/timeline.html' -with-report 'reports/report.html' -resume 
 ```
 
 # Pipeline parameters

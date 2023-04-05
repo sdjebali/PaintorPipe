@@ -64,7 +64,7 @@ process RESULTS_posteriorprob {
 
     shell:
     '''
-        ls !{annoted_res} | while read f; do awk 'NR>=2' $f; done | sort -k9,9gr > all.annotated.SNP.sorted.by.pp.txt
+        ls !{annoted_res} | while read f; do awk 'NR>=2' $f; done | sort -k9,9gr > all.annotated.SNP.sorted.by.pp
 
         cat !{annoted_res} | head -n1 |  awk 'BEGIN{OFS="\\t"} NR==1 {print}' > header
 
@@ -78,6 +78,7 @@ process RESULTS_posteriorprob {
                 > posteriorprob_merged_filtered
 
         cat header posteriorprob_merged_filtered > posteriorprob_merged_filtered.txt
+        cat header all.annotated.SNP.sorted.by.pp > all.annotated.SNP.sorted.by.pp.txt
     '''
 }
 

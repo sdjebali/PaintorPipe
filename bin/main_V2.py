@@ -20,7 +20,7 @@ from multiprocess import Pool
 # FUNCTIONS  -----------------------------------------------------------------
 # this function outputs a list of 22 dataframes indexed by the chr id
 # in fact the index of the list is a tuple (chrnumber, dataframe including the snps present in this chr)
-def ChromosomeSplitter_no_files(bank : str, separator : str, cname : str) -> "list[pd.DataFrame]" :    
+def ChromosomeSplitter(bank : str, separator : str, cname : str) -> "list[pd.DataFrame]" :    
     """
     data bank file name -> list[CHR1,CHR2,...,CHR22]
     Splits Data bank into chromosomes contained in a dataframe and stored in a list
@@ -91,7 +91,6 @@ def isIntersected(l1 : pd.DataFrame, l2 : pd.DataFrame) -> bool :
     """
     returns True if there is a common SNP in l1 and l2, returns False otherwise
     """
-
     return len(pd.merge(l1, l2, how="inner")) != 0
 
 
@@ -147,7 +146,7 @@ def checkListLocus(liste : "list[tuple]", pos) -> "list(tuple)":
 # outputs a list with as many elements as loci in the chromosome entered
 # the output is in fact a list of tuples where
 # each tuple 1st element is the chromosome id and tuple second element is the dataframe including the snps of the locus defined 
-def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
+def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil_lead,Pseuil_nonlead) -> "list(tuple)":
     """
     returns a list of all locus in given chromosome
 
@@ -179,7 +178,7 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
         #print(f"snp index: {snp_index} \n")
         
         # first, we only keep snp that have a significant pvalue
-        if sorted.iloc[snp_index][Phead] > float(Pseuil):
+        if sorted.iloc[snp_index][Phead] > float(Pseuil_lead):
             print(f"\nNo more significant SNP pvalues in the chromosome {i}\n")
             break
     
@@ -197,7 +196,7 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
         
         # new_locus is a tuple : (chrid , dataframe of snps at 500kb from +/- best pvalue snp)
         # the dataframes are ordered by SNP position
-        new_locus : tuple = (i,chromosome.loc[chromosome[pos].isin(kb_range)])
+        new_locus : tuple = (i,chromosome.loc[chromosome[pos].isin(kb_range) & (chromosome[Phead] <= float(Pseuil_nonlead))])
 
         print(f"new locus :\n {new_locus}")
     
@@ -259,13 +258,13 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil) -> "list(tuple)":
 
 
 
-def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str, pos : str, allele1 : str , allele2: str , chr : str, pvalue_header : str ) -> pd.DataFrame:
+def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str, pos : str, allele1 : str , allele2: str , chr : str, Phead : str ) -> pd.DataFrame:
     chr_nb,zLocus = locus
 
     zLocus[Zhead] = (zLocus[Effect]/zLocus[StdErr])
 
     #Drop all columns that ARE NOT : CHR BP ALLELE1 ALLELE2 EFFECT STDERR PAVLUE ZSCORE
-    columns_to_keep = [chr, pos, allele1, allele2, Effect, StdErr, pvalue_header, Zhead]
+    columns_to_keep = [chr, pos, allele1, allele2, Effect, StdErr, Phead, Zhead]
     #print(f"columns_to_keep : {columns_to_keep}")
         # Determine columns to drop
     columns_to_drop = zLocus.columns.difference(columns_to_keep)
@@ -316,7 +315,8 @@ def main() -> int:
     parser.add_option("--pos", "--position", dest="pos", default ="BP")                                 #Position of SNP header
     parser.add_option("-z", "--Zheader", dest="Zhead", default="Zscore")                                #Header name of Zscore new column, "Zscore" recommended for PAINTOR
     parser.add_option("--kb", "--up-down-kb", dest="kb", default=500)                                   #Number of kb upstream and downstream of the best SNP(best pvalue) for each locus
-    parser.add_option("--pv-threshold", "--pvalue-threshold", dest="pvalue_threshold", default=5e-08)   #Value for the pvalue treshold
+    parser.add_option("--pv-lead", "--pvalue-lead", dest="pvalue_lead", default=5e-08)                  #Value for the pvalue treshold for the lead SNP
+    parser.add_option("--pv-nonlead", "--pvalue-nonlead", dest="pvalue_nonlead", default=1)             #Value for the pvalue treshold for all SNPs around the lead SNP
     parser.add_option("-o", "--outname", dest="outname", default ="CHRnLocusm")                         #Locus output name format 
     parser.add_option("--od", "--outdir", dest="outdir", default ="data/output/locus_output")           #Locus output directory
     (options, args) = parser.parse_args()
@@ -333,7 +333,8 @@ def main() -> int:
     pos = options.pos
     zhead = options.Zhead
     kb = options.kb
-    pvalue_threshold = options.pvalue_threshold
+    pvalue_lead = options.pvalue_lead
+    pvalue_nonlead = options.pvalue_nonlead
     out = options.outname
     outdir = options.outdir
     
@@ -341,7 +342,7 @@ def main() -> int:
     usage = """Usage:  
         -d (required) specify data bank path (default is "data" in the same directory as this programm)
         --sp specifiy the separator character used in data bank file (default is a tab '\t')
-        --pv specifiy the P-value header used in data bank file (default is P-Value)
+        --pv specifiy the P-value header used in data bank file (default is PValue)
         --st specifiy the Standart Error header used in data bank file (default is StdErr)
         -e specifiy the Effect header used in data bank file (default is Effect)
         --chr specifiy the Chromosome number header used in data bank file (default is CHR)
@@ -350,7 +351,8 @@ def main() -> int:
         --pos specifiy the SNP Position header used in data bank file (default is BP)
         -z specifiy the wanted Zscore header used in data bank file (default is "Zscore")
         --kb specifiy the wanted number of kilo base upstream and downstream of the best SNP(best pvalue) for each locus
-        --pv-threshold specifiy the wanted pvalue threshold
+        --pv-lead specifiy the wanted pvalue threshold for the lead SNPs of a locus
+        --pv-nonlead specifiy the wanted pvalue threshold for all the SNPs of a locus around the lead SNP
         --od specifiy the wanted output directory (default is the output directory in the data directory)
         -o (WIP) (optional) specifiy output format name
         """
@@ -361,10 +363,10 @@ def main() -> int:
     debut = time.time()
     
     # makes a lits of 22 dataframes, one for each chromosome, each including the snps of the chromosome in question
-    chromosomes_list = ChromosomeSplitter_no_files(data_bank, sep, chr)
+    chromosomes_list = ChromosomeSplitter(data_bank, sep, chr)
 
     p=Pool(22)
-    p.map(lambda c : printLocus(LocusList(c, pvalue_header, pos, kb, pvalue_threshold), zhead, effect, std, outdir, pos, allele1, allele2, chr, pvalue_header),chromosomes_list)
+    p.map(lambda c : printLocus(LocusList(c, pvalue_header, pos, kb, pvalue_lead, pvalue_nonlead), zhead, effect, std, outdir, pos, allele1, allele2, chr, pvalue_header),chromosomes_list)
 
     print("\n\n\n")
     print("~~~~~ main finished in %s seconds ~~~~~\n" % (time.time() - debut))

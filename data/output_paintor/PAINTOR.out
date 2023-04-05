@@ -1,0 +1,266 @@
+Running PAINTOR in MCMC mode
+Number of chains: 5
+Samples per chain: 50000
+Burn in: 5000
+Proportion of LD variance kept when performing truncated SVD for estimating N*h2g: 0.95
+Model annotations: genc.exon genc.intron genc.tss500up genc.tts500dw elscardiot1 
+**********
+Reading in files for: CHR01locus1
+Reading in files for: CHR01locus10
+Reading in files for: CHR01locus11
+Reading in files for: CHR01locus12
+Reading in files for: CHR01locus13
+Reading in files for: CHR01locus2
+Reading in files for: CHR01locus3
+Reading in files for: CHR01locus4
+Reading in files for: CHR01locus5
+Reading in files for: CHR01locus6
+Reading in files for: CHR01locus7
+Reading in files for: CHR01locus8
+Reading in files for: CHR01locus9
+Reading in files for: CHR02locus1
+Reading in files for: CHR02locus2
+Reading in files for: CHR02locus3
+Reading in files for: CHR02locus4
+Reading in files for: CHR02locus5
+Reading in files for: CHR02locus6
+Reading in files for: CHR02locus7
+Reading in files for: CHR02locus8
+Reading in files for: CHR02locus9
+Reading in files for: CHR03locus1
+Reading in files for: CHR03locus2
+Reading in files for: CHR03locus3
+Reading in files for: CHR03locus4
+Reading in files for: CHR03locus5
+Reading in files for: CHR03locus6
+Reading in files for: CHR03locus7
+Reading in files for: CHR04locus1
+Reading in files for: CHR04locus2
+Reading in files for: CHR04locus3
+Reading in files for: CHR04locus4
+Reading in files for: CHR04locus5
+Reading in files for: CHR04locus6
+Reading in files for: CHR04locus7
+Reading in files for: CHR05locus1
+Reading in files for: CHR05locus2
+Reading in files for: CHR05locus3
+Reading in files for: CHR05locus4
+Reading in files for: CHR06locus1
+Reading in files for: CHR06locus10
+Reading in files for: CHR06locus11
+Reading in files for: CHR06locus12
+Reading in files for: CHR06locus2
+Reading in files for: CHR06locus3
+Reading in files for: CHR06locus4
+Reading in files for: CHR06locus5
+Reading in files for: CHR06locus6
+Reading in files for: CHR06locus7
+Reading in files for: CHR06locus8
+Reading in files for: CHR06locus9
+Reading in files for: CHR07locus1
+Reading in files for: CHR07locus2
+Reading in files for: CHR07locus3
+Reading in files for: CHR08locus1
+Reading in files for: CHR08locus2
+Reading in files for: CHR08locus3
+Reading in files for: CHR08locus4
+Reading in files for: CHR09locus1
+Reading in files for: CHR09locus2
+Reading in files for: CHR09locus3
+Reading in files for: CHR10locus1
+Reading in files for: CHR10locus2
+Reading in files for: CHR10locus3
+Reading in files for: CHR10locus4
+Reading in files for: CHR10locus5
+Reading in files for: CHR10locus6
+Reading in files for: CHR10locus7
+Reading in files for: CHR11locus1
+Reading in files for: CHR11locus2
+Reading in files for: CHR11locus3
+Reading in files for: CHR11locus4
+Reading in files for: CHR11locus5
+Reading in files for: CHR11locus6
+Reading in files for: CHR11locus7
+Reading in files for: CHR12locus1
+Reading in files for: CHR12locus2
+Reading in files for: CHR12locus3
+Reading in files for: CHR12locus4
+Reading in files for: CHR12locus5
+Reading in files for: CHR12locus6
+Reading in files for: CHR12locus7
+Reading in files for: CHR12locus8
+Reading in files for: CHR12locus9
+Reading in files for: CHR13locus1
+Reading in files for: CHR13locus2
+Reading in files for: CHR13locus3
+Reading in files for: CHR14locus1
+Reading in files for: CHR14locus2
+Reading in files for: CHR14locus3
+Reading in files for: CHR15locus1
+Reading in files for: CHR15locus2
+Reading in files for: CHR15locus3
+Reading in files for: CHR15locus4
+Reading in files for: CHR16locus1
+Reading in files for: CHR16locus2
+Reading in files for: CHR16locus3
+Reading in files for: CHR16locus4
+Reading in files for: CHR16locus5
+Reading in files for: CHR17locus1
+Reading in files for: CHR17locus2
+Reading in files for: CHR17locus3
+Reading in files for: CHR17locus4
+Reading in files for: CHR17locus5
+Reading in files for: CHR17locus6
+Reading in files for: CHR17locus7
+Reading in files for: CHR17locus8
+Reading in files for: CHR18locus1
+Reading in files for: CHR19locus1
+Reading in files for: CHR19locus2
+Reading in files for: CHR19locus3
+Reading in files for: CHR19locus4
+Reading in files for: CHR20locus1
+Reading in files for: CHR20locus2
+Reading in files for: CHR20locus3
+Reading in files for: CHR21locus1
+Reading in files for: CHR21locus2
+Reading in files for: CHR22locus1
+**********
+Warning! The estimated N*h2_g,local for locus CHR06locus1 is: 1484.09
+This may potentially indicate mismatch/error in the LD-matrix
+Warning! The estimated N*h2_g,local for locus CHR09locus1 is: 939.475
+This may potentially indicate mismatch/error in the LD-matrix
+Enrichment estimates at iteration 1 is :
+4.66344
+      0
+      0
+      0
+      0
+      0
+Average log bayes factor: 7205.23
+
+Enrichment estimates at iteration 2 is :
+   3.42989
+ -0.468595
+ -0.127633
+-0.0546666
+ 0.0626988
+ -0.205334
+Average log bayes factor: 7076.21
+
+Enrichment estimates at iteration 3 is :
+   2.93463
+ -0.628977
+ -0.159853
+-0.0573728
+  0.138204
+ -0.280839
+Average log bayes factor: 6824.08
+
+Enrichment estimates at iteration 4 is :
+   2.63488
+ -0.706341
+ -0.165857
+-0.0556849
+  0.201998
+ -0.305609
+Average log bayes factor: 6536.6
+
+Enrichment estimates at iteration 5 is :
+  2.42464
+-0.761614
+-0.170565
+ -0.07366
+ 0.252151
+-0.307468
+Average log bayes factor: 3.32267e+12
+
+Enrichment estimates at iteration 6 is :
+   2.26505
+  -0.79387
+ -0.183213
+-0.0781905
+  0.309117
+ -0.296805
+Average log bayes factor: 1.92807e+14
+
+Enrichment estimates at iteration 7 is :
+   2.14451
+  -0.82482
+ -0.194751
+-0.0856097
+   0.32037
+  -0.29302
+Average log bayes factor: 4.46338e+14
+
+Enrichment estimates at iteration 8 is :
+   2.02892
+ -0.854238
+ -0.208237
+-0.0870369
+  0.340215
+ -0.294455
+Average log bayes factor: 6.82385e+16
+
+Enrichment estimates at iteration 9 is :
+   1.94222
+ -0.868826
+ -0.226369
+-0.0767831
+  0.364981
+ -0.309665
+Average log bayes factor: 1.07202e+15
+
+Enrichment estimates at iteration 10 is :
+   1.85157
+ -0.873272
+ -0.229482
+-0.0865028
+  0.380553
+ -0.295819
+Average log bayes factor: 1.86245e+15
+
+Enrichment estimates at iteration 11 is :
+  1.77455
+-0.875404
+-0.234505
+-0.111105
+ 0.398424
+-0.286731
+Average log bayes factor: 7.32912e+13
+
+Enrichment estimates at iteration 12 is :
+   1.70317
+ -0.892586
+ -0.239137
+-0.0862555
+  0.392796
+ -0.270842
+Average log bayes factor: 2.61722e+14
+
+Enrichment estimates at iteration 13 is :
+   1.63881
+ -0.900436
+ -0.240541
+-0.0996071
+  0.390199
+ -0.270015
+Average log bayes factor: 2.37323e+12
+
+Enrichment estimates at iteration 14 is :
+  1.57439
+-0.912583
+-0.237103
+-0.102325
+ 0.386032
+-0.252976
+Average log bayes factor: 1.22997e+14
+
+Enrichment estimates at iteration 15 is :
+  1.52371
+-0.937231
+-0.240851
+-0.103605
+ 0.375336
+-0.264193
+Average log bayes factor: 3.2309e+14
+
