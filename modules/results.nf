@@ -35,10 +35,10 @@ process RESULTS_statistics {
         
         stats.sh \\
             locus.variant.achieving.95pcent.sumppri.nb.pcent.txt 3 \\
-                > locus.variant.achieving.95pcent.sumppri.nb.pcent.stats.txt
+                > locus.variant.achieving.95pcent.sumppri.stats.txt
 
         ls !{res} | grep .results | grep -v LogFile.results | while read f ;\\
-                do awk 'BEGIN{OFS="\\t"} NR>=2{print $1":"$2, $7}' $f ; \\
+                do awk 'BEGIN{OFS="\\t"} NR>=2{print $1":"$2, $NF}' $f ; \\
                     done | awk 'BEGIN{OFS="\\t"; print "snp", "ppr"} {print}' \\
                         > snp.ppr.txt
 
