@@ -1,5 +1,5 @@
-genc.exon	7.71%
-genc.intron	66.67%
-genc.tss500up	3.32%
-genc.tts500dw	4.38%
-elscardiot1	5.24%
+genc.exon	5.48%
+genc.intron	63.42%
+genc.tss500up	2.33%
+genc.tts500dw	3.42%
+elscardiot1	4.11%

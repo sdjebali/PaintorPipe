@@ -1,6 +1,6 @@
-Baseline	0.185427
-genc.exon	0.368187
-genc.intron	0.226361
-genc.tss500up	0.204033
-genc.tts500dw	0.137857
-elscardiot1	0.228343
+Baseline	0.32116
+genc.exon	0.0314592
+genc.intron	0.290553
+genc.tss500up	0.687035
+genc.tts500dw	0.544346
+elscardiot1	0.359962
