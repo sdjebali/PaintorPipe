@@ -6,6 +6,7 @@ process RESULTS_statistics {
         path res
         path allannots
         val annotations
+        val chromosome_header
 
     output:
         path '*.{txt,canvis}'
@@ -22,8 +23,15 @@ process RESULTS_statistics {
                 > tmp
         paste annotnames tmp > pcent_snp_in_each_annot.txt
 
+        cat CHR* | awk '$1!="$chromosome_header"' | sort -k9,9gr | awk 'BEGIN{OFS="\\t"} {n++; s+=$NF; si[n]=s} \\
+            END{print "all", n, s; i=1; while(ok50!=1&&i<=n){if(si[i]>=(50*s/100)){ok50=1} i++} \\
+                print "ok50", i-1, (i-1)/n*100; i=1; while(ok80!=1&&i<=n){if(si[i]>=(80*s/100)){ok80=1} i++} \\
+                    print "ok80", i-1, (i-1)/n*100; i=1; while(ok95!=1&&i<=n){if(si[i]>=(95*s/100)){ok95=1} i++} \\
+                        print "ok95", i-1, (i-1)/n*100}'\\
+                            > all.loci.variant.achieving.50.80.95pcent.sumppri.nb.pcent.txt 
+    
         ls !{res} | grep .results | grep -v LogFile.results | while read f ; do base=${f%.results} ; \\
-            awk 'NR>=2' $f | sort -k7,7gr | awk 'BEGIN{OFS="\\t"} {n++; s+=$7; si[n]=s} \\
+            awk 'NR>=2' $f | sort -k9,9gr | awk 'BEGIN{OFS="\\t"} {n++; s+=$NF; si[n]=s} \\
                 END{print "all", n, s; i=1; while(ok50!=1&&i<=n){if(si[i]>=(50*s/100)){ok50=1} i++} \\
                     print "ok50", i-1, (i-1)/n*100; i=1; while(ok80!=1&&i<=n){if(si[i]>=(80*s/100)){ok80=1} i++} \\
                         print "ok80", i-1, (i-1)/n*100; i=1; while(ok95!=1&&i<=n){if(si[i]>=(95*s/100)){ok95=1} i++} \\
