@@ -343,5 +343,5 @@ Once the annotation bed files are downloaded, you can write the `annotations.txt
 genc.exon       path/to/exons.proj.bed
 genc.intron     path/to/introns.proj.bed
 ```
-The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommande to use no more than 4 or 5 annotations per run.
+The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommand to use no more than 4 or 5 annotations per run.
 
