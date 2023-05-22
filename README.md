@@ -108,6 +108,13 @@ nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile '
       <td>Variant position in base pair in the chromosome header column name</td>
       <td align=center>Optional</td>
     </tr>
+    <tr>
+      <td nowrap><strong><code>--rsID_header</code></strong></td>
+      <td nowrap><code>rsID</code></td>
+      <td>Unique variant identifiant or markermane header</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
   <tr>
       <td nowrap><strong><code>--zheader_header</code></strong></td>
       <td nowrap><code>Zscore</code></td>
@@ -312,7 +319,7 @@ unzip CAD_META_extract.zip
 head CAD_META_extract
 ```
 ```
-MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	Chr	BP
+MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	rsID	Chr	BP
 9:34486713_A_G	a	g	0.9363	0.0023	0.9346	0.9394	0.0058	0.0115	0.6106	+-	0	0.663	1	0.4156	rs72735241	9	34486713
 4:187387354_G_T	t	g	0.0359	0.0045	0.032	0.041	0.009	0.0155	0.5604	-+	0	0.847	1	0.3574	rs73020749	4	187387354
 4:76326344_C_G	c	g	0.1743	0.0062	0.1694	0.1823	-3e-04	0.0075	0.9641	-+	69.2	3.252	1	0.07136	rs11727982	4	76326344
@@ -320,13 +327,14 @@ MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Dir
 1:189237277_C_T	t	c	0.5217	0.0011	0.5209	0.5232	0.005	0.0056	0.3742	++	0	0.129	1	0.719	rs1578705	1	189237277
 ```
 
-The `CAD_META_extract` GWAS test file provided contains the 7 required columns : 
+The `CAD_META_extract` GWAS test file provided contains the 8 required columns : 
 - Allele1
 - Allele2
 - Effect 
 - StdErr
 - CHR
 - BP 
+- rsID
 - Pvalue
 
 The chromosome column is the only column with an incorrect header entry. We need to provide the correct version of the header: `Chr` instead of `CHR` with the `--chromosome_header` parameter (see [usage](#usage) part).

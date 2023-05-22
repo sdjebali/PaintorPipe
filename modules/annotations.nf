@@ -1,26 +1,58 @@
-
 process ANNOTATIONS_bedfiles {
+    '''
+    This process takes one input parameter, ldprocessed, which should be the path to a file with a 
+    suffix of .processed. The process outputs one or more BED files with the suffix .bed, 
+    and these files are written to the directory specified by the outputDir_bed parameter.
+    The process first checks whether the input file matches the pattern *.processed using the when 
+    directive. If the input file does not match this pattern, the process is skipped.
+    If the input file matches the pattern, the process uses awk to convert the LD-processed file into BED 
+    format. The input file is assumed to have a header row, and the output BED file has three columns: 
+    chromosome, start position, and end position (which is the start position plus one).
+    The output BED file is then converted to UCSC format using the ens2ucsc.awk script, 
+    which should be located in the user's PATH.
+    The final output is one or more BED files with the same base name as the input file, but with a suffix of .bed. 
+    These files are written to the directory specified by the outputDir_bed parameter using the publishDir directive.
+    '''
+
     publishDir params.outputDir_bed, mode: 'copy'
 
     input:
         path ldprocessed
 
     when:
-        ldprocessed.matches("*.ld_out.processed")
+        ldprocessed.matches("*.processed.filtered")
 
     output:
         path '*.bed'
 
     shell:
     '''
-    awk 'BEGIN{OFS="\\t"} NR>=2{print $1, $2, $2+1}' !{ldprocessed} | \\
-        awk -f $(which ens2ucsc.awk) \\
-            > !{ldprocessed}.ucsc.bed
+        awk 'BEGIN{OFS="\\t"} NR>=2{print $1, $2, $2+1}' !{ldprocessed} | \\
+            awk -f $(which ens2ucsc.awk) \\
+                > !{ldprocessed}.ucsc.bed
     '''
 }
 
 
 process ANNOTATIONS_mergeannotations {
+    '''
+    This process takes two input parameters, bedfiles and annotations. 
+    bedfiles should be a path to one or more BED files, and annotations should be a path to a file containing a list of 
+    annotation IDs and their corresponding BED files.
+    The process outputs one or more TSV files with a suffix of .txt, and these files are written to the directory specified 
+    by the outputDir_annotations parameter using the publishDir directive.
+    The process performs the following steps:
+    -Extracts the base name of the input bedfiles using basename.
+    -For each annotation listed in annotations, uses intersectBed to find the overlapping regions between the BED files 
+    and the annotation BED file. The -wao option outputs the original bedfiles entry for each overlap. 
+    awk is then used to count the number of times each position is seen, and to output a binary value indicating 
+    whether the position was in an overlap with the annotation or not. The output is written to a TSV file with the 
+    format $base.coord.over.$annid.tsv.
+    -Concatenates the names of all annotations and the names of all the TSV files produced in step 2 into two strings, s1 and s2.
+    -Uses xargs paste and awk to join the TSV files into a single TSV file with columns for each annotation and rows for 
+    each position in bedfiles. The final output is written to a TSV file with the name $base.coord.over.allannots.txt.
+    '''
+
     publishDir params.outputDir_annotations, mode: 'copy'
     
     input:

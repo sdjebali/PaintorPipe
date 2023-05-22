@@ -258,13 +258,13 @@ def LocusList(chr : tuple, Phead : str, pos, kb, Pseuil_lead,Pseuil_nonlead) -> 
 
 
 
-def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str, pos : str, allele1 : str , allele2: str , chr : str, Phead : str ) -> pd.DataFrame:
+def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str, pos : str, allele1 : str , allele2: str , chr : str, rsid : str, Phead : str ) -> pd.DataFrame:
     chr_nb,zLocus = locus
 
     zLocus[Zhead] = (zLocus[Effect]/zLocus[StdErr])
 
-    #Drop all columns that ARE NOT : CHR BP ALLELE1 ALLELE2 EFFECT STDERR PAVLUE ZSCORE
-    columns_to_keep = [chr, pos, allele1, allele2, Effect, StdErr, Phead, Zhead]
+    #Drop all columns that ARE NOT : CHR BP ALLELE1 ALLELE2 EFFECT STDERR PVALUE RSID ZSCORE
+    columns_to_keep = [chr, pos, allele1, allele2, Effect, StdErr, Phead, rsid, Zhead]
     #print(f"columns_to_keep : {columns_to_keep}")
         # Determine columns to drop
     columns_to_drop = zLocus.columns.difference(columns_to_keep)
@@ -277,7 +277,7 @@ def ZscoreAdder(locus : tuple, Zhead : str, Effect : str, StdErr : str, pos : st
 
 
 
-def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, outdir : str, pos : str, allele1 : str, allele2 : str, chr : str, pvalue_header : str) -> None:
+def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, outdir : str, pos : str, allele1 : str, allele2 : str, chr : str, rsid : str, pvalue_header : str) -> None:
     """
     writes locus files
     """
@@ -286,7 +286,7 @@ def printLocus(liste : "list[tuple]", Zhead : str, Effect : str, StdErr : str, o
 
         # liste[i] is the tuple (chrid,locus)
         #_,_,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr)
-        _,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr, pos, allele1, allele2, chr, pvalue_header)
+        _,locusZ = ZscoreAdder(liste[i], Zhead, Effect, StdErr, pos, allele1, allele2, chr, rsid, pvalue_header)
 
         if len(str(chr_nb)) == 1:
             locusZ.to_csv(f"{outdir}/CHR0{chr_nb}locus{i+1}", index=False, sep=' ')
@@ -313,6 +313,7 @@ def main() -> int:
     parser.add_option("--a1", "--effect-allele", dest="a1", default="Allele1")                          #Effect allele header
     parser.add_option("--a2", "--alt-allele", dest="a2", default="Allele2")                             #Alternative allele header
     parser.add_option("--pos", "--position", dest="pos", default ="BP")                                 #Position of SNP header
+    parser.add_option("--rsid", dest="rsid", default ="rsID")                                           #rs ID header
     parser.add_option("-z", "--Zheader", dest="Zhead", default="Zscore")                                #Header name of Zscore new column, "Zscore" recommended for PAINTOR
     parser.add_option("--kb", "--up-down-kb", dest="kb", default=500)                                   #Number of kb upstream and downstream of the best SNP(best pvalue) for each locus
     parser.add_option("--pv-lead", "--pvalue-lead", dest="pvalue_lead", default=5e-08)                  #Value for the pvalue treshold for the lead SNP
@@ -331,6 +332,7 @@ def main() -> int:
     allele1 = options.a1
     allele2 = options.a2
     pos = options.pos
+    rsid = options.rsid
     zhead = options.Zhead
     kb = options.kb
     pvalue_lead = options.pvalue_lead
@@ -349,6 +351,7 @@ def main() -> int:
         --a1 specifiy the Effect Allele header used in data bank file (default is Allele1)
         --a2 specifiy the Alernative Allele used in data bank file (default is Allele2)
         --pos specifiy the SNP Position header used in data bank file (default is BP)
+        --rsid specifiy the rs ID header used in data bank file (default is rsID)
         -z specifiy the wanted Zscore header used in data bank file (default is "Zscore")
         --kb specifiy the wanted number of kilo base upstream and downstream of the best SNP(best pvalue) for each locus
         --pv-lead specifiy the wanted pvalue threshold for the lead SNPs of a locus
@@ -366,7 +369,7 @@ def main() -> int:
     chromosomes_list = ChromosomeSplitter(data_bank, sep, chr)
 
     p=Pool(22)
-    p.map(lambda c : printLocus(LocusList(c, pvalue_header, pos, kb, pvalue_lead, pvalue_nonlead), zhead, effect, std, outdir, pos, allele1, allele2, chr, pvalue_header),chromosomes_list)
+    p.map(lambda c : printLocus(LocusList(c, pvalue_header, pos, kb, pvalue_lead, pvalue_nonlead), zhead, effect, std, outdir, pos, allele1, allele2, chr, rsid, pvalue_header),chromosomes_list)
 
     print("\n\n\n")
     print("~~~~~ main finished in %s seconds ~~~~~\n" % (time.time() - debut))
