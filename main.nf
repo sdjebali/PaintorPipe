@@ -250,7 +250,7 @@ workflow {
 
   annotated_bed_channel = annotated_bed.flatten()
   annotated_bed_channel
-    .filter { it -> it.toString().endsWith('.processed.ucsc.bed.coord.over.allannots.txt') }
+    .filter { it -> it.toString().endsWith('.processed.filtered.ucsc.bed.coord.over.allannots.txt') }
     .map { it ->
            a = it.toString().split('/')
            l = a.length
