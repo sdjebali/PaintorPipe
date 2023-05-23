@@ -1,3 +1,5 @@
+![](files/logo_PaintorPipe.png)
+
 # PaintorPipe
 `PaintorPipe` is a pipeline that perform fine-mapping analysis, using GWAS summary statistics data and diverse functionnal annotations, implemented in [Nextflow](#https://www.nextflow.io/).
 This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.0) and its associated visualization tools and can be run locally or on a slurm cluster and handles containerisation using [Singularity](#https://github.com/sylabs/singularity).
