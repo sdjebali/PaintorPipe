@@ -74,6 +74,12 @@ process RESULTS_statistics {
                     done | awk 'BEGIN{OFS="\\t"; print "snp", "ppr"} {print}' \\
                         > snp.ppr.txt
 
+        awk 'NR>=2' snp.ppr.txt  | sort -k2,2gr | awk  'BEGIN{OFS="\t"} {n++; s+=$NF; si[n]=s; snp[n]=$0}END{print "all", n, s; i=1; \\
+            while(ok50!=1&&i<=n){if(si[i]>=(50*s/100)){ok50=1} i++} print "ok50", i-1, (i-1)/n*100; i=1; \\
+            while(ok80!=1&&i<=n){if(si[i]>=(80*s/100)){ok80=1} i++} print "ok80", i-1, (i-1)/n*100; i=1;\\
+            while(ok95!=1&&i<=n){if(si[i]>=(95*s/100)){ok95=1}; i++} print "ok95", i-1, (i-1)/n*100}'\\
+                > all.variants.pcent.snps.achieving.50.80.95pcent.sumppri.txt
+
         ls !{res} | grep .results | grep -v LogFile.results | \\
             while read f ; do base=${f%.result} ; \\
                 awk 'NR==1{$2="pos"; print} NR>=2{print}' $f \\

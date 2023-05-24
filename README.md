@@ -291,13 +291,13 @@ The pipeline is written in Nextflow, which provides the following default option
     <tr>
       <td nowrap><strong><code>-with-report</code></strong></td>
       <td nowrap></td>
-      <td></td>
+      <td>Nextflow can create an HTML execution report. It is a single document that includes many useful metrics on pipeline execution</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>-with-timeline</code></strong></td>
       <td nowrap></td>
-      <td></td>
+      <td>Nextflow can display a timeline in HTML format for all processes performed in the pipeline</td>
       <td align=center>Optional</td>
     </tr>
   </tbody>
@@ -355,3 +355,5 @@ genc.intron     path/to/introns.proj.bed
 ```
 The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommand to use no more than 4 or 5 annotations per run.
 
+## Outputs
+You should obtain 43 loci in the `output_locus` directory. Check the `slurm-46703827.out` output file in the `files` directory.
