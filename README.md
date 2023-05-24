@@ -17,6 +17,7 @@ This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.
 - [Example on a small dataset](#example-on-a-small-dataset)
   - [GWAS summary statistics](#gwas-summary-statistics)
   - [Functionnal Annotations](#functionnal-annotations)
+  - [Outputs](#outputs)
 
 
 # Dependencies
