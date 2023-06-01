@@ -1,3 +1,5 @@
+![](files/logo_PaintorPipe.png)
+
 # PaintorPipe
 `PaintorPipe` is a pipeline that perform fine-mapping analysis, using GWAS summary statistics data and diverse functionnal annotations, implemented in [Nextflow](#https://www.nextflow.io/).
 This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.0) and its associated visualization tools and can be run locally or on a slurm cluster and handles containerisation using [Singularity](#https://github.com/sylabs/singularity).
@@ -15,6 +17,7 @@ This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.
 - [Example on a small dataset](#example-on-a-small-dataset)
   - [GWAS summary statistics](#gwas-summary-statistics)
   - [Functionnal Annotations](#functionnal-annotations)
+  - [Outputs](#outputs)
 
 
 # Dependencies
@@ -108,6 +111,13 @@ nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile '
       <td>Variant position in base pair in the chromosome header column name</td>
       <td align=center>Optional</td>
     </tr>
+    <tr>
+      <td nowrap><strong><code>--rsID_header</code></strong></td>
+      <td nowrap><code>rsID</code></td>
+      <td>Unique variant identifiant or markermane header</td>
+      <td align=center>Optional</td>
+    </tr>
+  <tr>
   <tr>
       <td nowrap><strong><code>--zheader_header</code></strong></td>
       <td nowrap><code>Zscore</code></td>
@@ -282,13 +292,13 @@ The pipeline is written in Nextflow, which provides the following default option
     <tr>
       <td nowrap><strong><code>-with-report</code></strong></td>
       <td nowrap></td>
-      <td></td>
+      <td>Nextflow can create an HTML execution report. It is a single document that includes many useful metrics on pipeline execution</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>-with-timeline</code></strong></td>
       <td nowrap></td>
-      <td></td>
+      <td>Nextflow can display a timeline in HTML format for all processes performed in the pipeline</td>
       <td align=center>Optional</td>
     </tr>
   </tbody>
@@ -312,7 +322,7 @@ unzip CAD_META_extract.zip
 head CAD_META_extract
 ```
 ```
-MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	oldID	Chr	BP
+MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	rsID	Chr	BP
 9:34486713_A_G	a	g	0.9363	0.0023	0.9346	0.9394	0.0058	0.0115	0.6106	+-	0	0.663	1	0.4156	rs72735241	9	34486713
 4:187387354_G_T	t	g	0.0359	0.0045	0.032	0.041	0.009	0.0155	0.5604	-+	0	0.847	1	0.3574	rs73020749	4	187387354
 4:76326344_C_G	c	g	0.1743	0.0062	0.1694	0.1823	-3e-04	0.0075	0.9641	-+	69.2	3.252	1	0.07136	rs11727982	4	76326344
@@ -320,13 +330,14 @@ MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Dir
 1:189237277_C_T	t	c	0.5217	0.0011	0.5209	0.5232	0.005	0.0056	0.3742	++	0	0.129	1	0.719	rs1578705	1	189237277
 ```
 
-The `CAD_META_extract` GWAS test file provided contains the 7 required columns : 
+The `CAD_META_extract` GWAS test file provided contains the 8 required columns : 
 - Allele1
 - Allele2
 - Effect 
 - StdErr
 - CHR
 - BP 
+- rsID
 - Pvalue
 
 The chromosome column is the only column with an incorrect header entry. We need to provide the correct version of the header: `Chr` instead of `CHR` with the `--chromosome_header` parameter (see [usage](#usage) part).
@@ -343,5 +354,7 @@ Once the annotation bed files are downloaded, you can write the `annotations.txt
 genc.exon       path/to/exons.proj.bed
 genc.intron     path/to/introns.proj.bed
 ```
-The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommande to use no more than 4 or 5 annotations per run.
+The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommand to use no more than 4 or 5 annotations per run.
 
+## Outputs
+You should obtain 43 loci in the `output_locus` directory. Check the `slurm-46703827.out` output file in the `files` directory.

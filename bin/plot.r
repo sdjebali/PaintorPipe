@@ -25,6 +25,6 @@ opt <- arguments$options
 theme_set(theme_bw(base_size = 16))
 df=read.delim(opt$inputfile, sep="\t", h=TRUE)
 head(df)
-ggplot(df, aes(ppr)) + stat_ecdf(geom = "point") + xlab("Variant posterior probability (PP)") + ylab("% of variants with PP < x")
+ggplot(df, aes(ppr)) + stat_ecdf(geom = "point") + xlab("Maximum variant posterior probability (x)") + ylab("% of variants with PP < x")
 ggsave(filename="snp.ppr.png")
 dev.off()

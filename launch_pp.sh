@@ -19,5 +19,5 @@ nextflow run main.nf \
     -with-timeline reports/timeline.html \
     -with-report reports/report.html \
     -with-dag reports/flowchart.png \
-    -resume 
+    -resume
     

@@ -63,6 +63,7 @@ params.chromosome_header = "CHR"
 params.effectallele_header = "Allele1"
 params.altallele_header = "Allele2"
 params.position_header = "BP"
+params.rsid_header = "rsID"
 params.zheader_header = "Zscore"
 params.kb = "500"
 params.pvalue_lead = "5e-08"
@@ -92,25 +93,28 @@ params.max_memory = '60GB'
 
 log.info """\
 
-         ===================================
-          P A I N T O R     P I P E L I N E    
-         ===================================
+         =======================================
+            P A I N T O R     P I P E L I N E    
+         =======================================
 
                Fine-mapping pipeline
 
-         PaintorPipe : Pipeline to run the 
-         Paintor program and its associated 
-         visualization tools on GWAS summary 
-         statistics data.
+         PaintorPipe : a pipeline for genetic 
+         variant fine-mapping using functional 
+         annotations.
 
-         ===================================
+         Pipeline to run the Paintor program 
+         and its associated visualization 
+         tools on GWAS summary statistics data.
+
+         =======================================
          REQUIRED :
             --gwasFile
             --annotationsFile
             
          GIVEN PARAMETERS :
             GWAS file                                     : ${params.gwasFile}
-            GWAS file columns (no matter to the order)    : ${params.chromosome_header}, ${params.position_header}, ${params.effectallele_header}, ${params.altallele_header}, ${params.effect_header}, ${params.stderr_header}, ${params.pvalue_header}
+            GWAS file columns (no matter to the order)    : ${params.rsid_header}, ${params.chromosome_header}, ${params.position_header}, ${params.effectallele_header}, ${params.altallele_header}, ${params.effect_header}, ${params.stderr_header}, ${params.pvalue_header}
             Annotations file                              : ${params.annotationsFile}
             Reference Genome                              : ${params.ref_genome}
             Number of kb (up/down from lead SNP)          : ${params.kb}
@@ -138,7 +142,7 @@ log.info """\
               -with-timeline reports/timeline.html 
               -with-report reports/report.html
               -resume 
-         ===================================
+         =======================================
 
          """
          .stripIndent()
@@ -188,7 +192,7 @@ workflow {
 
   // main
   // Split GWAS file into loci
-  gwas_split_channel = PREPPAINTOR_splitlocus(gwas_input_channel, params.pvalue_lead, params.pvalue_nonlead, params.kb, params.pvalue_header, params.stderr_header, params.effect_header, params.chromosome_header, params.effectallele_header, params.altallele_header , params.position_header, params.zheader_header)
+  gwas_split_channel = PREPPAINTOR_splitlocus(gwas_input_channel, params.pvalue_lead, params.pvalue_nonlead, params.kb, params.pvalue_header, params.stderr_header, params.effect_header, params.chromosome_header, params.effectallele_header, params.altallele_header , params.position_header, params.rsid_header ,params.zheader_header)
   """
   [/work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR01locus1, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR01locus2, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR01locus3, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR01locus4, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR01locus5, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR02locus1, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR02locus2, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR02locus3, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR02locus4, /work/project/regenet/workspace/zgerber/Nextflow2/work/f3/cc04def1b3a2838b10bf32c4b6598a/data/output_locus/CHR02locus5]
   """
@@ -246,11 +250,11 @@ workflow {
 
   annotated_bed_channel = annotated_bed.flatten()
   annotated_bed_channel
-    .filter { it -> it.toString().endsWith('.processed.ucsc.bed.coord.over.allannots.txt') }
+    .filter { it -> it.toString().endsWith('.processed.filtered.ucsc.bed.coord.over.allannots.txt') }
     .map { it ->
            a = it.toString().split('/')
            l = a.length
-           return [a[l-1].split('.sorted.ld_out.processed.ucsc.bed.coord.over.allannots.txt')[0], it] }
+           return [a[l-1].split('.sorted.ld_out.processed.filtered.ucsc.bed.coord.over.allannots.txt')[0], it] }
     .set { annotated_bed_channel }
   
   // Combine 2 channels to paste the locus corresponding to its annotation file
@@ -264,7 +268,7 @@ workflow {
   paintor_annotated_locus = PAINTOR_annotatedlocus(paintor_annotated_results_channel)
 
   // Interpretation of the PAINTOR results
-  statistics = RESULTS_statistics(paintor.collect(), annotated_bed.collect(), params.annotationsFile)
+  statistics = RESULTS_statistics(paintor.collect(), annotated_bed.collect(), params.annotationsFile,params.chromosome_header)
 
   snps = RESULTS_posteriorprob(paintor_annotated_locus.collect(), params.snp, params.pp_threshold)
  
@@ -290,7 +294,7 @@ workflow {
 
   ld_matrix_channel = ld_matrix_processed.flatten()
   ld_matrix_channel
-    .filter { it -> it.toString().endsWith('.ld_out.ld') }
+    .filter { it -> it.toString().endsWith('.ld_out.ld.filtered') }
     .map { it ->
            a = it.toString().split('/')
            l = a.length
