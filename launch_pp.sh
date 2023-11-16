@@ -1,13 +1,15 @@
 #!/bin/sh
 
-module load bioinfo/Nextflow-v21.10.6
-module load system/singularity-3.7.3
+module load devel/java/17.0.6
+module load containers/singularity/3.9.9
+module load bioinfo/Nextflow/23.04.3
+
+cd /home/sdjebali/regencard/workspace/sdjebali/nextflow/PaintorPipe
 
 nextflow run main.nf \
-    -dsl2 \
     -config nextflow.config,genologin.config \
-    --gwasFile /work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/CAD_META_extract \
-    --annotationsFile /work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/annotations_encode.txt \
+    --gwasFile data/input/CAD_META_200K.tsv \
+    --annotationsFile data/input/annotations.txt \
     --ref_genome hg19 \
     --chromosome_header Chr \
     --pvalue_lead 5e-08 \
@@ -19,5 +21,6 @@ nextflow run main.nf \
     -with-timeline reports/timeline.html \
     -with-report reports/report.html \
     -with-dag reports/flowchart.png \
-    -resume
-    
+    -resume > paintorpipe.test.small.out
+
+
