@@ -27,8 +27,6 @@ To use this pipeline you will need:
 - `Nextflow` >= 21.10.6
 - `Singularity` >= 3.7.3
 
-First of all, you need to install [GO and singularity](#https://apptainer.org/user-docs/master/quick_start.html#quick-installation-steps).
-
 # Usage
 A small dataset made of a 200k SNP file called `CAD_META_200k.tsv` and an annotation location file called `annotations.txt` (pointing to two annotations files, `exons.proj.bed` and `introns.proj.bed`) is provided. To try it out, you should first change the paths to the annotation files in `data/input/annotations.txt`, gunzip the SNP file and use one of the following commands after pulling the singularity image.
 
@@ -329,7 +327,7 @@ For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.i
 
 # Example on a small dataset
 ## GWAS summary statistics
-`CAD_META_200k.tsv` GWAS file is an extract of the GWAS results from the latest `Coronary Artery Disease` (CAD) meta-analysis involving 122,733 cases and 424,528 controls ([van der Harst P et al, 2018](#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805277/)).
+`CAD_META_200k.tsv` GWAS file is an extract of the GWAS results from the 2018 `Coronary Artery Disease` (CAD) meta-analysis involving 122,733 cases and 424,528 controls ([van der Harst P et al, 2018](#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805277/)).
 
 ```bash
 gunzip CAD_META_200k.tsv.gz
@@ -353,16 +351,16 @@ The `CAD_META_200k.tsv` GWAS test file provided contains the 8 required columns 
 - rsID
 - Pvalue
 
-The chromosome column is the only column with an incorrect header entry. We need to provide the correct version of the header: `Chr` instead of `CHR` with the `--chromosome_header` parameter (see [usage](#usage) part).
+Here the chromosome column is the only one with an incorrect header entry. We need to provide the correct version of the corresponding header key: `Chr` instead of `CHR` with the `--chromosome_header` parameter (see [usage](#usage) part).
 
-This is important that the column names are correctly written. If you have additional columns like in the exampe above, you can keep them, the pipeline is going to ignore them. If you do not want to change the required column names in the file, like the `Chr` column, you have to indicate the alternative names with the corresponding header arguments when launching the Nextflow command. Make sure the columns are separated by tabulations.
+It is important that the column names are correctly written. If you have additional columns like in the exampe above, you can keep them, the pipeline is going to ignore them. If you do not want to change the required column names in the file, like the `Chr` column, you have to indicate the alternative names with the corresponding header arguments when launching the Nextflow command. Make sure the columns are separated by tabulations.
 
-Be careful when running the pipeline, about the reference genome version (`--ref_genome` parameter). By default, the pipeline uses hg19 version. Depending on the GWAS dataset you want to fine map, you can change it to hg38 (more recent).
+Be careful when running the pipeline, about the reference genome version (`--ref_genome` parameter). By default, the pipeline uses the hg19 version. Depending on the GWAS dataset you want to fine map, you can change it to hg38 (more recent) but then the annotation files also have to be on hg38.
 
 ## Functional annotations
 Concerning the annotation library, you can use the annotations given in the [Paintor github wiki](#https://github.com/gkichaev/PAINTOR_V3.0/wiki/2b.-Overlapping-annotations) or directely following this [link](#https://ucla.box.com/s/x47apvgv51au1rlmuat8m4zdjhcniv2d) (Warning: This is a large 6.7 GB file).
 
-Once the annotation bed files are downloaded, you can fill in the `annotations.txt` file, to give to the pipeline the location of those files on the system (use tabulation). This file should look like that:
+Once the annotation bed files are downloaded, you can update the `annotations.txt` file with the location of those files on the system (use tabulation). This file should look like that:
 ```
 genc.exon       path/to/exons.proj.bed
 genc.intron     path/to/introns.proj.bed
