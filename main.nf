@@ -9,13 +9,12 @@
  *
  *    Usage:
  *      nextflow run main.nf \
- *        -dsl2 \
- *        -c nextflow.config,genologin.config \
+ *        -c nextflow.config \
  *        --gwasFile /work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/CAD_META \
- *        --annotations /work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/annotations_encode.txt \
+ *        --annotations /work/project/regenet/workspace/zgerber/pipelines/Nextflow/data/input/annotations.txt \
  *        -profile slurm,singularity \
  *        -with-trace reports/trace.txt \
- *        -with-timeline 'eports/timeline.html \
+ *        -with-timeline 'reports/timeline.html \
  *        -with-report reports/report.html \
  *        -resume 
  */
@@ -127,8 +126,7 @@ log.info """\
 
          USAGE EXAMPLE :
             nextflow run main.nf 
-              -dsl2 
-              -c nextflow.config,genologin.config 
+              -c nextflow.config
               --gwasFile /work/project/regenet/workspace/zgerber/Nextflow/data/input/CAD_META
               --annotationsFile /work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations_encode.txt 
               --chromosome_header Chr

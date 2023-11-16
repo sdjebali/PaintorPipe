@@ -9,11 +9,13 @@ This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.
 # Table of Contents
 - [Dependencies](#dependencies)
 - [Usage](#usage)
+  - [Pull the pre-built container](#pull-the-pre-built-container)
+  - [Local Machine](#local-machine)
+  - [Slurm compute cluster](#running-on-a-compute-cluster-with-slurm)
 - [Pipeline parameters](#pipeline-parameters)
   - [Input options](#input-options)
   - [Output options](#output-options)
   - [Nextflow options](#nextflow-options)
-- [Pull the pre-built container](#pull-the-pre-built-container)
 - [Example on a small dataset](#example-on-a-small-dataset)
   - [GWAS summary statistics](#gwas-summary-statistics)
   - [Functionnal Annotations](#functionnal-annotations)
@@ -25,11 +27,27 @@ To use this pipeline you will need:
 - `Nextflow` >= 21.10.6
 - `Singularity` >= 3.7.3
 
+First of all, you need to install [GO and singularity](#https://apptainer.org/user-docs/master/quick_start.html#quick-installation-steps).
 
 # Usage
-A small dataset `CAD_META_extract` is provided to test this pipeline. To try it out, use this command:
+A small dataset made of a 200k SNP file called `CAD_META_200k.tsv` and an annotation location file called `annotations.txt` (pointing to two annotations files, `exons.proj.bed` and `introns.proj.bed`) is provided. To try it out, you should first change the paths to the annotation files in `data/input/annotations.txt`, gunzip the SNP file and use one of the following commands after pulling the singularity image.
+
+## Pull the pre-built container (singularity image)
+In the PaintorPipe directory, pull the image we built for the `PaintorPipe` from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command bellow:
 ```bash
-nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile 'data/input/CAD_META_extract' --annotationsFile 'data/input/annotations_encode.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '0.01' --snp '100000' --pp_threshold '0.001' -profile singularity -with-trace 'reports/trace.txt' -with-timeline 'reports/timeline.html' -with-report 'reports/report.html' -resume 
+singularity pull --arch amd64 library://zgerber/paintorpipe/mainimage:0.1
+```
+
+## Local Machine
+If you are running the pipeline on a local machine with limited resources and want to use the default configuration (at least 2 CPUs/4G mem), use this command:
+```bash
+nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_200k.tsv' --annotationsFile 'data/input/annotations.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '1' --snp '100000' --pp_threshold '0.001' -profile singularity -with-singularity mainimage:0.1
+```
+
+## Running on a Compute Cluster with Slurm
+If you have access to a compute cluster that uses the Slurm Workload Manager and you want to use the resources available there (at least 22 CPUs / 60 G mem), use this command with the slurm profile:
+```bash
+nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_200k.tsv' --annotationsFile 'data/input/annotations.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '1' --snp '100000' --pp_threshold '0.001' -profile singularity,slurm -with-singularity mainimage:0.1
 ```
 
 # Pipeline parameters
@@ -48,11 +66,11 @@ nextflow run main.nf -dsl2 -config nextflow.config,genologin.config --gwasFile '
     <tr>
       <td nowrap><strong><code>--gwasFile</code></strong></td>
       <td nowrap><code>path/to/GWAS_FILE</code></td>
-      <td>The GWAS file must contains 7 required columns : Allele1, Allele2, Effect (Beta), StdErr (SE), Pvalue, CHR, BP. The order is not important, but the name of the column is (see header parameters).</td>
+      <td>The GWAS file must contains 8 required columns : Allele1, Allele2, Effect (Beta), StdErr (SE), Pvalue, CHR, BP, rsID. The order is not important, but the name of the column is (see header parameters).</td>
       <td align=center>Required</td>
     </tr>
     <tr>
-      <td nowrap><strong><code>--annotations</code></strong></td>
+      <td nowrap><strong><code>--annotationsFile</code></strong></td>
       <td nowrap><code>path/to/ANNOTATIONS_FILE</code></td>
       <td>The file should contains 2 columns separeted by tabulation. The first one is the name of the annotation (of the annotation file, or the annotation type for example) and the second is the associated path to the file.</td>
       <td align=center>Required</td>
@@ -307,30 +325,25 @@ The pipeline is written in Nextflow, which provides the following default option
 For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.io/docs/latest/cli.html#run).
 
 
-# Pull the pre-built container
-You can pull the image we built for the `PaintorPipe` from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command bellow :
-```bash
-singularity pull -U library://zgerber/paintorpipe/mainimage:0.1
-```
+
 
 # Example on a small dataset
 ## GWAS summary statistics
-`CAD_META_extract` GWAS file is an extract of the GWAS results from the latest `Coronary Artery Disease` (CAD) meta-analysis involving 122,733 cases and 424,528 controls ([van der Harst P et al, 2018](#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805277/)).
+`CAD_META_200k.tsv` GWAS file is an extract of the GWAS results from the latest `Coronary Artery Disease` (CAD) meta-analysis involving 122,733 cases and 424,528 controls ([van der Harst P et al, 2018](#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805277/)).
 
 ```bash
-unzip CAD_META_extract.zip
-head CAD_META_extract
+gunzip CAD_META_200k.tsv.gz
+head CAD_META_200k.tsv
 ```
 ```
 MarkerName	Allele1	Allele2	Freq1	FreqSE	MinFreq	MaxFreq	Effect	StdErr	Pvalue	Direction	HetISq	HetChiSq	HetDf	HetPVal	rsID	Chr	BP
-9:34486713_A_G	a	g	0.9363	0.0023	0.9346	0.9394	0.0058	0.0115	0.6106	+-	0	0.663	1	0.4156	rs72735241	9	34486713
-4:187387354_G_T	t	g	0.0359	0.0045	0.032	0.041	0.009	0.0155	0.5604	-+	0	0.847	1	0.3574	rs73020749	4	187387354
-4:76326344_C_G	c	g	0.1743	0.0062	0.1694	0.1823	-3e-04	0.0075	0.9641	-+	69.2	3.252	1	0.07136	rs11727982	4	76326344
-1:88710048_C_T	t	c	0.4234	0.008	0.4172	0.4337	-0.0064	0.0057	0.2601	--	0	0.371	1	0.5427	rs6428642	1	88710048
-1:189237277_C_T	t	c	0.5217	0.0011	0.5209	0.5232	0.005	0.0056	0.3742	++	0	0.129	1	0.719	rs1578705	1	189237277
+1:901923_A_C	a	c	0.0014	0	0.0014	0.0014	-0.0838	0.0992	0.3982	?-	0	0	0	1	rs149741186	1	901923
+1:959169_C_G	c	g	0.5376	0.0064	0.5259	0.5412	0.0091	0.0062	0.1443	++	0	0.713	1	0.3985	rs3845292	1	959169
+1:986443_C_T	t	c	0.8907	0.0185	0.8538	0.9	0.0131	0.0109	0.2306	++	47.3	1.897	1	0.1684	rs2710887	1	986443
+1:988503_A_T	a	t	0.1092	0.0188	0.0997	0.1466	-0.0137	0.0109	0.2098	--	39.7	1.659	1	0.1977	rs2799071	1	988503
 ```
 
-The `CAD_META_extract` GWAS test file provided contains the 8 required columns : 
+The `CAD_META_200k.tsv` GWAS test file provided contains the 8 required columns : 
 - Allele1
 - Allele2
 - Effect 
@@ -342,19 +355,19 @@ The `CAD_META_extract` GWAS test file provided contains the 8 required columns :
 
 The chromosome column is the only column with an incorrect header entry. We need to provide the correct version of the header: `Chr` instead of `CHR` with the `--chromosome_header` parameter (see [usage](#usage) part).
 
-This is important that the column names are correctly written. If you have supplementary columns like in the exampe above, you can keep them, the pipeline is going to ignore them. If you don't want to change the required column names in the file, like the `Chr`column, you have to indicate the alternative names with the header arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
+This is important that the column names are correctly written. If you have additional columns like in the exampe above, you can keep them, the pipeline is going to ignore them. If you do not want to change the required column names in the file, like the `Chr` column, you have to indicate the alternative names with the corresponding header arguments when launching the Nextflow command. Make sure the columns are separated by tabulations.
 
-Be careful when running the pipe, about the reference genome version (`--ref_genome` parameter). By default, the pipeline uses hg19 version (more used). Depending on the GWAS dataset you want to fine map, you can change by hg38 version (more recent).
+Be careful when running the pipeline, about the reference genome version (`--ref_genome` parameter). By default, the pipeline uses hg19 version. Depending on the GWAS dataset you want to fine map, you can change it to hg38 (more recent).
 
-## Functionnal annotations
+## Functional annotations
 Concerning the annotation library, you can use the annotations given in the [Paintor github wiki](#https://github.com/gkichaev/PAINTOR_V3.0/wiki/2b.-Overlapping-annotations) or directely following this [link](#https://ucla.box.com/s/x47apvgv51au1rlmuat8m4zdjhcniv2d) (Warning: This is a large 6.7 GB file).
 
-Once the annotation bed files are downloaded, you can write the `annotations.txt` file, to give to the pipeline, pointing to all annotation bed files (use tabulation) looking like:
+Once the annotation bed files are downloaded, you can fill in the `annotations.txt` file, to give to the pipeline the location of those files on the system (use tabulation). This file should look like that:
 ```
 genc.exon       path/to/exons.proj.bed
 genc.intron     path/to/introns.proj.bed
 ```
-The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommand to use no more than 4 or 5 annotations per run.
+The first column is the name of the functionnal annotation and the second one the path to the corresponding annotation file in bed format. Above, an example for a run with 2 annotations (exons & introns). We recommand to use no more than 4 or 5 annotations per run.
 
 ## Outputs
-You should obtain 43 loci in the `output_locus` directory. Check the `slurm-46703827.out` output file in the `files` directory.
+You should obtain 71 loci in the `output_locus` directory (see the `slurm-46703827.out` output file in the `files` directory).
