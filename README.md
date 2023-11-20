@@ -30,12 +30,12 @@ To use this pipeline you will need:
 First of all, you need to install [GO and singularity](#https://apptainer.org/user-docs/master/quick_start.html#quick-installation-steps).
 
 # Usage
-A small dataset `CAD_META_extract` is provided to test this pipeline. To try it out, use one of the followings commands after pulling the singularity image.
+A small dataset `CAD_META_extract` is provided to test this pipeline ([Example on a small dataset](#example-on-a-small-dataset) section). To try it out, use one of the followings commands after pulling the singularity image.
 
 ## Pull the pre-built container
 You can pull the image we built for the `PaintorPipe` from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command bellow :
 ```bash
-singularity pull -U library://zgerber/paintorpipe/mainimage:0.1
+singularity pull --arch amd64 library://zgerber/paintorpipe/mainimage:0.1
 ```
 
 ## Local Machine
@@ -359,6 +359,8 @@ The chromosome column is the only column with an incorrect header entry. We need
 This is important that the column names are correctly written. If you have supplementary columns like in the exampe above, you can keep them, the pipeline is going to ignore them. If you don't want to change the required column names in the file, like the `Chr`column, you have to indicate the alternative names with the header arguments when launching Nextflow command. Make sure the columns are separated by tabulations.
 
 Be careful when running the pipe, about the reference genome version (`--ref_genome` parameter). By default, the pipeline uses hg19 version (more used). Depending on the GWAS dataset you want to fine map, you can change by hg38 version (more recent).
+
+Additionally, it is important to ensure that the pvalue for non-leader SNPs is correct. Indeed, if you run `PaintorPipe` on a small number of variants, as in the example here, the pipeline will generate errors. We recommend in the testing phases to keep the `--pvalue_nonlead` parameter at 1.
 
 ## Functionnal annotations
 Concerning the annotation library, you can use the annotations given in the [Paintor github wiki](#https://github.com/gkichaev/PAINTOR_V3.0/wiki/2b.-Overlapping-annotations) or directely following this [link](#https://ucla.box.com/s/x47apvgv51au1rlmuat8m4zdjhcniv2d) (Warning: This is a large 6.7 GB file).
