@@ -20,6 +20,7 @@ This pipeline run the [Paintor program](#https://github.com/gkichaev/PAINTOR_V3.
   - [GWAS summary statistics](#gwas-summary-statistics)
   - [Functionnal Annotations](#functionnal-annotations)
   - [Outputs](#outputs)
+- [Citation](#citation)
 
 
 # Dependencies
@@ -374,3 +375,10 @@ The first column is the name of the functionnal annotation and the second is the
 
 ## Outputs
 You should obtain 43 loci in the `output_locus` directory. Check the `slurm-46703827.out` output file in the `files` directory.
+
+# Citation
+If you use `PaintorPipe` for your analysis, please cite the publication as follows : 
+
+*Gerber, Z., Fisun, M., Aschard, H., & Djebali, S. (2024). PaintorPipe: a pipeline for genetic variant fine-mapping using functional annotations. Bioinformatics Advances, 4(1), vbad188.*
+
+You can find the publication by following this [link](#https://doi.org/10.1093/bioadv/vbad188).
