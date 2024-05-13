@@ -381,4 +381,4 @@ If you use `PaintorPipe` for your analysis, please cite the publication as follo
 
 *Gerber, Z., Fisun, M., Aschard, H., & Djebali, S. (2024). PaintorPipe: a pipeline for genetic variant fine-mapping using functional annotations. Bioinformatics Advances, 4(1), vbad188.*
 
-You can find the publication by following this [link](#https://doi.org/10.1093/bioadv/vbad188).
+You can find the publication by following this [link](#https://doi.org/10.1093/bioadv/vbad188) (https://doi.org/10.1093/bioadv/vbad188).
