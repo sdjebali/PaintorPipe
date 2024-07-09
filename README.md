@@ -44,7 +44,7 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
 ```
 
 ## Running on a Compute Cluster with Slurm
-If you have access to a compute cluster that uses the Slurm Workload Manager and you want to utilize the resources available there (at least 22 CPUs / 60 G mem), use this command with the slurm profile:
+If you have access to a compute cluster that uses the Slurm Workload Manager and you want to utilize the resources available there (at least 22 CPUs / 60 G mem), use this command with the slurm profile (a more complete file called `launch_pp.sh` can be found in the code directory):
 ```bash
 nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_extract' --annotationsFile 'data/input/annotations.txt' --ref_genome 'hg19' --chromosome_header 'Chr' --pvalue_nonlead '1' --snp '100000' --pp_threshold '0.001' -profile singularity,slurm -resume
 ```
@@ -374,7 +374,7 @@ The first column is the name of the functionnal annotation and the second is the
 You should obtain 43 loci in the `output_locus` directory. Check the `slurm-46703827.out` output file in the `files` directory.
 
 # Citation
-If you use `PaintorPipe` for your analysis, please cite the publication as follows : 
+If you use `PaintorPipe` in your analyses, please cite the publication: 
 
 *Gerber, Z., Fisun, M., Aschard, H., & Djebali, S. (2024). PaintorPipe: a pipeline for genetic variant fine-mapping using functional annotations. Bioinformatics Advances, 4(1), vbad188.*
 
