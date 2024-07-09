@@ -149,7 +149,7 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
     </tr>
   <tr>
       <td nowrap><strong><code>--pp_treshold</code></strong></td>
-      <td nowrap><code>0</code></td>
+      <td nowrap><code>0.001</code></td>
       <td>Significant posterior probability threshold.</td>
       <td align=center>Optional</td>
     </tr>
