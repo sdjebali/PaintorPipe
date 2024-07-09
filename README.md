@@ -371,7 +371,7 @@ genc.intron     path/to/introns.proj.bed
 The first column is the name of the functionnal annotation and the second is the path to the bed file. Above, an example for a run with 2 annotations (exons & introns). We recommand to use no more than 4 or 5 annotations per run.
 
 ## Outputs
-You should obtain 43 loci in the `output_locus` directory. Check the `slurm-46703827.out` output file in the `files` directory.
+You should obtain 43 loci in the `output_locus` directory. Check the `slurm-9429058.out` output file in the `files` directory.
 
 # Citation
 If you use `PaintorPipe` in your analyses, please cite the publication: 
