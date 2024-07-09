@@ -129,7 +129,7 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
       <td align=center>Optional</td>
     </tr>
     <tr>
-      <td nowrap><strong><code>--rsID_header</code></strong></td>
+      <td nowrap><strong><code>--rsid_header</code></strong></td>
       <td nowrap><code>rsID</code></td>
       <td>Header Unique variant identifier or markermane</td>
       <td align=center>Optional</td>
