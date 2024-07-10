@@ -3,7 +3,7 @@ Number of chains: 5
 Samples per chain: 50000
 Burn in: 5000
 Proportion of LD variance kept when performing truncated SVD for estimating N*h2g: 0.95
-Model annotations: genc.exon genc.intron genc.tss500up genc.tts500dw elscardiot1 
+Model annotations: genc.exon genc.intron 
 **********
 Reading in files for: CHR01locus1
 Reading in files for: CHR01locus2
@@ -53,134 +53,89 @@ Enrichment estimates at iteration 1 is :
 2.70805
       0
       0
-      0
-      0
-      0
-Average log bayes factor: 1606.68
+Average log bayes factor: 1606.61
 
 Enrichment estimates at iteration 2 is :
-    1.8105
-   1.08862
--0.0364473
- -0.749795
- -0.349611
- 0.0693097
-Average log bayes factor: 1599.77
+   1.79174
+  0.903763
+-0.0462167
+Average log bayes factor: 1597.59
 
 Enrichment estimates at iteration 3 is :
-    1.42685
-    1.57766
--0.00418711
-  -0.964276
-  -0.524434
-  0.0609373
-Average log bayes factor: 1577.21
+    1.38858
+    1.35223
+-0.00688852
+Average log bayes factor: 1574.55
 
 Enrichment estimates at iteration 4 is :
-   1.2023
-  1.90343
-0.0320898
- -1.08552
--0.644562
-0.0253224
-Average log bayes factor: 1559.96
+  1.15355
+  1.68043
+0.0350788
+Average log bayes factor: 1556.38
 
 Enrichment estimates at iteration 5 is :
-    1.06207
-    2.11182
-  0.0619297
-   -1.18745
-  -0.712943
--0.00404289
-Average log bayes factor: 1547.38
+  1.00834
+  1.92029
+0.0641432
+Average log bayes factor: 1543.26
 
 Enrichment estimates at iteration 6 is :
-  0.971456
-   2.25996
- 0.0799091
-  -1.25247
-  -0.75536
--0.0230378
-Average log bayes factor: 1537.93
+ 0.911393
+  2.09438
+0.0857124
+Average log bayes factor: 1534.71
 
 Enrichment estimates at iteration 7 is :
- 0.905129
-  2.39987
-0.0956824
- -1.29685
--0.803301
--0.062252
-Average log bayes factor: 1531.4
+0.845899
+ 2.27648
+0.100955
+Average log bayes factor: 1528.1
 
 Enrichment estimates at iteration 8 is :
-  0.857566
-   2.47408
-  0.110119
-  -1.34783
- -0.826721
--0.0856475
-Average log bayes factor: 1525.28
+0.795726
+  2.4389
+0.114899
+Average log bayes factor: 1522.91
 
 Enrichment estimates at iteration 9 is :
- 0.818466
-   2.5108
- 0.117876
- -1.37973
--0.841096
--0.100835
-Average log bayes factor: 1522.08
+0.760377
+ 2.55263
+0.123357
+Average log bayes factor: 1519.07
 
 Enrichment estimates at iteration 10 is :
- 0.800177
-  2.57684
- 0.126723
-  -1.4225
--0.874901
--0.125005
-Average log bayes factor: 1520.21
+0.731887
+ 2.68953
+0.131456
+Average log bayes factor: 1517.11
 
 Enrichment estimates at iteration 11 is :
- 0.782448
-  2.63082
- 0.132948
- -1.47048
--0.884728
--0.130257
-Average log bayes factor: 1518.25
+0.720899
+ 2.78579
+0.136113
+Average log bayes factor: 1515.8
 
 Enrichment estimates at iteration 12 is :
- 0.770622
-  2.64507
- 0.135228
- -1.49074
--0.898869
- -0.14593
-Average log bayes factor: 1517.96
+0.709313
+ 2.92078
+0.140197
+Average log bayes factor: 1514.7
 
 Enrichment estimates at iteration 13 is :
- 0.767187
-  2.65588
-  0.13919
- -1.50423
--0.911953
--0.152488
-Average log bayes factor: 1516.62
+0.699308
+ 3.00279
+0.144312
+Average log bayes factor: 1514.01
 
 Enrichment estimates at iteration 14 is :
- 0.758929
-  2.65371
- 0.139828
- -1.52238
- -0.91576
--0.160507
-Average log bayes factor: 1514.91
+0.690884
+ 3.09001
+0.148953
+Average log bayes factor: 1513.05
 
 Enrichment estimates at iteration 15 is :
- 0.751039
-   2.6683
-  0.14206
- -1.52983
--0.914302
--0.163299
-Average log bayes factor: 1514.85
+0.683114
+ 3.18041
+0.149181
+Average log bayes factor: 1512.18
 

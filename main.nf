@@ -67,7 +67,7 @@ params.zheader_header = "Zscore"
 params.kb = "500"
 params.pvalue_lead = "5e-08"
 params.pvalue_nonlead = "1"
-params.pp_threshold = "0"
+params.pp_threshold = "0.001"
 params.snp = "100000000"
 
 // outputs
@@ -100,21 +100,21 @@ log.info """\
 
          PaintorPipe : a pipeline for genetic 
          variant fine-mapping using functional 
-         annotations.
+         annotations
 
          Pipeline to run the Paintor program 
          and its associated visualization 
-         tools on GWAS summary statistics data.
+         tools on GWAS summary statistics data
 
          =======================================
-         REQUIRED :
+         REQUIRED:
             --gwasFile
             --annotationsFile
             
-         GIVEN PARAMETERS :
+         PARAMETERS THAT CAN BE PROVIDED:
             GWAS file                                     : ${params.gwasFile}
-            GWAS file columns (no matter to the order)    : ${params.rsid_header}, ${params.chromosome_header}, ${params.position_header}, ${params.effectallele_header}, ${params.altallele_header}, ${params.effect_header}, ${params.stderr_header}, ${params.pvalue_header}
-            Annotations file                              : ${params.annotationsFile}
+            GWAS file columns (no matter the order)       : ${params.rsid_header}, ${params.chromosome_header}, ${params.position_header}, ${params.effectallele_header}, ${params.altallele_header}, ${params.effect_header}, ${params.stderr_header}, ${params.pvalue_header}
+            Annotation paths' file                        : ${params.annotationsFile}
             Reference Genome                              : ${params.ref_genome}
             Number of kb (up/down from lead SNP)          : ${params.kb}
             Pvalue threshold for lead SNP                 : ${params.pvalue_lead}
@@ -124,7 +124,7 @@ log.info """\
             Posterior probability threshold               : ${params.pp_threshold}
            
 
-         USAGE EXAMPLE :
+         USAGE EXAMPLE:
             nextflow run main.nf 
               -c nextflow.config
               --gwasFile /work/project/regenet/workspace/zgerber/Nextflow/data/input/CAD_META

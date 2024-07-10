@@ -1,15 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
-module load devel/java/17.0.6
-module load containers/singularity/3.9.9
-module load bioinfo/Nextflow/23.04.3
+     mydir=PaintorPipe-small-run
+     codedir=PaintorPipe_code
+     cd $mydir
+     module load devel/java/17.0.6
+     module load containers/singularity/3.9.9
+     module load bioinfo/Nextflow/24.04.2
+     export NXF_SINGULARITY_CACHEDIR=$mydir
+     export SINGULARITY_PULLFOLDER=$mydir
+     export SINGULARITY_CACHEDIR=$mydir
+     export SINGULARITY_TMPDIR=$mydir
 
-cd /home/sdjebali/regencard/workspace/sdjebali/nextflow/PaintorPipe
-
-nextflow run main.nf \
-    -config nextflow.config,genologin.config \
-    --gwasFile data/input/CAD_META_200K.tsv \
-    --annotationsFile data/input/annotations.txt \
+     nextflow run $codedir/main.nf \
+    -config $codedir/nextflow.config,$codedir/genologin.config \
+    --gwasFile $codedir/data/input/CAD_META_extract \
+    --annotationsFile $codedir/data/input/annotations.txt \
     --ref_genome hg19 \
     --chromosome_header Chr \
     --pvalue_lead 5e-08 \
@@ -22,5 +27,4 @@ nextflow run main.nf \
     -with-report reports/report.html \
     -with-dag reports/flowchart.png \
     -resume > paintorpipe.test.small.out
-
 

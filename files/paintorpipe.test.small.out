@@ -1,0 +1,2633 @@
+
+ N E X T F L O W   ~  version 24.04.2
+
+Launching `/work/project/fragencode/workspace/sdjebali/courses/inserm_workshop_massive_data_2024/fine-mapping_funct_annot/PaintorPipe-2.0/main.nf` [romantic_fourier] DSL2 - revision: c8138b4143
+
+
+=======================================
+   P A I N T O R     P I P E L I N E    
+=======================================
+
+      Fine-mapping pipeline
+
+PaintorPipe : a pipeline for genetic 
+variant fine-mapping using functional 
+annotations.
+
+Pipeline to run the Paintor program 
+and its associated visualization 
+tools on GWAS summary statistics data.
+
+=======================================
+REQUIRED :
+   --gwasFile
+   --annotationsFile
+
+GIVEN PARAMETERS :
+   GWAS file                                     : /work/project/fragencode/workspace/sdjebali/courses/inserm_workshop_massive_data_2024/fine-mapping_funct_annot/PaintorPipe-2.0/data/input/CAD_META_extract
+   GWAS file columns (no matter to the order)    : rsID, Chr, BP, Allele1, Allele2, Effect, StdErr, Pvalue
+   Annotations file                              : /work/project/fragencode/workspace/sdjebali/courses/inserm_workshop_massive_data_2024/fine-mapping_funct_annot/PaintorPipe-2.0/data/input/annotations.txt
+   Reference Genome                              : hg19
+   Number of kb (up/down from lead SNP)          : 500
+   Pvalue threshold for lead SNP                 : 5e-08
+   Pvalue threshold for all SNPs around lead SNP : 1
+   Population                                    : EUR
+   Number of SNPs to keep                        : 100000
+   Posterior probability threshold               : 0.001
+
+
+USAGE EXAMPLE :
+   nextflow run main.nf 
+     -c nextflow.config
+     --gwasFile /work/project/regenet/workspace/zgerber/Nextflow/data/input/CAD_META
+     --annotationsFile /work/project/regenet/workspace/zgerber/Nextflow/data/input/annotations_encode.txt 
+     --chromosome_header Chr
+     --pvalue_lead 5e-08
+     --pvalue_nonlead 0.01
+     --kb 500
+     --snp 100000
+     --pp_threshold 0.001
+     -profile slurm,singularity 
+     -with-trace reports/trace.txt
+     -with-timeline reports/timeline.html 
+     -with-report reports/report.html
+     -resume 
+=======================================
+
+
+[-        ] PREPPAINTOR_splitlocus -
+
+[-        ] PREPPAINTOR_splitlocus         -
+[-        ] LDCALCULATION_sortlocus        -
+[-        ] LDC…etVCFandMAPfilesfrom1000GP -
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+
+[-        ] PREPPAINTOR_splitlocus         -
+[-        ] LDCALCULATION_sortlocus        -
+[-        ] LDC…etVCFandMAPfilesfrom1000GP -
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+[-        ] PREPPAINTOR_splitlocus         | 0 of 1
+[-        ] LDCALCULATION_sortlocus        -
+[-        ] LDC…etVCFandMAPfilesfrom1000GP -
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (1)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 0 of 1
+[-        ] LDCALCULATION_sortlocus        -
+[-        ] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (2)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 0 of 1
+[-        ] LDCALCULATION_sortlocus        -
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (2)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 0 of 1
+[-        ] LDCALCULATION_sortlocus        -
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (3)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 0 of 1
+[89/3f3eaf] LDCALCULATION_sortlocus (2)    | 0 of 20
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (5)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 0 of 1
+[d6/d75274] LDCALCULATION_sortlocus (4)    | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (7)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[04/bb5f9f] LDCALCULATION_sortlocus (5)    | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (10)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[50/0019f1] LDCALCULATION_sortlocus (9)    | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (13)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[83/0511d7] LDCALCULATION_sortlocus (11)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (17)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[84/0781e5] LDCALCULATION_sortlocus (15)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (21)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[49/edf9ed] LDCALCULATION_sortlocus (19)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (24)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[b5/21ee10] LDCALCULATION_sortlocus (22)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (28)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[0d/2a71c6] LDCALCULATION_sortlocus (27)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (32)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[3c/e9653a] LDCALCULATION_sortlocus (31)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (36)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[00/feb561] LDCALCULATION_sortlocus (33)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (39)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[c7/e56fc9] LDCALCULATION_sortlocus (38)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (41)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[9d/b4496d] LDCALCULATION_sortlocus (39)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (44)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[0d/1d0a92] LDCALCULATION_sortlocus (42)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[eb/d5f58f] LDCALCULATION_sortlocus (43)   | 0 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[2e/979572] LDCALCULATION_sortlocus (6)    | 2 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[00/feb561] LDCALCULATION_sortlocus (33)   | 14 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[9d/b4496d] LDCALCULATION_sortlocus (39)   | 19 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[34/732273] LDCALCULATION_sortlocus (25)   | 23 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[5f/a8d591] LDCALCULATION_sortlocus (3)    | 24 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[0d/1d0a92] LDCALCULATION_sortlocus (42)   | 41 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[eb/d5f58f] LDCALCULATION_sortlocus (43)   | 42 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[eb/d5f58f] LDCALCULATION_sortlocus (43)   | 42 of 43
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 0 of 1
+[-        ] LDCALCULATION_calculation      -
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (45)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[-        ] LDCALCULATION_calculation      | 0 of 1
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (47)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[af/6365c0] LDCALCULATION_calculation (1)  | 0 of 40
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (49)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e1/cc3465] LDCALCULATION_calculation (4)  | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (52)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[49/a5aa09] LDCALCULATION_calculation (8)  | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (55)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (59)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d5/ed4179] LDCALCULATION_calculation (14) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (63)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[61/865b2c] LDCALCULATION_calculation (18) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (67)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e6/482567] LDCALCULATION_calculation (22) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (71)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[fb/9307f1] LDCALCULATION_calculation (26) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (75)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[5f/8b4eb2] LDCALCULATION_calculation (31) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (79)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ef/242088] LDCALCULATION_calculation (34) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (83)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[dc/b861e8] LDCALCULATION_calculation (38) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (87)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[86/cf0c94] LDCALCULATION_calculation (41) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (88)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[54/f3e9ca] LDCALCULATION_calculation (43) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (88)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[54/f3e9ca] LDCALCULATION_calculation (43) | 0 of 43
+[-        ] ANNOTATIONS_bedfiles           -
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (89)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[20/e15703] LDCALCULATION_calculation (40) | 1 of 43
+[19/5b0a45] ANNOTATIONS_bedfiles (2)       | 0 of 1
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (89)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[20/e15703] LDCALCULATION_calculation (40) | 1 of 43
+[19/5b0a45] ANNOTATIONS_bedfiles (2)       | 0 of 1
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (90)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[a4/dfabff] LDCALCULATION_calculation (36) | 2 of 43
+[d8/b994f3] ANNOTATIONS_bedfiles (4)       | 0 of 2
+[-        ] ANNOTATIONS_mergeannotations   -
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (91)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d1/02f56a] LDCALCULATION_calculation (37) | 3 of 43
+[20/bfe75d] ANNOTATIONS_bedfiles (6)       | 2 of 3
+[-        ] ANNOTATIONS_mergeannotations   | 0 of 2
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (93)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d1/02f56a] LDCALCULATION_calculation (37) | 3 of 43
+[20/bfe75d] ANNOTATIONS_bedfiles (6)       | 2 of 3
+[f9/8befea] ANN…TIONS_mergeannotations (2) | 0 of 2
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (95)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[86/cf0c94] LDCALCULATION_calculation (41) | 4 of 43
+[e2/6d3f23] ANNOTATIONS_bedfiles (8)       | 3 of 4
+[f1/954fe6] ANN…TIONS_mergeannotations (3) | 1 of 3
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (95)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[86/cf0c94] LDCALCULATION_calculation (41) | 4 of 43
+[e2/6d3f23] ANNOTATIONS_bedfiles (8)       | 3 of 4
+[f1/954fe6] ANN…TIONS_mergeannotations (3) | 1 of 3
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (97)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ef/242088] LDCALCULATION_calculation (34) | 5 of 43
+[a5/822579] ANNOTATIONS_bedfiles (10)      | 4 of 5
+[bc/2de5ee] ANN…TIONS_mergeannotations (4) | 1 of 4
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (97)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[5f/8b4eb2] LDCALCULATION_calculation (31) | 6 of 43
+[a5/822579] ANNOTATIONS_bedfiles (10)      | 5 of 6
+[bc/2de5ee] ANN…TIONS_mergeannotations (4) | 1 of 5
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (99)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[5f/8b4eb2] LDCALCULATION_calculation (31) | 6 of 43
+[12/d238e5] ANNOTATIONS_bedfiles (12)      | 5 of 6
+[38/c92bfc] ANN…TIONS_mergeannotations (5) | 1 of 5
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (100)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[fd/ec9b55] LDCALCULATION_calculation (32) | 7 of 43
+[0b/347ecb] ANNOTATIONS_bedfiles (14)      | 5 of 7
+[f9/8befea] ANN…TIONS_mergeannotations (2) | 3 of 5
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (101)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e6/482567] LDCALCULATION_calculation (22) | 8 of 43
+[a0/a77bd7] ANNOTATIONS_bedfiles (16)      | 6 of 8
+[f1/954fe6] ANN…TIONS_mergeannotations (3) | 4 of 6
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (102)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e6/482567] LDCALCULATION_calculation (22) | 8 of 43
+[a0/a77bd7] ANNOTATIONS_bedfiles (16)      | 6 of 8
+[9c/9cde22] ANN…TIONS_mergeannotations (6) | 4 of 6
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (102)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e6/482567] LDCALCULATION_calculation (22) | 8 of 43
+[a0/a77bd7] ANNOTATIONS_bedfiles (16)      | 6 of 8
+[bc/2de5ee] ANN…TIONS_mergeannotations (4) | 5 of 6
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (103)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e6/482567] LDCALCULATION_calculation (22) | 8 of 43
+[12/d238e5] ANNOTATIONS_bedfiles (12)      | 7 of 8
+[f6/7f5f54] ANN…TIONS_mergeannotations (7) | 5 of 7
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (104)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[3c/67cd9b] LDCALCULATION_calculation (23) | 9 of 43
+[53/6d76d6] ANNOTATIONS_bedfiles (18)      | 7 of 9
+[f6/7f5f54] ANN…TIONS_mergeannotations (7) | 6 of 7
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (105)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[3c/67cd9b] LDCALCULATION_calculation (23) | 9 of 43
+[a0/a77bd7] ANNOTATIONS_bedfiles (16)      | 8 of 9
+[98/c66972] ANN…TIONS_mergeannotations (8) | 7 of 8
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (105)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[3c/67cd9b] LDCALCULATION_calculation (23) | 9 of 43
+[a0/a77bd7] ANNOTATIONS_bedfiles (16)      | 8 of 9
+[98/c66972] ANN…TIONS_mergeannotations (8) | 8 of 8
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (106)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[3c/67cd9b] LDCALCULATION_calculation (23) | 9 of 43
+[53/6d76d6] ANNOTATIONS_bedfiles (18)      | 9 of 9
+[21/07913a] ANN…TIONS_mergeannotations (9) | 8 of 9
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (106)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[3c/67cd9b] LDCALCULATION_calculation (23) | 9 of 43
+[53/6d76d6] ANNOTATIONS_bedfiles (18)      | 9 of 9
+[21/07913a] ANN…TIONS_mergeannotations (9) | 9 of 9
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (108)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[89/bc0366] LDCALCULATION_calculation (42) | 11 of 43
+[d4/97e8c7] ANNOTATIONS_bedfiles (22)      | 9 of 11
+[21/07913a] ANN…TIONS_mergeannotations (9) | 9 of 9
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (110)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[54/f3e9ca] LDCALCULATION_calculation (43) | 14 of 43
+[a4/a429d5] ANNOTATIONS_bedfiles (26)      | 10 of 14
+[21/07913a] ANN…TIONS_mergeannotations (9) | 9 of 10
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (112)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[54/f3e9ca] LDCALCULATION_calculation (43) | 14 of 43
+[e2/eff7a6] ANNOTATIONS_bedfiles (28)      | 10 of 14
+[e5/e6d403] ANN…IONS_mergeannotations (10) | 9 of 10
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (112)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[54/f3e9ca] LDCALCULATION_calculation (43) | 14 of 43
+[e2/eff7a6] ANNOTATIONS_bedfiles (28)      | 10 of 14
+[e5/e6d403] ANN…IONS_mergeannotations (10) | 10 of 10
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (112)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[17/253309] LDCALCULATION_calculation (35) | 16 of 43
+[e2/eff7a6] ANNOTATIONS_bedfiles (28)      | 10 of 16
+[e5/e6d403] ANN…IONS_mergeannotations (10) | 10 of 10
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (114)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[17/253309] LDCALCULATION_calculation (35) | 16 of 43
+[2b/956e48] ANNOTATIONS_bedfiles (30)      | 10 of 16
+[e5/e6d403] ANN…IONS_mergeannotations (10) | 10 of 10
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (117)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[17/253309] LDCALCULATION_calculation (35) | 16 of 43
+[be/4a27c0] ANNOTATIONS_bedfiles (32)      | 13 of 16
+[a2/167927] ANN…IONS_mergeannotations (13) | 10 of 13
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (118)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[dc/b861e8] LDCALCULATION_calculation (38) | 17 of 43
+[7f/75fae4] ANNOTATIONS_bedfiles (34)      | 13 of 17
+[a2/167927] ANN…IONS_mergeannotations (13) | 11 of 13
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (120)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[dc/b861e8] LDCALCULATION_calculation (38) | 17 of 43
+[2b/956e48] ANNOTATIONS_bedfiles (30)      | 15 of 17
+[c0/1b75c6] ANN…IONS_mergeannotations (15) | 11 of 15
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (121)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[dc/b861e8] LDCALCULATION_calculation (38) | 17 of 43
+[e2/eff7a6] ANNOTATIONS_bedfiles (28)      | 16 of 17
+[67/7e0df9] ANN…IONS_mergeannotations (16) | 13 of 16
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (123)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[61/865b2c] LDCALCULATION_calculation (18) | 18 of 43
+[69/3601d2] ANNOTATIONS_bedfiles (36)      | 17 of 18
+[f8/b41e6f] ANN…IONS_mergeannotations (17) | 13 of 17
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (124)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d7/6802fb] LDCALCULATION_calculation (17) | 19 of 43
+[91/6e8bb3] ANNOTATIONS_bedfiles (38)      | 17 of 19
+[f8/b41e6f] ANN…IONS_mergeannotations (17) | 13 of 17
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (124)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d7/6802fb] LDCALCULATION_calculation (17) | 19 of 43
+[91/6e8bb3] ANNOTATIONS_bedfiles (38)      | 17 of 19
+[c0/1b75c6] ANN…IONS_mergeannotations (15) | 14 of 17
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (125)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[68/b012d3] LDCALCULATION_calculation (39) | 20 of 43
+[b3/cf84a3] ANNOTATIONS_bedfiles (40)      | 17 of 20
+[67/7e0df9] ANN…IONS_mergeannotations (16) | 15 of 17
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (127)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[68/b012d3] LDCALCULATION_calculation (39) | 20 of 43
+[b3/cf84a3] ANNOTATIONS_bedfiles (40)      | 19 of 20
+[42/1cc151] ANN…IONS_mergeannotations (19) | 16 of 19
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (127)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[68/b012d3] LDCALCULATION_calculation (39) | 20 of 43
+[b3/cf84a3] ANNOTATIONS_bedfiles (40)      | 19 of 20
+[e1/633e5d] ANN…IONS_mergeannotations (14) | 17 of 19
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (127)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[68/b012d3] LDCALCULATION_calculation (39) | 20 of 43
+[91/6e8bb3] ANNOTATIONS_bedfiles (38)      | 20 of 20
+[e1/633e5d] ANN…IONS_mergeannotations (14) | 17 of 19
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (128)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[68/b012d3] LDCALCULATION_calculation (39) | 20 of 43
+[91/6e8bb3] ANNOTATIONS_bedfiles (38)      | 20 of 20
+[cb/737d85] ANN…IONS_mergeannotations (20) | 19 of 20
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (129)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d5/ed4179] LDCALCULATION_calculation (14) | 23 of 43
+[ce/ef7381] ANNOTATIONS_bedfiles (44)      | 20 of 23
+[cb/737d85] ANN…IONS_mergeannotations (20) | 19 of 20
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (131)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d5/ed4179] LDCALCULATION_calculation (14) | 23 of 43
+[54/1e8be0] ANNOTATIONS_bedfiles (46)      | 20 of 23
+[cb/737d85] ANN…IONS_mergeannotations (20) | 19 of 20
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (132)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d5/ed4179] LDCALCULATION_calculation (14) | 23 of 43
+[54/1e8be0] ANNOTATIONS_bedfiles (46)      | 23 of 23
+[c3/547490] ANN…IONS_mergeannotations (21) | 19 of 23
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (134)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d5/ed4179] LDCALCULATION_calculation (14) | 23 of 43
+[54/1e8be0] ANNOTATIONS_bedfiles (46)      | 23 of 23
+[7b/63e165] ANN…IONS_mergeannotations (22) | 19 of 23
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (134)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[d5/ed4179] LDCALCULATION_calculation (14) | 23 of 43
+[54/1e8be0] ANNOTATIONS_bedfiles (46)      | 23 of 23
+[7b/63e165] ANN…IONS_mergeannotations (22) | 20 of 23
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (136)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[76/184e45] LDCALCULATION_calculation (13) | 25 of 43
+[95/921f55] ANNOTATIONS_bedfiles (50)      | 23 of 25
+[7b/63e165] ANN…IONS_mergeannotations (22) | 20 of 23
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (138)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[8d/42b584] LDCALCULATION_calculation (11) | 27 of 43
+[ac/1155db] ANNOTATIONS_bedfiles (52)      | 23 of 27
+[c3/547490] ANN…IONS_mergeannotations (21) | 22 of 23
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (138)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[ac/1155db] ANNOTATIONS_bedfiles (52)      | 24 of 28
+[cb/737d85] ANN…IONS_mergeannotations (20) | 23 of 24
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (140)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[18/7967f7] ANNOTATIONS_bedfiles (56)      | 24 of 28
+[d8/2e44f7] ANN…IONS_mergeannotations (24) | 23 of 24
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (142)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[18/7967f7] ANNOTATIONS_bedfiles (56)      | 26 of 28
+[d5/ea5e8b] ANN…IONS_mergeannotations (26) | 23 of 26
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (142)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[18/7967f7] ANNOTATIONS_bedfiles (56)      | 26 of 28
+[d5/ea5e8b] ANN…IONS_mergeannotations (26) | 24 of 26
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (143)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[0c/311d30] ANNOTATIONS_bedfiles (54)      | 27 of 28
+[f0/c30b74] ANN…IONS_mergeannotations (27) | 24 of 27
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (144)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[95/921f55] ANNOTATIONS_bedfiles (50)      | 28 of 28
+[3b/00f3be] ANN…IONS_mergeannotations (28) | 26 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (144)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[95/921f55] ANNOTATIONS_bedfiles (50)      | 28 of 28
+[3b/00f3be] ANN…IONS_mergeannotations (28) | 26 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (144)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[b7/4ddb6f] LDCALCULATION_calculation (9)  | 28 of 43
+[95/921f55] ANNOTATIONS_bedfiles (50)      | 28 of 28
+[16/0a971c] ANN…IONS_mergeannotations (25) | 27 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (144)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[96/7ad555] LDCALCULATION_calculation (12) | 29 of 43
+[95/921f55] ANNOTATIONS_bedfiles (50)      | 28 of 29
+[16/0a971c] ANN…IONS_mergeannotations (25) | 27 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (145)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[96/7ad555] LDCALCULATION_calculation (12) | 29 of 43
+[3b/e63f75] ANNOTATIONS_bedfiles (58)      | 28 of 29
+[16/0a971c] ANN…IONS_mergeannotations (25) | 27 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (145)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[96/7ad555] LDCALCULATION_calculation (12) | 29 of 43
+[3b/e63f75] ANNOTATIONS_bedfiles (58)      | 28 of 29
+[16/0a971c] ANN…IONS_mergeannotations (25) | 27 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (145)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[96/7ad555] LDCALCULATION_calculation (12) | 29 of 43
+[3b/e63f75] ANNOTATIONS_bedfiles (58)      | 28 of 29
+[3b/00f3be] ANN…IONS_mergeannotations (28) | 28 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (146)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[fb/9307f1] LDCALCULATION_calculation (26) | 30 of 43
+[9a/2ea450] ANNOTATIONS_bedfiles (60)      | 28 of 30
+[3b/00f3be] ANN…IONS_mergeannotations (28) | 28 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (147)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[6a/e1a8fe] LDCALCULATION_calculation (33) | 31 of 43
+[de/e1f965] ANNOTATIONS_bedfiles (62)      | 28 of 31
+[3b/00f3be] ANN…IONS_mergeannotations (28) | 28 of 28
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (148)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[c7/4c1a84] ANNOTATIONS_bedfiles (66)      | 30 of 33
+[3b/00f3be] ANN…IONS_mergeannotations (28) | 28 of 30
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (151)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[0e/99dbab] ANNOTATIONS_bedfiles (64)      | 30 of 33
+[0a/37d479] ANN…IONS_mergeannotations (29) | 28 of 30
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (153)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[9a/2ea450] ANNOTATIONS_bedfiles (60)      | 32 of 33
+[75/b97f10] ANN…IONS_mergeannotations (31) | 29 of 32
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (153)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[9a/2ea450] ANNOTATIONS_bedfiles (60)      | 32 of 33
+[75/b97f10] ANN…IONS_mergeannotations (31) | 31 of 32
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (154)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[0e/99dbab] ANNOTATIONS_bedfiles (64)      | 33 of 33
+[07/699066] ANN…IONS_mergeannotations (33) | 31 of 33
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (154)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[0e/99dbab] ANNOTATIONS_bedfiles (64)      | 33 of 33
+[27/edde16] ANN…IONS_mergeannotations (30) | 32 of 33
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (154)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[0e/99dbab] ANNOTATIONS_bedfiles (64)      | 33 of 33
+[27/edde16] ANN…IONS_mergeannotations (30) | 32 of 33
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (154)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[c8/b1c1db] LDCALCULATION_calculation (5)  | 33 of 43
+[0e/99dbab] ANNOTATIONS_bedfiles (64)      | 33 of 33
+[07/699066] ANN…IONS_mergeannotations (33) | 33 of 33
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (155)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[26/6a0168] LDCALCULATION_calculation (29) | 34 of 43
+[cb/1eb617] ANNOTATIONS_bedfiles (68)      | 33 of 34
+[07/699066] ANN…IONS_mergeannotations (33) | 33 of 33
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (155)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[26/6a0168] LDCALCULATION_calculation (29) | 34 of 43
+[cb/1eb617] ANNOTATIONS_bedfiles (68)      | 34 of 34
+[07/699066] ANN…IONS_mergeannotations (33) | 33 of 33
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (157)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[98/797086] LDCALCULATION_calculation (27) | 35 of 43
+[21/198d02] ANNOTATIONS_bedfiles (70)      | 34 of 35
+[29/8bd062] ANN…IONS_mergeannotations (34) | 33 of 34
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (157)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[98/797086] LDCALCULATION_calculation (27) | 35 of 43
+[21/198d02] ANNOTATIONS_bedfiles (70)      | 34 of 35
+[29/8bd062] ANN…IONS_mergeannotations (34) | 33 of 34
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (157)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[18/fdf4ed] LDCALCULATION_calculation (6)  | 36 of 43
+[21/198d02] ANNOTATIONS_bedfiles (70)      | 35 of 36
+[29/8bd062] ANN…IONS_mergeannotations (34) | 34 of 35
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (159)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[18/fdf4ed] LDCALCULATION_calculation (6)  | 36 of 43
+[0c/9a6bb8] ANNOTATIONS_bedfiles (72)      | 35 of 36
+[3b/6edf4b] ANN…IONS_mergeannotations (35) | 34 of 35
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (159)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[63/672b02] LDCALCULATION_calculation (7)  | 37 of 43
+[0c/9a6bb8] ANNOTATIONS_bedfiles (72)      | 36 of 37
+[3b/6edf4b] ANN…IONS_mergeannotations (35) | 34 of 36
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (161)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[63/672b02] LDCALCULATION_calculation (7)  | 37 of 43
+[f1/2b6904] ANNOTATIONS_bedfiles (74)      | 36 of 37
+[de/1dbc35] ANN…IONS_mergeannotations (36) | 34 of 36
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (162)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e1/cc3465] LDCALCULATION_calculation (4)  | 38 of 43
+[41/5993a1] ANNOTATIONS_bedfiles (76)      | 36 of 38
+[de/1dbc35] ANN…IONS_mergeannotations (36) | 34 of 36
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (163)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e1/cc3465] LDCALCULATION_calculation (4)  | 38 of 43
+[41/5993a1] ANNOTATIONS_bedfiles (76)      | 37 of 38
+[2a/e3f71c] ANN…IONS_mergeannotations (37) | 34 of 37
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (163)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e1/cc3465] LDCALCULATION_calculation (4)  | 38 of 43
+[41/5993a1] ANNOTATIONS_bedfiles (76)      | 37 of 38
+[2a/e3f71c] ANN…IONS_mergeannotations (37) | 35 of 37
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (163)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e1/cc3465] LDCALCULATION_calculation (4)  | 38 of 43
+[f1/2b6904] ANNOTATIONS_bedfiles (74)      | 38 of 38
+[de/1dbc35] ANN…IONS_mergeannotations (36) | 36 of 38
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (164)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[e1/cc3465] LDCALCULATION_calculation (4)  | 38 of 43
+[f1/2b6904] ANNOTATIONS_bedfiles (74)      | 38 of 38
+[ee/11099d] ANN…IONS_mergeannotations (38) | 36 of 38
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (165)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[bb/a44519] LDCALCULATION_calculation (3)  | 39 of 43
+[51/97cb07] ANNOTATIONS_bedfiles (78)      | 38 of 39
+[ee/11099d] ANN…IONS_mergeannotations (38) | 36 of 38
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (166)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[bb/a44519] LDCALCULATION_calculation (3)  | 39 of 43
+[51/97cb07] ANNOTATIONS_bedfiles (78)      | 39 of 39
+[7a/de55fb] ANN…IONS_mergeannotations (39) | 37 of 39
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (166)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[bb/a44519] LDCALCULATION_calculation (3)  | 39 of 43
+[51/97cb07] ANNOTATIONS_bedfiles (78)      | 39 of 39
+[7a/de55fb] ANN…IONS_mergeannotations (39) | 38 of 39
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (166)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[bb/a44519] LDCALCULATION_calculation (3)  | 39 of 43
+[51/97cb07] ANNOTATIONS_bedfiles (78)      | 39 of 39
+[ee/11099d] ANN…IONS_mergeannotations (38) | 39 of 39
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (167)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[47/92b72c] LDCALCULATION_calculation (24) | 40 of 43
+[77/d7eeb2] ANNOTATIONS_bedfiles (80)      | 39 of 40
+[ee/11099d] ANN…IONS_mergeannotations (38) | 39 of 39
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (167)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[47/92b72c] LDCALCULATION_calculation (24) | 40 of 43
+[77/d7eeb2] ANNOTATIONS_bedfiles (80)      | 39 of 40
+[ee/11099d] ANN…IONS_mergeannotations (38) | 39 of 39
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (168)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[47/92b72c] LDCALCULATION_calculation (24) | 40 of 43
+[77/d7eeb2] ANNOTATIONS_bedfiles (80)      | 40 of 40
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 39 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (168)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[47/92b72c] LDCALCULATION_calculation (24) | 40 of 43
+[77/d7eeb2] ANNOTATIONS_bedfiles (80)      | 40 of 40
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (168)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[63/6cb7c0] LDCALCULATION_calculation (2)  | 41 of 43
+[77/d7eeb2] ANNOTATIONS_bedfiles (80)      | 40 of 41
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (169)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[63/6cb7c0] LDCALCULATION_calculation (2)  | 41 of 43
+[17/98523c] ANNOTATIONS_bedfiles (82)      | 40 of 41
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (169)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[63/6cb7c0] LDCALCULATION_calculation (2)  | 41 of 43
+[17/98523c] ANNOTATIONS_bedfiles (82)      | 40 of 41
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (169)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[77/65962e] LDCALCULATION_calculation (25) | 42 of 43
+[17/98523c] ANNOTATIONS_bedfiles (82)      | 40 of 42
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (170)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[77/65962e] LDCALCULATION_calculation (25) | 42 of 43
+[77/bd4e76] ANNOTATIONS_bedfiles (84)      | 40 of 42
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (171)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 40 of 43
+[ad/1302d2] ANN…IONS_mergeannotations (40) | 40 of 40
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (172)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[17/98523c] ANNOTATIONS_bedfiles (82)      | 41 of 43
+[61/965ada] ANN…IONS_mergeannotations (41) | 40 of 41
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (172)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[17/98523c] ANNOTATIONS_bedfiles (82)      | 41 of 43
+[61/965ada] ANN…IONS_mergeannotations (41) | 40 of 41
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (173)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[77/bd4e76] ANNOTATIONS_bedfiles (84)      | 42 of 43
+[96/30693a] ANN…IONS_mergeannotations (42) | 40 of 42
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (173)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[77/bd4e76] ANNOTATIONS_bedfiles (84)      | 42 of 43
+[96/30693a] ANN…IONS_mergeannotations (42) | 40 of 42
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (173)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[77/bd4e76] ANNOTATIONS_bedfiles (84)      | 42 of 43
+[61/965ada] ANN…IONS_mergeannotations (41) | 41 of 42
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (173)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[96/30693a] ANN…IONS_mergeannotations (42) | 42 of 42
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (174)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 42 of 43
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (174)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 42 of 43
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (174)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[-        ] PAINTOR_run                    -
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (175)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 0 of 1
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (175)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 0 of 1
+[-        ] PAINTOR_annotatedlocus         -
+[-        ] RESULTS_statistics             -
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (175)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[-        ] PAINTOR_annotatedlocus         | 0 of 15
+[-        ] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (177)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[c3/8f082c] PAINTOR_annotatedlocus (3)     | 0 of 43
+[-        ] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (183)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[e9/e130cc] PAINTOR_annotatedlocus (8)     | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (188)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[62/94e81b] PAINTOR_annotatedlocus (12)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (196)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[73/b76887] PAINTOR_annotatedlocus (21)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (199)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[42/04fc7f] PAINTOR_annotatedlocus (23)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (200)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[c7/3e4494] PAINTOR_annotatedlocus (24)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (202)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[a8/89dc58] PAINTOR_annotatedlocus (26)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (204)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[26/dd8746] PAINTOR_annotatedlocus (28)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (209)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[0d/58f319] PAINTOR_annotatedlocus (33)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (213)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[53/784d2b] PAINTOR_annotatedlocus (37)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 0 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[5b/ea6831] PAINTOR_annotatedlocus (20)    | 15 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[3c/8eb2c2] PAINTOR_annotatedlocus (40)    | 19 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[3c/8eb2c2] PAINTOR_annotatedlocus (40)    | 19 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[5b/f671a9] PAINTOR_annotatedlocus (1)     | 21 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[c3/8f082c] PAINTOR_annotatedlocus (3)     | 23 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   -
+[-        ] CANVIS_run                     -
+
+executor >  slurm (219)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 0 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   | 0 of 1
+[-        ] CANVIS_run                     | 0 of 6
+
+executor >  slurm (220)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[-        ] RESULTS_plot                   | 0 of 1
+[d8/a1863d] CANVIS_run (1)                 | 0 of 43
+
+executor >  slurm (228)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[71/2cf21e] CANVIS_run (8)                 | 0 of 43
+
+executor >  slurm (232)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[5b/c4c559] CANVIS_run (12)                | 0 of 43
+
+executor >  slurm (238)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[9a/6f0937] CANVIS_run (19)                | 0 of 43
+
+executor >  slurm (246)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[9c/5f7b49] CANVIS_run (26)                | 0 of 43
+
+executor >  slurm (252)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[7e/73ddc7] CANVIS_run (31)                | 0 of 43
+
+executor >  slurm (259)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[4f/d522a8] CANVIS_run (39)                | 0 of 43
+
+executor >  slurm (263)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 0 of 1
+[c1/8a25bf] CANVIS_run (42)                | 0 of 43
+
+executor >  slurm (263)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[1d/e9b81a] CANVIS_run (9)                 | 6 of 43
+
+executor >  slurm (263)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[08/8c13f9] PAINTOR_annotatedlocus (43)    | 40 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[32/866c40] CANVIS_run (33)                | 17 of 43
+
+executor >  slurm (263)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[a5/85d7c7] PAINTOR_annotatedlocus (41)    | 41 of 43
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[-        ] RESULTS_posteriorprob          -
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[72/8c8858] CANVIS_run (43)                | 18 of 43
+
+executor >  slurm (264)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[94/c58ef7] PAINTOR_annotatedlocus (29)    | 43 of 43 ✔
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[8f/a6a974] RESULTS_posteriorprob          | 0 of 1
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[72/8c8858] CANVIS_run (43)                | 18 of 43
+
+executor >  slurm (264)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[94/c58ef7] PAINTOR_annotatedlocus (29)    | 43 of 43 ✔
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[8f/a6a974] RESULTS_posteriorprob          | 0 of 1
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[a2/07f055] CANVIS_run (41)                | 39 of 43
+
+executor >  slurm (264)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[94/c58ef7] PAINTOR_annotatedlocus (29)    | 43 of 43 ✔
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[8f/a6a974] RESULTS_posteriorprob          | 0 of 1
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[c1/8a25bf] CANVIS_run (42)                | 40 of 43
+
+executor >  slurm (264)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[94/c58ef7] PAINTOR_annotatedlocus (29)    | 43 of 43 ✔
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[8f/a6a974] RESULTS_posteriorprob          | 1 of 1 ✔
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[f9/3ccbe5] CANVIS_run (36)                | 43 of 43 ✔
+
+executor >  slurm (264)
+[05/94bebd] PREPPAINTOR_splitlocus (1)     | 1 of 1 ✔
+[fd/d19c8d] LDCALCULATION_sortlocus (40)   | 43 of 43 ✔
+[50/b8ed59] LDC…etVCFandMAPfilesfrom1000GP | 1 of 1 ✔
+[ab/931664] LDCALCULATION_calculation (30) | 43 of 43 ✔
+[26/ebc72e] ANNOTATIONS_bedfiles (86)      | 43 of 43 ✔
+[56/43505a] ANN…IONS_mergeannotations (43) | 43 of 43 ✔
+[72/81912b] PAINTOR_run                    | 1 of 1 ✔
+[94/c58ef7] PAINTOR_annotatedlocus (29)    | 43 of 43 ✔
+[a6/fea0f2] RESULTS_statistics             | 1 of 1 ✔
+[8f/a6a974] RESULTS_posteriorprob          | 1 of 1 ✔
+[b8/40d5ea] RESULTS_plot (1)               | 1 of 1 ✔
+[f9/3ccbe5] CANVIS_run (36)                | 43 of 43 ✔
+Completed at: 09-Jul-2024 15:12:07
+Duration    : 27m 50s
+CPU hours   : 20.8
+Succeeded   : 264
+
+
