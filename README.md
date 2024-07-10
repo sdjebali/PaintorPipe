@@ -65,25 +65,25 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
     <tr>
       <td nowrap><strong><code>--gwasFile</code></strong></td>
       <td nowrap><code>path/to/GWAS_FILE</code></td>
-      <td>The GWAS file must contains at least these 8 columns: rsID, Allele1, Allele2, Effect (Beta), StdErr (SE), Pvalue, CHR, BP. While the order is not important, the name of the column is (see the header parameters below to change the default names of the columns).</td>
+      <td>The GWAS file must contains at least these 8 columns: rsID, Allele1, Allele2, Effect (Beta), StdErr (SE), Pvalue, CHR, BP. While the order is not important, the name of the column is (see the header parameters below to change the default names of the columns)</td>
       <td align=center>Required</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--annotationsFile</code></strong></td>
       <td nowrap><code>path/to/ANNOTATIONS_FILE</code></td>
-      <td>The file should contain 2 columns separeted by a tabulation. The first one is the name of the annotation (exon for an exon file for instance) and the second one is the path to the associated annotation file.</td>
+      <td>The file should contain 2 columns separeted by a tabulation. The first one is the name of the annotation (exon for an exon file for instance) and the second one is the path to the associated annotation file</td>
       <td align=center>Required</td>
     </tr>
    <tr>
       <td nowrap><strong><code>--ref_genome</code></strong></td>
       <td nowrap><code>hg19</code></td>
-      <td>Only two values are allowed: 'hg19' or 'hg38'. Make sure you are using the reference genome that corresponds to your summary statistics GWAS file, because the results of the pipeline will be incorrect otherwise.</td>
+      <td>Only two values are allowed: 'hg19' or 'hg38'. Make sure you are using the reference genome that corresponds to your summary statistics GWAS file, because the results of the pipeline will be incorrect otherwise</td>
       <td align=center>Optional</td>
     </tr>
    <tr>
       <td nowrap><strong><code>--population</code></strong></td>
       <td nowrap><code>EUR</code></td>
-      <td>Specifies the name of the mainland population: AFR, AMR, EAS, EUR, SAS.</td>
+      <td>Specifies the name of the mainland population: AFR, AMR, EAS, EUR, SAS</td>
       <td align=center>Optional</td>
     </tr>
    <tr>
@@ -138,37 +138,37 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
   <tr>
       <td nowrap><strong><code>--zheader_header</code></strong></td>
       <td nowrap><code>Zscore</code></td>
-      <td>The computed zscore is added in a new column, corresponding to the Effect/StdErr for each SNP, for each locus.</td>
+      <td>The computed zscore is added in a new column, corresponding to the Effect/StdErr for each SNP, for each locus</td>
       <td align=center>Optional</td>
     </tr>
   <tr>
       <td nowrap><strong><code>--kb</code></strong></td>
       <td nowrap><code>500</code></td>
-      <td>SNPs selection distance in kilo bases upstream and downstream of the lead SNP during the split of the GWAS file.</td>
+      <td>SNPs selection distance in kilo bases upstream and downstream of the lead SNP during the split of the GWAS file</td>
       <td align=center>Optional</td>
     </tr>
   <tr>
       <td nowrap><strong><code>--pp_treshold</code></strong></td>
       <td nowrap><code>0.001</code></td>
-      <td>Significant posterior probability threshold.</td>
+      <td>Significant posterior probability threshold</td>
       <td align=center>Optional</td>
     </tr>
   <tr>
       <td nowrap><strong><code>--snp</code></strong></td>
       <td nowrap><code>10000000</code></td>
-      <td>Number of significant SNPs to keep.</td>
+      <td>Number of significant SNPs to keep</td>
       <td align=center>Optional</td>
     </tr>
   <tr>
       <td nowrap><strong><code>--pvalue_lead</code></strong></td>
       <td nowrap><code>5e-08</code></td>
-      <td>Significant Pvalue threshold for lead SNP.</td>
+      <td>Significant Pvalue threshold for lead SNP</td>
       <td align=center>Optional</td>
     </tr>
   <tr>
       <td nowrap><strong><code>--pvalue_nonlead</code></strong></td>
       <td nowrap><code>1</code></td>
-      <td>Significant Pvalue threshold for other SNPs around the lead SNP.</td>
+      <td>Significant Pvalue threshold for other SNPs around the lead SNP</td>
       <td align=center>Optional</td>
     </tr>
   </tbody>
@@ -189,73 +189,73 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
     <tr>
       <td nowrap><strong><code>--outputDir_locus</code></strong></td>
       <td nowrap><code>data/output_locus</code></td>
-      <td></td>
+      <td>This directory includes as many files as loci produced at the split GWAS into loci step. Each file includes the lead snp (snp with lowest pvalue) of the locus together will all the snps that are close by (500 kb by default) and with a pvalue below pvalue_nonlead (1 by default)</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_sorted_locus</code></strong></td>
       <td nowrap><code>data/output_sorted_locus</code></td>
-      <td></td>
+      <td>This directory includes as many files as loci, sorted according to genomic position along the chromosome</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_VCFandMAPfrom1000G</code></strong></td>
       <td nowrap><code>data/output_VCF_map_files</code></td>
-      <td></td>
+      <td>Two files related to the 1000 genome project data: the map file with id, population, super population and gender of the 2504 samples of this project, and the ld file with the chromosome id and the path to the associated downloaded genotype file (vcf.gz) on the system</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_ld</code></strong></td>
       <td nowrap><code>data/output_ld</code></td>
-      <td></td>
+      <td>This directory includes twice as many files as loci. The $LOCUS.sorted.ld_out.ld.filtered is the LD matrix with pairwise pearson correlation coefficients between all the snps of the locus, while the $LOCUS.sorted.ld_out.processed.filtered is the filtered and remapped Locus info file. Indeed only SNPs that are bi-allelic and have matching ref/alt alleles are kept and in addition, Z-scores are polarized so that they match the ref/alt alleles of the reference panel</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_bed</code></strong></td>
       <td nowrap><code>data/output_bed</code></td>
-      <td></td>
+      <td>This directory includes as many bed files as loci, and each file is made of all the snps of the locus in bed format</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_annotations</code></strong></td>
       <td nowrap><code>data/output_annotations<annotations/code></td>
-      <td></td>
-      <td align=center>Optional</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>--outputDir_annotated_locus</code></strong></td>
-      <td nowrap><code>data/output_annotated_locus<annotations/code></td>
-      <td></td>
+      <td>This directory includes as many txt files with header as loci. Each file has as many columns as annotations (which labels are indicated in the header). Each row represents a locus snp (they are ordered by genomic position) and its overlap with the different annotations as boolean values</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_paintor</code></strong></td>
       <td nowrap><code>data/output_paintor<annotations/code></td>
-      <td></td>
+      <td>This directory includes the results of the PAINTOR run and has a number of files corresponding to the number of loci plus 4. The locus files include the main information about the locus' snps as well as its PAINTOR's posterior probability of being causal. The 4 additional files are the main standard output of the PAINTOR program, two log file results and an Enrichment.Values file that provides the gamma estimates of each annotation including the baseline, ie the effect size estimate of each annotation (note: using the expit function, those can be converted to probabilities of being causal for snps falling there)</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>--outputDir_annotated_locus</code></strong></td>
+      <td nowrap><code>data/output_annotated_locus<annotations/code></td>
+      <td>This directory includes as many files as loci. Each file includes the locus' snps output by PAINTOR with the indication of overlap with the different provided annotations (as boolean values)</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_results</code></strong></td>
       <td nowrap><code>data/output_results<annotations/code></td>
-      <td></td>
+      <td> This directory has input files for the canvis visualisation program but also files to identify the number of causal variants per locus and to diagnose the impact of the annotations and whether PAINTOR's results are interesting. It has a number of files corresponding to three times the number of loci plus 7. For each locus are provided three files : (1) the input file to canvis, (2) a file with the total number of snps in the locus and the associated sum of posterior prabilities of being causal (ppri) which is an approximation of the number of causal snps of the locus, and then the number and % of all snps of the locus that are needed to achieve 50, 80 and 95% of the sum of ppri respectively (note: low % for 95% is good) and (3) a credible set file at 95% for each locus that simply gives the snps that are needed to achieve 95% of the sum of ppri (credible set at 95%). The 7 other files include information about (1) for each annotation, the probability of being causal for a snp that falls in it, (2) the % of snps in each annotation, (3) the ppri for each snp, (4) for each locus the number and % of initial snps in the credible set at 95%, (5) the summary statistics of the % of snps in the 95% credible set for each locus and (6) the total number of snps in all loci and the associated sum of ppri and then the number and % of all snps of all loci that are needed to achieve 50%, 80% and 95% of the sum of the ppri respectively</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_posteriorprob</code></strong></td>
       <td nowrap><code>data/output_posteriorprob<annotations/code></td>
-      <td></td>
+      <td>This directory includes three files of snps: two with all annotated snps with all information and sorted by pp and the other one with the same information but just for the snps with a pp below the provided threshold</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_plot</code></strong></td>
       <td nowrap><code>data/output_plot<annotations/code></td>
-      <td></td>
+      <td>This directory includes a single plot file in png format with the % of snps with a posterior probability below a certain threshold</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_canvis</code></strong></td>
       <td nowrap><code>data/output_canvis<annotations/code></td>
-      <td></td>
+      <td>This directory has a number of files corresponding to the number of loci. Those files are the image svg outputs from the canvis program that allows to visualise PAINTOR's results for each locus</td>
       <td align=center>Optional</td>
     </tr>
   </tbody>

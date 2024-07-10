@@ -1,6 +1,6 @@
 process RESULTS_statistics {
     '''
-    This process generates various summary statistics and output files based on the results of some analysis.
+    This process generates various summary statistics and output files based on the results of some analyses.
     The inputs to this process include a path to res, which likely contains the results of the analysis, 
     as well as a path to allannots and various other parameters. 
     The outputs include several text files with names ending in .txt, .tsv, or .canvis.
