@@ -55,9 +55,9 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
 <table>
   <thead>
       <tr>
-      <th width=200px>Option</th>
-      <th width=200px>By default, example</th>
-      <th width=350px>Description</th>
+      <th width=150px>Option</th>
+      <th width=150px>By default, example</th>
+      <th width=450px>Description</th>
       <th width=90px>Required</th>
     </tr>
   </thead>
@@ -174,7 +174,8 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
   </tbody>
 </table>
 
-## Output options
+## Nextflow options
+The pipeline is written in Nextflow, which provides the following default options:
 
 <table>
   <thead>
@@ -182,6 +183,79 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
       <th width=200px>Option</th>
       <th width=200px>By default, example</th>
       <th width=350px>Description</th>
+      <th width=90px>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap><strong><code>-profile</code></strong></td>
+      <td nowrap><code>singularity</code></td>
+      <td>Profile(s) to use when running the pipeline. Use it to specify the profiles that fit your infrastructure among <code>singularity</code>, <code>slurm</code>.</td>
+      <td align=center>Required</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-config</code></strong></td>
+      <td nowrap><code>nextflow.config</code></td>
+      <td>
+        Configuration file tailored to your infrastructure and dataset.
+      </td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-revision</code></strong></td>
+      <td nowrap><code>version</code></td>
+      <td>Version of the pipeline to launch.</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-work-dir</code></strong></td>
+      <td nowrap><code>directory where the pipeline is run</code></td>
+      <td>Work directory where all temporary files are written.</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-resume</code></strong></td>
+      <td nowrap></td>
+      <td>Resume the pipeline from the last completed process.</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-with-report</code></strong></td>
+      <td nowrap></td>
+      <td>Nextflow can create an HTML execution report. It is a single document that includes many useful metrics about the pipeline's execution</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-with-timeline</code></strong></td>
+      <td nowrap></td>
+      <td>Nextflow can display a timeline in HTML format for all processes run in the pipeline</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-with-trace</code></strong></td>
+      <td nowrap></td>
+      <td>Nextflow can display a trace report. This is a tabulated file with information about all the processes run by the pipeline</td>
+      <td align=center>Optional</td>
+    </tr>
+    <tr>
+      <td nowrap><strong><code>-with-dag</code></strong></td>
+      <td nowrap></td>
+      <td>Nextflow can display the DAG (directed acyclic graph) corresponding to the different processes run by the pipeline. This is an image file in png format</td>
+      <td align=center>Optional</td>
+    </tr>
+  </tbody>
+</table>
+
+For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.io/docs/latest/cli.html#run).
+
+## Output options
+
+<table>
+  <thead>
+    <tr>
+      <th width=150px>Option</th>
+      <th width=150px>By default, example</th>
+      <th width=450px>Description</th>
       <th width=90px>Required</th>
     </tr>
   </thead>
@@ -260,69 +334,6 @@ nextflow run main.nf -config nextflow.config --gwasFile 'data/input/CAD_META_ext
     </tr>
   </tbody>
 </table>
-
-## Nextflow options
-The pipeline is written in Nextflow, which provides the following default options:
-
-<table>
-  <thead>
-    <tr>
-      <th width=200px>Option</th>
-      <th width=200px>By default, example</th>
-      <th width=350px>Description</th>
-      <th width=90px>Required</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td nowrap><strong><code>-profile</code></strong></td>
-      <td nowrap><code>singularity</code></td>
-      <td>Profile(s) to use when running the pipeline. Use it to specify the profiles that fit your infrastructure among <code>singularity</code>, <code>slurm</code>.</td>
-      <td align=center>Required</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>-config</code></strong></td>
-      <td nowrap><code>nextflow.config</code></td>
-      <td>
-        Configuration file tailored to your infrastructure and dataset.
-      </td>
-      <td align=center>Optional</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>-revision</code></strong></td>
-      <td nowrap><code>version</code></td>
-      <td>Version of the pipeline to launch.</td>
-      <td align=center>Optional</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>-work-dir</code></strong></td>
-      <td nowrap><code>directory</code></td>
-      <td>Work directory where all temporary files are written.</td>
-      <td align=center>Optional</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>-resume</code></strong></td>
-      <td nowrap></td>
-      <td>Resume the pipeline from the last completed process.</td>
-      <td align=center>Optional</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>-with-report</code></strong></td>
-      <td nowrap></td>
-      <td>Nextflow can create an HTML execution report. It is a single document that includes many useful metrics about the pipeline's execution</td>
-      <td align=center>Optional</td>
-    </tr>
-    <tr>
-      <td nowrap><strong><code>-with-timeline</code></strong></td>
-      <td nowrap></td>
-      <td>Nextflow can display a timeline in HTML format for all processes run in the pipeline</td>
-      <td align=center>Optional</td>
-    </tr>
-  </tbody>
-</table>
-
-For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.io/docs/latest/cli.html#run).
-
 
 
 
