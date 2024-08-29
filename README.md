@@ -180,9 +180,9 @@ The pipeline is written in Nextflow, which provides the following default option
 <table>
   <thead>
     <tr>
-      <th width=200px>Option</th>
-      <th width=200px>By default, example</th>
-      <th width=350px>Description</th>
+      <th width=150px>Option</th>
+      <th width=150px>By default, example</th>
+      <th width=450px>Description</th>
       <th width=90px>Required</th>
     </tr>
   </thead>
