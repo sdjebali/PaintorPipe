@@ -255,7 +255,7 @@ For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.i
     <tr>
       <th width=150px>Option</th>
       <th width=150px>By default, example</th>
-      <th width=450px>Description</th>
+      <th width=350px>Description</th>
       <th width=90px>Required</th>
     </tr>
   </thead>
