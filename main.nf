@@ -37,7 +37,7 @@ if (!params.annotationsFile) {
 }
 
 // Check valid values for ref_genome
-if (params.ref_genome != "hg19" && params.ref_genome != "hg38") {
+if (params.ref_genome && params.ref_genome != "hg19" && params.ref_genome != "hg38") {
   error += "\nInvalid value for  --ref_genome   parameter: ${params.ref_genome}. Must be 'hg19' or 'hg38'\n"
 }
 
