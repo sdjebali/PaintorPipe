@@ -32,7 +32,7 @@ To use this pipeline you will need:
 A small dataset `CAD_META_extract` is provided to test this pipeline ([Example on a small dataset](#example-on-a-small-dataset) section). To try it out, use one of the following commands after pulling the pre-built container (singularity image).
 
 ## Pull the pre-built container
-You can pull the image we built for `PaintorPipe` from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command below :
+You can pull the container we built for `PaintorPipe` from our repository on [Sylabs cloud](#https://cloud.sylabs.io/) using the command below:
 ```bash
 singularity pull --arch amd64 library://zgerber/paintorpipe/mainimage:0.1
 ```
@@ -190,33 +190,33 @@ The pipeline is written in Nextflow, which provides the following default option
     <tr>
       <td nowrap><strong><code>-profile</code></strong></td>
       <td nowrap><code>singularity</code></td>
-      <td>Profile(s) to use when running the pipeline. Use it to specify the profiles that fit your infrastructure among <code>singularity</code>, <code>slurm</code>.</td>
+      <td>Profile(s) to use when running the pipeline. Use it to specify the profiles that fit your infrastructure among <code>singularity</code>, <code>slurm</code></td>
       <td align=center>Required</td>
     </tr>
     <tr>
       <td nowrap><strong><code>-config</code></strong></td>
       <td nowrap><code>nextflow.config</code></td>
       <td>
-        Configuration file tailored to your infrastructure and dataset.
+        Configuration file tailored to your infrastructure and dataset
       </td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>-revision</code></strong></td>
       <td nowrap><code>version</code></td>
-      <td>Version of the pipeline to launch.</td>
+      <td>Version of the pipeline to launch</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>-work-dir</code></strong></td>
       <td nowrap><code>directory where the pipeline is run</code></td>
-      <td>Work directory where all temporary files are written.</td>
+      <td>Work directory where all temporary files are written</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>-resume</code></strong></td>
       <td nowrap></td>
-      <td>Resume the pipeline from the last completed process.</td>
+      <td>Resume the pipeline from the last completed process</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
@@ -311,13 +311,13 @@ For more Nextflow options, see [Nextflow's documentation](https://www.nextflow.i
     <tr>
       <td nowrap><strong><code>--outputDir_results</code></strong></td>
       <td nowrap><code>data/output_results<annotations/code></td>
-      <td> This directory has input files for the canvis visualisation program but also files to identify the number of causal variants per locus and to diagnose the impact of the annotations and whether PAINTOR's results are interesting. It has a number of files corresponding to three times the number of loci plus 7. For each locus are provided three files : (1) the input file to canvis, (2) a file with the total number of snps in the locus and the associated sum of posterior prabilities of being causal (ppri) which is an approximation of the number of causal snps of the locus, and then the number and % of all snps of the locus that are needed to achieve 50, 80 and 95% of the sum of ppri respectively (note: low % for 95% is good) and (3) a credible set file at 95% for each locus that simply gives the snps that are needed to achieve 95% of the sum of ppri (credible set at 95%). The 7 other files include information about (1) for each annotation, the probability of being causal for a snp that falls in it, (2) the % of snps in each annotation, (3) the ppri for each snp, (4) for each locus the number and % of initial snps in the credible set at 95%, (5) the summary statistics of the % of snps in the 95% credible set for each locus and (6) the total number of snps in all loci and the associated sum of ppri and then the number and % of all snps of all loci that are needed to achieve 50%, 80% and 95% of the sum of the ppri respectively</td>
+      <td> This directory has input files for the canvis visualisation program but also files to identify the number of causal variants per locus and to diagnose the impact of the annotations and whether PAINTOR's results are interesting. It has a number of files corresponding to three times the number of loci plus 6. For each locus, 3 files are provided: (1) the input file to canvis, (2) a file with the total number of snps in the locus and the associated sum of posterior prabilities of being causal (ppri) which is an approximation of the number of causal snps of the locus, and then the number and % of all snps of the locus that are needed to achieve 50, 80 and 95% of the sum of ppri respectively (note: low % for 95% is good) and (3) a credible set file at 95% for each locus that simply gives the snps that are needed to achieve 95% of the sum of ppri (credible set at 95%). The 6 other files include information about (1) for each annotation, the probability of being causal for a snp that falls in it, (2) the % of snps in each annotation, (3) the ppri for each snp, (4) for each locus the number and % of initial snps in the credible set at 95%, (5) the summary statistics of the % of snps in the 95% credible set for each locus and (6) the total number of snps in all loci and the associated sum of ppri and then the number and % of all snps of all loci that are needed to achieve 50%, 80% and 95% of the sum of the ppri respectively</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
       <td nowrap><strong><code>--outputDir_posteriorprob</code></strong></td>
       <td nowrap><code>data/output_posteriorprob<annotations/code></td>
-      <td>This directory includes three files of snps: two with all annotated snps with all information and sorted by pp and the other one with the same information but just for the snps with a pp below the provided threshold</td>
+      <td>This directory includes 3 files of snps: two with all annotated snps with all information, one sorted by genomic position and the other one sorted by pp, and the other one with the same information but just for the snps with a pp above the provided threshold (no filtering by default)</td>
       <td align=center>Optional</td>
     </tr>
     <tr>
