@@ -72,9 +72,9 @@ process LDCALCULATION_getVCFandMAPfilesfrom1000GP {
         elif [ "!{ref_genome}" == "hg38" ]; then
             for chr in {1..22} 
             do
-                wget -O ALL.chr${chr}.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.vcf.gz   \\
-                -P 22 https://hgdownload.cse.ucsc.edu/gbdb/hg38/1000Genomes/ALL.chr${chr}.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.vcf.gz  \\
-                && echo "$chr\t$(readlink -f ALL.chr${chr}.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.vcf.gz)" >> ld &
+                wget -O CCDG_14151_B01_GRM_WGS_2020-08-05_chr${chr}.filtered.shapeit2-duohmm-phased.2504samples.bcftools.vcf.gz \\
+                -P 22 https://web-genobioinfo.toulouse.inrae.fr/~sdjebali/1000Genomes/hg38.vcf.2504sample/CCDG_14151_B01_GRM_WGS_2020-08-05_chr${chr}.filtered.shapeit2-duohmm-phased.2504samples.bcftools.vcf.gz \\
+                && echo "$chr\t$(readlink -f CCDG_14151_B01_GRM_WGS_2020-08-05_chr${chr}.filtered.shapeit2-duohmm-phased.2504samples.bcftools.vcf.gz)" >> ld &
             done
             wait
 
